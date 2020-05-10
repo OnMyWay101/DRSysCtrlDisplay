@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2422FD2A-1C17-47A6-B725-39874BD86F6F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DRSysCtrlDisplay</RootNamespace>
+    <AssemblyName>DRSysCtrlDisplay</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.7.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExeFileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExeFileForm.Designer.cs">
+      <DependentUpon>ExeFileForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\AppInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\AppInitForm.Designer.cs">
+      <DependentUpon>AppInitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\BoardInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\ComponentInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\ComponentInitForm.Designer.cs">
+      <DependentUpon>ComponentInitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\ContainerInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\ContainerInitForm.Designer.cs">
+      <DependentUpon>ContainerInitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\FPGAInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\InitFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\SlotsInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\SlotsInitForm.Designer.cs">
+      <DependentUpon>SlotsInitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\SystemStruInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\SystemStruInitForm.Designer.cs">
+      <DependentUpon>SystemStruInitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\ZYNQInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\ZYNQInitForm.Designer.cs">
+      <DependentUpon>ZYNQInitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MidCodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MidCodeForm.Designer.cs">
+      <DependentUpon>MidCodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OutPutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OutPutForm.Designer.cs">
+      <DependentUpon>OutPutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TargetConnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TargetConnectForm.Designer.cs">
+      <DependentUpon>TargetConnectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewClass\App.cs">
+    </Compile>
+    <Compile Include="ViewClass\Board.cs" />
+    <Compile Include="ViewClass\Component.cs" />
+    <Compile Include="ViewClass\Container.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewClass\FPGA.cs" />
+    <Compile Include="FuncItemsFrom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FuncItemsFrom.Designer.cs">
+      <DependentUpon>FuncItemsFrom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewClass\BaseView.cs" />
+    <Compile Include="ViewClass\PPC.cs">
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InitForms\BoardInitForm.resx">
+      <DependentUpon>BoardInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\FPGAInitForm.resx">
+      <DependentUpon>FPGAInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\InitFormBase.resx">
+      <DependentUpon>InitFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\ZYNQInitForm.resx">
+      <DependentUpon>ZYNQInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FuncItemsFrom.resx">
+      <DependentUpon>FuncItemsFrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutPutForm.resx">
+      <DependentUpon>OutPutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyForm.resx">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\PPCInitForm.resx">
+      <DependentUpon>PPCInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowViewForm.resx">
+      <DependentUpon>ShowViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowViewPanel.resx">
+      <DependentUpon>ShowViewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyForm.Designer.cs">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\PPCInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\PPCInitForm.Designer.cs">
+      <DependentUpon>PPCInitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShowViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowViewPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ViewClass\Slots.cs" />
+    <Compile Include="ViewClass\Status.cs">
+    </Compile>
+    <Compile Include="ViewClass\SystemStru.cs" />
+    <Compile Include="XMLManager.cs" />
+    <Compile Include="ViewClass\Topo.cs">
+    </Compile>
+    <Compile Include="TreeXML.cs" />
+    <Compile Include="ViewClass\ZYNQ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\WeifenLuo.WinFormsUI.Docking.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
