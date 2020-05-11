@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Equipments>
+  <芯片库>
+    <PPC>
+      <YY XmlPath="Lib/Equipments/芯片库/PPC/YY.xml" />
+      <cc XmlPath="Lib/Equipments/芯片库/PPC/cc.xml" />
+      <UU XmlPath="Lib/Equipments/芯片库/PPC/UU.xml" />
+      <pp XmlPath="Lib/Equipments/芯片库/PPC/pp.xml" />
+      <nn XmlPath="Lib/Equipments/芯片库/PPC/nn.xml" />
+    </PPC>
+    <FPGA />
+    <ZYNQ />
+  </芯片库>
+  <板卡库 />
+  <背板库 />
+  <机箱库 />
+</Equipments>
