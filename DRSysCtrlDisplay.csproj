@@ -1,0 +1,1026 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2422FD2A-1C17-47A6-B725-39874BD86F6F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DRSysCtrlDisplay</RootNamespace>
+    <AssemblyName>DRSysCtrlDisplay</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TeamSystem.Data.UnitTesting, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.7.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExeFileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExeFileForm.Designer.cs">
+      <DependentUpon>ExeFileForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitFormsChildForms\ComponentInitForm_AddSource.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitFormsChildForms\ComponentInitForm_AddSource.designer.cs">
+      <DependentUpon>ComponentInitForm_AddSource.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitFormsChildForms\BoardInitForm_AddConnect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitFormsChildForms\BoardInitForm_AddConnect.Designer.cs">
+      <DependentUpon>BoardInitForm_AddConnect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitFormsChildForms\NodeInfoAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitFormsChildForms\NodeInfoAddForm.Designer.cs">
+      <DependentUpon>NodeInfoAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitFormsChildForms\SlotsInitForm_AddSlot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitFormsChildForms\SlotsInitForm_AddSlot.Designer.cs">
+      <DependentUpon>SlotsInitForm_AddSlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\AppInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\BoardInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitFormsChildForms\BoardInitForm_AddChipForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitFormsChildForms\BoardInitForm_AddChipForm.Designer.cs">
+      <DependentUpon>BoardInitForm_AddChipForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitFormsChildForms\BoardInitForm_AddInterChangeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitFormsChildForms\BoardInitForm_AddInterChangeForm.Designer.cs">
+      <DependentUpon>BoardInitForm_AddInterChangeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\ComponentInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\ContainerInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\FPGAInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\InitFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\BackPlaneInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\SystemStruInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitForms\ZYNQInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LocalTest.cs" />
+    <Compile Include="MHalCodeGen.cs" />
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OutPutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OutPutForm.Designer.cs">
+      <DependentUpon>OutPutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Princeple.cs" />
+    <Compile Include="ReconfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReconfigForm.designer.cs">
+      <DependentUpon>ReconfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Serializer.cs" />
+    <Compile Include="TargetConnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TargetConnectForm.Designer.cs">
+      <DependentUpon>TargetConnectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TcpCommand.cs" />
+    <Compile Include="TcpManager.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="ViewClass\App.cs">
+    </Compile>
+    <Compile Include="ViewClass\Board.cs" />
+    <Compile Include="ViewClass\Component.cs" />
+    <Compile Include="ViewClass\Container.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewClass\FPGA.cs" />
+    <Compile Include="FuncItemsFrom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FuncItemsFrom.Designer.cs">
+      <DependentUpon>FuncItemsFrom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewClass\BaseView.cs" />
+    <Compile Include="ViewClass\OtherView.cs" />
+    <Compile Include="ViewClass\PPC.cs">
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitFormsChildForms\BoardInitForm_AddConnect.resx">
+      <DependentUpon>BoardInitForm_AddConnect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitFormsChildForms\ComponentInitForm_AddSource.resx">
+      <DependentUpon>ComponentInitForm_AddSource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitFormsChildForms\NodeInfoAddForm.resx">
+      <DependentUpon>NodeInfoAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitFormsChildForms\SlotsInitForm_AddSlot.resx">
+      <DependentUpon>SlotsInitForm_AddSlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\AppInitForm.resx">
+      <DependentUpon>AppInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\BoardInitForm.resx">
+      <DependentUpon>BoardInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitFormsChildForms\BoardInitForm_AddChipForm.resx">
+      <DependentUpon>BoardInitForm_AddChipForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitFormsChildForms\BoardInitForm_AddInterChangeForm.resx">
+      <DependentUpon>BoardInitForm_AddInterChangeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\ComponentInitForm.resx">
+      <DependentUpon>ComponentInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\ContainerInitForm.resx">
+      <DependentUpon>ContainerInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\FPGAInitForm.resx">
+      <DependentUpon>FPGAInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\InitFormBase.resx">
+      <DependentUpon>InitFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\BackPlaneInitForm.resx">
+      <DependentUpon>BackPlaneInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\SystemStruInitForm.resx">
+      <DependentUpon>SystemStruInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\ZYNQInitForm.resx">
+      <DependentUpon>ZYNQInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FuncItemsFrom.resx">
+      <DependentUpon>FuncItemsFrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutPutForm.resx">
+      <DependentUpon>OutPutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyForm.resx">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitForms\PPCInitForm.resx">
+      <DependentUpon>PPCInitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReconfigForm.resx">
+      <DependentUpon>ReconfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowViewForm.resx">
+      <DependentUpon>ShowViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowViewPanel.resx">
+      <DependentUpon>ShowViewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TargetConnectForm.resx">
+      <DependentUpon>TargetConnectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="resource\libemhal.a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resource\source_file\aurora_source\AMHA_Top.v" />
+    <None Include="resource\source_file\aurora_source\aurora_1x_6p25g_top.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x.dcp" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x.veo" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x.vho" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x.xci" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\gt\aurora_8b10b_6p25g_1x_gt.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\gt\aurora_8b10b_6p25g_1x_multi_gt.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\gt\aurora_8b10b_6p25g_1x_rx_startup_fsm.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\gt\aurora_8b10b_6p25g_1x_transceiver_wrapper.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\gt\aurora_8b10b_6p25g_1x_tx_startup_fsm.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_aurora_lane.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_axi_to_ll.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_cdc_sync.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_channel_err_detect.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_channel_init_sm.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_chbond_count_dec.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_clock_module.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_err_detect.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_global_logic.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_gt_common_wrapper.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_hotplug.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_idle_and_ver_gen.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_lane_init_sm.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_ll_to_axi.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_reset_logic.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_rx_stream.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_standard_cc_module.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_support.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_support_reset_logic.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_sym_dec.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_sym_gen.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x\src\aurora_8b10b_6p25g_1x_tx_stream.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x_clocks.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x_core.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x_ooc.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x_sim_netlist.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x_sim_netlist.vhdl" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x_stub.v" />
+    <None Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x_stub.vhdl" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx.dcp" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx.veo" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx.vho" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx.xci" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx\fifo_16x512_rx.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx\fifo_16x512_rx_clocks.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx_ooc.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx_sim_netlist.v" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx_sim_netlist.vhdl" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx_stub.v" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx_stub.vhdl" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\sim\fifo_16x512_rx.v" />
+    <None Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\synth\fifo_16x512_rx.vhd" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx.dcp" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx.veo" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx.vho" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx.xci" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx\fwft_16x512_tx.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx\fwft_16x512_tx_clocks.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx_ooc.xdc" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx_sim_netlist.v" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx_sim_netlist.vhdl" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx_stub.v" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx_stub.vhdl" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\sim\fwft_16x512_tx.v" />
+    <None Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\synth\fwft_16x512_tx.vhd" />
+    <None Include="resource\source_file\lvds_source\Delay.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192.dcp" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192.veo" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192.vho" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192.xci" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192\fiforx16_8192.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192\fiforx16_8192_clocks.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192_ooc.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192_sim_netlist.v" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192_sim_netlist.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192_stub.v" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192_stub.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\sim\fiforx16_8192.v" />
+    <None Include="resource\source_file\lvds_source\IP\fiforx16_8192\synth\fiforx16_8192.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data.dcp" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data.veo" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data.vho" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data.xci" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data\fifo_tx_data.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data_ooc.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data_sim_netlist.v" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data_sim_netlist.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data_stub.v" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data_stub.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\sim\fifo_tx_data.v" />
+    <None Include="resource\source_file\lvds_source\IP\fifo_tx_data\synth\fifo_tx_data.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192.dcp" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192.veo" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192.vho" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192.xci" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192\fwft16_8192.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192\fwft16_8192_clocks.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192_ooc.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192_sim_netlist.v" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192_sim_netlist.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192_stub.v" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192_stub.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\sim\fwft16_8192.v" />
+    <None Include="resource\source_file\lvds_source\IP\fwft16_8192\synth\fwft16_8192.vhd" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds.dcp" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds.veo" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds.xci" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds_ooc.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds_selectio_wiz.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds_sim_netlist.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds_sim_netlist.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds_stub.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds_stub.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx.dcp" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx.veo" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx.xci" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx_ooc.xdc" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx_selectio_wiz.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx_sim_netlist.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx_sim_netlist.vhdl" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx_stub.v" />
+    <None Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx_stub.vhdl" />
+    <None Include="resource\source_file\lvds_source\LMHA_Top.v" />
+    <None Include="resource\source_file\lvds_source\lvds_top.v" />
+    <None Include="resource\source_file\lvds_source\MY_LVDS.v" />
+    <None Include="resource\source_file\srio_source\ChannelUp_Monitor.v" />
+    <None Include="resource\source_file\srio_source\clk_monitor.v" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64.veo" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64.vho" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64.xci" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64\Fifo1024x64.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64\Fifo1024x64_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\sim\Fifo1024x64.v" />
+    <None Include="resource\source_file\srio_source\fifo\Fifo1024x64\synth\Fifo1024x64.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo\iresp_clk_fifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo\iresp_clk_fifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\sim\iresp_clk_fifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\synth\iresp_clk_fifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo\keep_fifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo\keep_fifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\sim\keep_fifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\keep_fifo\synth\keep_fifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo\RxDataFifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo\RxDataFifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\sim\RxDataFifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\RxDataFifo\synth\RxDataFifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\sim\srio_ini_tx_fifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo\srio_ini_tx_fifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo\srio_ini_tx_fifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\synth\srio_ini_tx_fifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\sim\treq_rd_fifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\synth\treq_rd_fifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo\treq_rd_fifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo\treq_rd_fifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\sim\treq_tx_fifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\synth\treq_tx_fifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo\treq_tx_fifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo\treq_tx_fifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\sim\tresp_tx_fifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\synth\tresp_tx_fifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo\tresp_tx_fifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo\tresp_tx_fifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\sim\TxDataFifo.v" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\synth\TxDataFifo.vhd" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo.dcp" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo.veo" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo.vho" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo.xci" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo\TxDataFifo.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo\TxDataFifo_clocks.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo_sim_netlist.v" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo_sim_netlist.vhdl" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo_stub.v" />
+    <None Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo_stub.vhdl" />
+    <None Include="resource\source_file\srio_source\pulse_ext.v" />
+    <None Include="resource\source_file\srio_source\RMHA_Top.vhd" />
+    <None Include="resource\source_file\srio_source\SimpleDpram.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\srio_dut_2p5g_1x_125m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\srio_dut_2p5g_1x_125m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\srio_dut_2p5g_1x_125m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\srio_dut_2p5g_1x_125m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\cfg_fabric_srio_dut_2p5g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\gt_wrapper_gtrxreset_seq_srio_dut_2p5g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_dut_2p5g_1x_125m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\synth\srio_gt_wrapper_srio_dut_2p5g_1x_125m_v7_1x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\srio_dut_2p5g_4x_125m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\srio_dut_2p5g_4x_125m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\srio_dut_2p5g_4x_125m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\srio_dut_2p5g_4x_125m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\cfg_fabric_srio_dut_2p5g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\gt_wrapper_gtrxreset_seq_srio_dut_2p5g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_dut_2p5g_4x_125m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\synth\srio_gt_wrapper_srio_dut_2p5g_4x_125m_v7_4x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\srio_dut_3p125g_1x_125m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\srio_dut_3p125g_1x_125m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\srio_dut_3p125g_1x_125m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\srio_dut_3p125g_1x_125m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\cfg_fabric_srio_dut_3p125g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\gt_wrapper_gtrxreset_seq_srio_dut_3p125g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_dut_3p125g_1x_125m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\synth\srio_gt_wrapper_srio_dut_3p125g_1x_125m_v7_1x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\srio_dut_3p125g_1x_156m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\srio_dut_3p125g_1x_156m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\srio_dut_3p125g_1x_156m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\srio_dut_3p125g_1x_156m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\cfg_fabric_srio_dut_3p125g_1x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\gt_wrapper_gtrxreset_seq_srio_dut_3p125g_1x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_dut_3p125g_1x_156m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\synth\srio_gt_wrapper_srio_dut_3p125g_1x_156m_v7_1x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\srio_dut_3p125g_4x_125m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\srio_dut_3p125g_4x_125m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\srio_dut_3p125g_4x_125m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\srio_dut_3p125g_4x_125m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\cfg_fabric_srio_dut_3p125g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\gt_wrapper_gtrxreset_seq_srio_dut_3p125g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_dut_3p125g_4x_125m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\synth\srio_gt_wrapper_srio_dut_3p125g_4x_125m_v7_4x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\srio_dut_3p125g_4x_156m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\srio_dut_3p125g_4x_156m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\srio_dut_3p125g_4x_156m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\srio_dut_3p125g_4x_156m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\cfg_fabric_srio_dut_3p125g_4x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\gt_wrapper_gtrxreset_seq_srio_dut_3p125g_4x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_dut_3p125g_4x_156m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\synth\srio_gt_wrapper_srio_dut_3p125g_4x_156m_v7_4x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\srio_dut_5g_1x_125m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\srio_dut_5g_1x_125m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\srio_dut_5g_1x_125m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\srio_dut_5g_1x_125m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\cfg_fabric_srio_dut_5g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\gt_wrapper_gtrxreset_seq_srio_dut_5g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_dut_5g_1x_125m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\synth\srio_gt_wrapper_srio_dut_5g_1x_125m_v7_1x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\srio_dut_5g_4x_125m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\srio_dut_5g_4x_125m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\srio_dut_5g_4x_125m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\srio_dut_5g_4x_125m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\cfg_fabric_srio_dut_5g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\gt_wrapper_gtrxreset_seq_srio_dut_5g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_dut_5g_4x_125m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\synth\srio_gt_wrapper_srio_dut_5g_4x_125m_v7_2x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\srio_dut_6p25g_1x_156m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\srio_dut_6p25g_1x_156m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\srio_dut_6p25g_1x_156m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\srio_dut_6p25g_1x_156m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\cfg_fabric_srio_dut_6p25g_1x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\gt_wrapper_gtrxreset_seq_srio_dut_6p25g_1x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_dut_6p25g_1x_156m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\synth\srio_gt_wrapper_srio_dut_6p25g_1x_156m_v7_1x.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\hdl\blk_mem_gen_v8_3_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\hdl\fifo_generator_v13_1_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\hdl\fifo_generator_v13_1_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\hdl\fifo_generator_v13_1_vhsyn_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\hdl\srio_gen2_v4_0_rfs.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\hdl\srio_gen2_v4_0_rfs.vhd" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\simulation\blk_mem_gen_v8_3.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\simulation\fifo_generator_vlog_beh.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\srio_dut_6p25g_4x_156m.veo" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\srio_dut_6p25g_4x_156m.vho" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\srio_dut_6p25g_4x_156m.xci" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\srio_dut_6p25g_4x_156m_core.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\cfg_fabric_srio_dut_6p25g_4x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\gt_wrapper_gtrxreset_seq_srio_dut_6p25g_4x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_ooc.xdc" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_srio_clk.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_srio_rst.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_support.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_tx_rx_fsm_sync_block.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gthe2_common.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gthe2_gtrxreset_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gthe2_init.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gthe2_rx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gthe2_tx_startup_fsm.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gth_GT.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gth_multi_gt.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_dut_6p25g_4x_156m_v7_gth_rxpmarst_seq.v" />
+    <None Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\synth\srio_gt_wrapper_srio_dut_6p25g_4x_156m_v7_4x.v" />
+    <None Include="resource\source_file\srio_source\srio_example_top.v" />
+    <None Include="resource\source_file\srio_source\srio_frame_trans.v" />
+    <None Include="resource\source_file\srio_source\srio_quick_start.v" />
+    <None Include="resource\source_file\srio_source\srio_request_gen.v" />
+    <None Include="resource\source_file\srio_source\srio_response_gen.v" />
+    <None Include="resource\source_file\srio_source\srio_statistics.v" />
+    <None Include="resource\source_file\xdc\mhal.xdc" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyForm.Designer.cs">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InitForms\PPCInitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowViewPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ViewClass\BackPlane.cs" />
+    <Compile Include="ViewClass\Status.cs">
+    </Compile>
+    <Compile Include="ViewClass\SystemStru.cs" />
+    <Compile Include="ViewClass\ResourceTopo.cs">
+    </Compile>
+    <Compile Include="ViewClass\TopoGraph.cs" />
+    <Compile Include="XmlManager.cs" />
+    <Compile Include="ViewClass\ZYNQ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\App\Library\EMHal\include\emhal.h">
+      <Link>resource\emhal.h</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\App\Library\RMHal\include\rmhal.h">
+      <Link>resource\rmhal.h</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\WeifenLuo.WinFormsUI.Docking.dll" />
+    <None Include="Resources\ConnectImage.bmp" />
+    <None Include="Resources\DisconnectImage.bmp" />
+    <None Include="Resources\zkhx.png" />
+    <Content Include="resource\emhalTemp.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resource\rmhalTemp.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\aurora_8b10b_6p25g_1x.xml" />
+    <Content Include="resource\source_file\aurora_source\ip\aurora_8b10b_6p25g_1x\doc\aurora_8b10b_v11_0_changelog.txt" />
+    <Content Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\aurora_source\ip\fifo_16x512_rx\fifo_16x512_rx.xml" />
+    <Content Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\aurora_source\ip\fwft_16x512_tx\fwft_16x512_tx.xml" />
+    <Content Include="resource\source_file\lvds_source\IP\fiforx16_8192\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\lvds_source\IP\fiforx16_8192\fiforx16_8192.xml" />
+    <Content Include="resource\source_file\lvds_source\IP\fifo_tx_data\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\lvds_source\IP\fifo_tx_data\fifo_tx_data.xml" />
+    <Content Include="resource\source_file\lvds_source\IP\fwft16_8192\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\lvds_source\IP\fwft16_8192\fwft16_8192.xml" />
+    <Content Include="resource\source_file\lvds_source\IP\selectio_lvds\doc\selectio_wiz_v5_1_changelog.txt" />
+    <Content Include="resource\source_file\lvds_source\IP\selectio_lvds\selectio_lvds.xml" />
+    <Content Include="resource\source_file\lvds_source\IP\selectio_tx\doc\selectio_wiz_v5_1_changelog.txt" />
+    <Content Include="resource\source_file\lvds_source\IP\selectio_tx\selectio_tx.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\Fifo1024x64\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\Fifo1024x64\Fifo1024x64.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\iresp_clk_fifo\iresp_clk_fifo.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\keep_fifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\keep_fifo\keep_fifo.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\RxDataFifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\RxDataFifo\RxDataFifo.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\srio_ini_tx_fifo\srio_ini_tx_fifo.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\treq_rd_fifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\treq_rd_fifo\treq_rd_fifo.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\treq_tx_fifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\treq_tx_fifo\treq_tx_fifo.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\tresp_tx_fifo\tresp_tx_fifo.xml" />
+    <Content Include="resource\source_file\srio_source\fifo\TxDataFifo\doc\fifo_generator_v13_1_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\fifo\TxDataFifo\TxDataFifo.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_2p5g_1x_125m\srio_dut_2p5g_1x_125m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_2p5g_4x_125m\srio_dut_2p5g_4x_125m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_125m\srio_dut_3p125g_1x_125m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_1x_156m\srio_dut_3p125g_1x_156m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_125m\srio_dut_3p125g_4x_125m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_3p125g_4x_156m\srio_dut_3p125g_4x_156m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_5g_1x_125m\srio_dut_5g_1x_125m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_5g_4x_125m\srio_dut_5g_4x_125m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_6p25g_1x_156m\srio_dut_6p25g_1x_156m.xml" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\doc\srio_gen2_v4_0_changelog.txt" />
+    <Content Include="resource\source_file\srio_source\srio\srio_dut_6p25g_4x_156m\srio_dut_6p25g_4x_156m.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="resource\source_file\srio_source\config\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
