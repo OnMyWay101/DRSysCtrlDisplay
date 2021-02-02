@@ -39,6 +39,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.TeamSystem.Data.UnitTesting, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -139,6 +142,11 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Board.cs" />
+    <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\ZYNQ.cs" />
+    <Compile Include="Models\FPGA.cs" />
+    <Compile Include="Models\PPC.cs" />
     <Compile Include="OutPutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,27 +170,27 @@
     <Compile Include="TcpCommand.cs" />
     <Compile Include="TcpManager.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViewClass\App.cs">
+    <Compile Include="ViewModel\App.cs">
     </Compile>
-    <Compile Include="ViewClass\Board.cs" />
-    <Compile Include="ViewClass\Component.cs" />
-    <Compile Include="ViewClass\Container.cs" />
+    <Compile Include="ViewModel\Board.cs" />
+    <Compile Include="ViewModel\Component.cs" />
+    <Compile Include="ViewModel\Container.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewClass\FPGA.cs" />
+    <Compile Include="ViewModel\FPGA.cs" />
     <Compile Include="FuncItemsFrom.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FuncItemsFrom.Designer.cs">
       <DependentUpon>FuncItemsFrom.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewClass\BaseView.cs" />
-    <Compile Include="ViewClass\OtherView.cs" />
-    <Compile Include="ViewClass\PPC.cs">
+    <Compile Include="ViewModel\BaseView.cs" />
+    <Compile Include="ViewModel\OtherView.cs" />
+    <Compile Include="ViewModel\PPC.cs">
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -928,15 +936,15 @@
     <Compile Include="ShowViewPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ViewClass\BackPlane.cs" />
-    <Compile Include="ViewClass\Status.cs">
+    <Compile Include="ViewModel\BackPlane.cs" />
+    <Compile Include="ViewModel\Status.cs">
     </Compile>
-    <Compile Include="ViewClass\SystemStru.cs" />
-    <Compile Include="ViewClass\ResourceTopo.cs">
+    <Compile Include="ViewModel\SystemStru.cs" />
+    <Compile Include="ViewModel\ResourceTopo.cs">
     </Compile>
-    <Compile Include="ViewClass\TopoGraph.cs" />
+    <Compile Include="ViewModel\TopoGraph.cs" />
     <Compile Include="XmlManager.cs" />
-    <Compile Include="ViewClass\ZYNQ.cs" />
+    <Compile Include="ViewModel\ZYNQ.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\App\Library\EMHal\include\emhal.h">

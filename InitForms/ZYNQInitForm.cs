@@ -63,6 +63,7 @@ namespace DRSysCtrlDisplay
             _mainClockCB.SelectedItem = zynq.MainClock;
             _memoryCB.SelectedItem = zynq.Memory;
             _expanfMemoryCB.SelectedItem = zynq.ExpandMemory;
+
             //PL相关的参数
             _plTypeCB.SelectedItem = zynq.PLType;
             _logicNumTB.Text = zynq.LogicNum.ToString();
@@ -261,7 +262,7 @@ namespace DRSysCtrlDisplay
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(10);
-            this.tabPage2.Size = new System.Drawing.Size(271, 378);
+            this.tabPage2.Size = new System.Drawing.Size(271, 368);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "PL";
             this.tabPage2.UseVisualStyleBackColor = true;

@@ -612,13 +612,13 @@ namespace DRSysCtrlDisplay
         public interface IXmlTransformByName
         {
             void SaveXmlByName();
-            BaseView CreateObjectByName(string objectName);
+            Models.ModelBase CreateObjectByName(string objectName);
         }
 
         public interface IXmlTransformByPath
         {
             void SaveXmlByPath(string xmlFilePath);
-            BaseView CreateObjectByPath(string objectFilePath);
+            Models.ModelBase CreateObjectByPath(string objectFilePath);
         }
     }
 }
