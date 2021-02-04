@@ -52,7 +52,7 @@ namespace DRSysCtrlDisplay
             //设置窗体显示位置
             this.StartPosition = FormStartPosition.CenterParent;
         }
-        public ZYNQInitForm(ZYNQ zynq)
+        public ZYNQInitForm(ZYNQViewModel zynq)
         {
             InitializeComponent();
 
@@ -468,7 +468,7 @@ namespace DRSysCtrlDisplay
             {
                 return;
             }
-            ZYNQ zynq = new ZYNQ();
+            ZYNQViewModel zynq = new ZYNQViewModel();
             RefreshZYNQ(zynq);
             zynq.SaveXmlByName();
 
@@ -511,7 +511,7 @@ namespace DRSysCtrlDisplay
         /// 通过ZYNQ控件的属性初始化一个ZYNQ实例对象的属性值
         /// </summary>
         /// <param name="zynq"></param>
-        protected void RefreshZYNQ(ZYNQ zynq)
+        protected void RefreshZYNQ(ZYNQViewModel zynq)
         {
             zynq.Name = _nameTB.Text;
             //PS相关参数

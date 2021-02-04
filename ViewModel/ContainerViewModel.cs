@@ -15,17 +15,17 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 机箱类
     /// </summary>
-    public class Container : BaseView
+    public class ContainerViewModel : BaseView
     {
         public string Type { get; set; }            //机箱的型号
         public string BackPlaneName { get; set; }   //背板的名字
-        public BackPlane _backPlane { get; private set; }              //包含的背板
+        public BackPlaneViewModel _backPlane { get; private set; }              //包含的背板
         public Dictionary<int, string> BoardNameDir = new Dictionary<int, string>();   //key:槽位号；value:板卡名称
         public VpxEndView[] _boardViews;            //包含的板卡视图集
         private DrawContainer _drawer;              //机箱的画图类
         private BaseView ChoosedBv;                 //机箱图像中被选中的图元
 
-        public Container() { }
+        public ContainerViewModel() { }
 
         public override void DrawView(Graphics g){}
 
@@ -102,11 +102,11 @@ namespace DRSysCtrlDisplay
             base.TriggerRedrawRequst();
         }
 
-        private class ContainerLink : BackPlane.BackPlaneLink
+        private class ContainerLink : BackPlaneViewModel.BackPlaneLink
         {
             public bool IsConnectValid { get; private set; }      //该连接是否有效
 
-            public ContainerLink(BackPlane.BackPlaneLink bpLink, bool isValid)
+            public ContainerLink(BackPlaneViewModel.BackPlaneLink bpLink, bool isValid)
                 : base(bpLink.FirstEndId, bpLink.FirstEndPostion, bpLink.SecondEndId, bpLink.SecondEndPostion, bpLink.LinkType)
             {
                 IsConnectValid = isValid;
@@ -128,7 +128,7 @@ namespace DRSysCtrlDisplay
 
         private class DrawContainer : IDrawer
         {
-            Container _container;
+            ContainerViewModel _container;
             Graphics _graph;                                            //画板
             Rectangle _ctnRect;                                         //机箱对应的矩形
             Rectangle _bpRect;                                          //背板对应的矩形
@@ -136,7 +136,7 @@ namespace DRSysCtrlDisplay
             private Dictionary<ContainerLink, Point[]> _links;          //包含的连接及对应的点
             public Boolean NoIndicate { get; set; }                     //不画连接示意区标志
 
-            public DrawContainer(Container ctn, Graphics g, Rectangle r)
+            public DrawContainer(ContainerViewModel ctn, Graphics g, Rectangle r)
             {
                 _container = ctn;
                 _graph = g;
@@ -156,7 +156,7 @@ namespace DRSysCtrlDisplay
                 _links = new Dictionary<ContainerLink, Point[]>();
                 foreach (var linkPair in drawBackPlane.LinkDir)
                 {
-                    BackPlane.BackPlaneLink link = linkPair.Key;
+                    BackPlaneViewModel.BackPlaneLink link = linkPair.Key;
                     _links.Add(new ContainerLink(link, IsValidLine(link)), linkPair.Value);
                 }
             }
@@ -241,7 +241,7 @@ namespace DRSysCtrlDisplay
             /// </summary>
             /// <param name="link"></param>
             /// <returns></returns>
-            private bool IsValidLine(BackPlane.BackPlaneLink link)
+            private bool IsValidLine(BackPlaneViewModel.BackPlaneLink link)
             {
                 //排除无效的槽位
                 if (!(_container.IsContainBoard(link.FirstEndId) && _container.IsContainBoard(link.SecondEndId)))
@@ -252,7 +252,7 @@ namespace DRSysCtrlDisplay
                 //获取Link的端点1连接的板卡名字
                 if (!_container._backPlane.IsConnetctAreaSlot(link.FirstEndId))
                 {
-                    Board end1Board = BaseViewFactory<Board>.CreateByName(_container.BoardNameDir[link.FirstEndId]);
+                    BoardViewModel end1Board = BaseViewFactory<BoardViewModel>.CreateByName(_container.BoardNameDir[link.FirstEndId]);
                     if (!end1Board.IsLinkValidConnected(link, 1))
                     {
                         return false;
@@ -262,7 +262,7 @@ namespace DRSysCtrlDisplay
                 //获取Link的端点2连接的板卡名字
                 if (!_container._backPlane.IsConnetctAreaSlot(link.SecondEndId))
                 {
-                    Board end2Board = BaseViewFactory<Board>.CreateByName(_container.BoardNameDir[link.SecondEndId]);
+                    BoardViewModel end2Board = BaseViewFactory<BoardViewModel>.CreateByName(_container.BoardNameDir[link.SecondEndId]);
                     if (!end2Board.IsLinkValidConnected(link, 2))
                     {
                         return false;

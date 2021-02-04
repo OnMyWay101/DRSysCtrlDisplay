@@ -13,13 +13,13 @@ using DRSysCtrlDisplay.Princeple;
 
 namespace DRSysCtrlDisplay
 {
-    public class Component : BaseView
+    public class ComponentViewModel : BaseView
     {
         public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
         private TopoNetView<ComponentNode, ComponentLine> _topoView;
         public int NodeNum { get; private set; }
 
-        public Component() { }
+        public ComponentViewModel() { }
 
         public void InitTopo(int nodeNum)
         {
@@ -130,7 +130,7 @@ namespace DRSysCtrlDisplay
 
         public override BaseView CreateObjectByName(string objectName)
         {
-            Component component = new Component();
+            ComponentViewModel component = new ComponentViewModel();
             string xmlPathDir = Path.Combine(PathManager.GetComponentPath(), objectName);
             string xmlPath = string.Format("{0}.xml", xmlPathDir);
             if (!File.Exists(xmlPath))
@@ -152,7 +152,7 @@ namespace DRSysCtrlDisplay
                 var nodeName = e.Attribute("NodeName").Value;
                 var nodeObject = Component_GenNodeObj(nodeType, string.Format(@"{0}\{1}.xml", xmlPathDir, nodeName));
 
-                var cmpNode = new Component.ComponentNode(nodeType, nodeName, nodeNum, nodeObject);
+                var cmpNode = new ComponentViewModel.ComponentNode(nodeType, nodeName, nodeNum, nodeObject);
                 component.CmpTopoNet.SetNodeValue(nodeNum, cmpNode);
             }
 

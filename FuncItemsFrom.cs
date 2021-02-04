@@ -413,7 +413,7 @@ namespace DRSysCtrlDisplay
             {
                 case "PPCs":
                     //通过读取XML文件初始化PPC,然后用一个PPC实例初始化PPCInitForm
-                    PPC ppcView = BaseViewFactory<PPC>.CreateByName(selectedNode.Text);
+                    PPCViewModel ppcView = BaseViewFactory<PPCViewModel>.CreateByName(selectedNode.Text);
                     PPCInitForm ppcInitForm = new PPCInitForm(ppcView);
                     ppcInitForm.ShowDialog();
 
@@ -429,7 +429,7 @@ namespace DRSysCtrlDisplay
                     ppcInitForm.Dispose();
                     break;
                 case "FPGAs":
-                    FPGA fpgaView = BaseViewFactory<FPGA>.CreateByName(selectedNode.Text);
+                    FPGAViewModel fpgaView = BaseViewFactory<FPGAViewModel>.CreateByName(selectedNode.Text);
                     FPGAInitForm fpgaInitForm = new FPGAInitForm(fpgaView);
                     fpgaInitForm.ShowDialog();
 
@@ -445,7 +445,7 @@ namespace DRSysCtrlDisplay
                     fpgaInitForm.Dispose();
                     break;
                 case "ZYNQs":
-                    ZYNQ zynqView = BaseViewFactory<ZYNQ>.CreateByName(selectedNode.Text);
+                    ZYNQViewModel zynqView = BaseViewFactory<ZYNQViewModel>.CreateByName(selectedNode.Text);
                     ZYNQInitForm zynqInitForm = new ZYNQInitForm(zynqView);
                     zynqInitForm.ShowDialog();
 
@@ -461,7 +461,7 @@ namespace DRSysCtrlDisplay
                     zynqInitForm.Dispose();
                     break;
                 case "板卡库":
-                    Board boardView = BaseViewFactory<Board>.CreateByName(selectedNode.Text);
+                    BoardViewModel boardView = BaseViewFactory<BoardViewModel>.CreateByName(selectedNode.Text);
                     BoardInitForm boardInitForm = new BoardInitForm(boardView);
                     boardInitForm.ShowDialog();
 
@@ -477,7 +477,7 @@ namespace DRSysCtrlDisplay
                     boardInitForm.Dispose();
                     break;
                 case "背板库":
-                    BackPlane bpView = BaseViewFactory<BackPlane>.CreateByName(selectedNode.Text);
+                    BackPlaneViewModel bpView = BaseViewFactory<BackPlaneViewModel>.CreateByName(selectedNode.Text);
                     BackPlaneInitForm bpInitForm = new BackPlaneInitForm(bpView);
                     bpInitForm.ShowDialog();
 
@@ -493,7 +493,7 @@ namespace DRSysCtrlDisplay
                     bpInitForm.Dispose();
                     break;
                 case "机箱库":
-                    Container ctnView = BaseViewFactory<Container>.CreateByName(selectedNode.Text); ;
+                    ContainerViewModel ctnView = BaseViewFactory<ContainerViewModel>.CreateByName(selectedNode.Text); ;
                     ContainerInitForm ctnInitForm = new ContainerInitForm(ctnView);
                     ctnInitForm.ShowDialog();
 

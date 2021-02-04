@@ -79,7 +79,7 @@ namespace DRSysCtrlDisplay
         /// 使用一个Board实例来构造一个BoardInitForm
         /// </summary>
         /// <param name="board"></param>
-        public BoardInitForm(Board board)
+        public BoardInitForm(BoardViewModel board)
         {
             InitializeComponent();
             ListViewInit();
@@ -87,15 +87,15 @@ namespace DRSysCtrlDisplay
             _versionTB.Text = board.Version;
 
             //由board初始化芯片集ListView
-            foreach (PPC ppc in board.PPCList)
+            foreach (PPCViewModel ppc in board.PPCList)
             {
                 ChipLvAddItems(null, "PPC", ppc.Name);
             }
-            foreach (FPGA fpga in board.FPGAList)
+            foreach (FPGAViewModel fpga in board.FPGAList)
             {
                 ChipLvAddItems(null, "FPGA", fpga.Name);
             }
-            foreach (ZYNQ zynq in board.ZYNQList)
+            foreach (ZYNQViewModel zynq in board.ZYNQList)
             {
                 ChipLvAddItems(null, "ZYNQ", zynq.Name);
             }
@@ -111,7 +111,7 @@ namespace DRSysCtrlDisplay
                 }
             }
             //初始化连接关系ListView
-            foreach (Board.BoardLink link in board.LinkList)
+            foreach (BoardViewModel.BoardLink link in board.LinkList)
             {
                 switch (link.LinkType)
                 {
@@ -822,14 +822,14 @@ namespace DRSysCtrlDisplay
 
         private void YesButton_Click(object sender, EventArgs e)
         {
-            Board board = new Board();
+            BoardViewModel board = new BoardViewModel();
             RefreshBoard(board);
             board.SaveXmlByName();
             this.DialogResult = DialogResult.Yes;
         }
         #endregion
 
-        private void InitLinkFromBoard(Board board, Board.BoardLink link, ListView lv, ref int serialNum)
+        private void InitLinkFromBoard(BoardViewModel board, BoardViewModel.BoardLink link, ListView lv, ref int serialNum)
         {
             string portNum = string.Empty;
             serialNum++;
@@ -864,7 +864,7 @@ namespace DRSysCtrlDisplay
             lv.EndUpdate();
         }
 
-        private String IdToName(Board board, EndType endtype, Board.BoardLink link, int id)
+        private String IdToName(BoardViewModel board, EndType endtype, BoardViewModel.BoardLink link, int id)
         {
             String chipName = String.Empty;
             switch (endtype)
@@ -941,12 +941,12 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private void AddLinkToList(Board board, ListView lv, LinkType linkType)
+        private void AddLinkToList(BoardViewModel board, ListView lv, LinkType linkType)
         {
             IEnumerable<ListViewItem> LinkItems = lv.Items.Cast<ListViewItem>();
             foreach (var item in LinkItems)
             {
-                Board.BoardLink link = new Board.BoardLink();
+                BoardViewModel.BoardLink link = new BoardViewModel.BoardLink();
                 link.LinkType = linkType;
                 //端1
                 link.FirstEndType = ChooseEndType(item.SubItems[1].Text);
@@ -996,13 +996,13 @@ namespace DRSysCtrlDisplay
         /// <param name="endType"></param>
         /// <param name="chipName"></param>
         /// <returns></returns>
-        private int GetChipId(Board board, EndType endType, String chipName)
+        private int GetChipId(BoardViewModel board, EndType endType, String chipName)
         {
             int chipId = -1;
             switch (endType)
             {
                 case EndType.PPC:
-                    foreach (PPC ppc in board.PPCList)
+                    foreach (PPCViewModel ppc in board.PPCList)
                     {
                         if (ppc.Name == chipName)
                         {
@@ -1011,7 +1011,7 @@ namespace DRSysCtrlDisplay
                     }
                     break;
                 case EndType.FPGA:
-                    foreach (FPGA fpga in board.FPGAList)
+                    foreach (FPGAViewModel fpga in board.FPGAList)
                     {
                         if (fpga.Name == chipName)
                         {
@@ -1020,7 +1020,7 @@ namespace DRSysCtrlDisplay
                     }
                     break;
                 case EndType.ZYNQ:
-                    foreach (ZYNQ zynq in board.ZYNQList)
+                    foreach (ZYNQViewModel zynq in board.ZYNQList)
                     {
                         if (zynq.Name == chipName)
                         {
@@ -1098,7 +1098,7 @@ namespace DRSysCtrlDisplay
         /// 通过用户填的值来更新一个Board类
         /// </summary>
         /// <param name="board"></param>
-        private void RefreshBoard(Board board)
+        private void RefreshBoard(BoardViewModel board)
         {
             BoardNodeName = _typeTB.Text;
             board.Name = _typeTB.Text;
@@ -1112,7 +1112,7 @@ namespace DRSysCtrlDisplay
                        select e.SubItems[2].Text;
             foreach (var ppcName in ppcs)
             {
-                board.PPCList.Add(BaseViewFactory<PPC>.CreateByName(ppcName));
+                board.PPCList.Add(BaseViewFactory<PPCViewModel>.CreateByName(ppcName));
             }
             //添加板卡的FPGA集合
             var fpgas = from f in coreLVItems
@@ -1120,7 +1120,7 @@ namespace DRSysCtrlDisplay
                         select f.SubItems[2].Text;
             foreach (var fpgaName in fpgas)
             {
-                board.FPGAList.Add(BaseViewFactory<FPGA>.CreateByName(fpgaName));
+                board.FPGAList.Add(BaseViewFactory<FPGAViewModel>.CreateByName(fpgaName));
             }
             //添加板卡的ZYNQ集合
             var zynqs = from z in coreLVItems
@@ -1128,7 +1128,7 @@ namespace DRSysCtrlDisplay
                         select z.SubItems[2].Text;
             foreach (var zynqName in zynqs)
             {
-                board.ZYNQList.Add(BaseViewFactory<ZYNQ>.CreateByName(zynqName));
+                board.ZYNQList.Add(BaseViewFactory<ZYNQViewModel>.CreateByName(zynqName));
             }
             //添加板卡的Sw集合
             IEnumerable<ListViewItem> swLVItems = SWLV.Items.Cast<ListViewItem>();

@@ -32,37 +32,37 @@ namespace DRSysCtrlDisplay
             switch (FormType)
             {
                 case Princeple.FormType.PPC:
-                    ShowView = BaseViewFactory<PPC>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<PPCViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.FPGA:
-                    ShowView = BaseViewFactory<FPGA>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<FPGAViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.ZYNQ:
-                    ShowView = BaseViewFactory<ZYNQ>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<ZYNQViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.BOARD:
-                    ShowView = BaseViewFactory<Board>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<BoardViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.BACKPLANE:
-                    ShowView = BaseViewFactory<BackPlane>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<BackPlaneViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.CONTIANER:
-                    ShowView = BaseViewFactory<Container>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<ContainerViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.COMPONENT:
-                    ShowView = BaseViewFactory<Component>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<ComponentViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.SYSTEM:
-                    ShowView = BaseViewFactory<SystemStru>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<SystemStruViewModel>.CreateByName(node.Text);
                     break;
                 case Princeple.FormType.TOPO:
                     var sysName = node.Text.Substring(node.Text.IndexOf(':') + 1);
-                    ShowView = new StaticTopo(BaseViewFactory<SystemStru>.CreateByName(sysName));
+                    ShowView = new StaticTopo(BaseViewFactory<SystemStruViewModel>.CreateByName(sysName));
                     break;
                 case Princeple.FormType.APP:
                     var sysNode = node.Parent.Nodes[0];
                     var sysSName = sysNode.Text.Substring(sysNode.Text.IndexOf(':') + 1);
-                    ShowView = new DynamicTopo(new StaticTopo(BaseViewFactory<SystemStru>.CreateByName(sysSName)));
+                    ShowView = new DynamicTopo(new StaticTopo(BaseViewFactory<SystemStruViewModel>.CreateByName(sysSName)));
 
                     ((DynamicTopo)ShowView).MatchApps(GetNodeCmps(node));
                     break;
@@ -82,12 +82,12 @@ namespace DRSysCtrlDisplay
             this.MouseWheel += new MouseEventHandler(ShowViewPanel_MouseWheel);
         }
 
-        private Component[] GetNodeCmps(TreeNode tNode)
+        private ComponentViewModel[] GetNodeCmps(TreeNode tNode)
         {
-            List<Component> cmps = new List<Component>();
+            List<ComponentViewModel> cmps = new List<ComponentViewModel>();
             foreach (TreeNode node in tNode.Nodes)
             {
-                var cmp = BaseViewFactory<Component>.CreateByName(node.Text);
+                var cmp = BaseViewFactory<ComponentViewModel>.CreateByName(node.Text);
                 cmps.Add(cmp);
             }
             return cmps.ToArray();

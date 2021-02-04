@@ -73,7 +73,7 @@ namespace DRSysCtrlDisplay
         }
 
         //备用TODO:
-        public Status(Container ct,Dictionary<int, SlotInfo> info)
+        public Status(ContainerViewModel ct,Dictionary<int, SlotInfo> info)
         {
             Type = string.Empty;
             Temp = string.Empty;

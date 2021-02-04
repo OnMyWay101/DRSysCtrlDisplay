@@ -138,11 +138,11 @@ namespace DRSysCtrlDisplay
                 switch (eType)
                 {
                     case EndType.PPC:
-                        return typeof(PPC);
+                        return typeof(PPCViewModel);
                     case EndType.FPGA:
-                        return typeof(FPGA);
+                        return typeof(FPGAViewModel);
                     case EndType.ZYNQ:
-                        return typeof(ZYNQ);
+                        return typeof(ZYNQViewModel);
                     default:
                         return null;
                 }

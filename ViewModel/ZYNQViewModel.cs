@@ -13,9 +13,9 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 namespace DRSysCtrlDisplay
 {
     [TypeConverter(typeof(BaseViewCoreTypeConverter))]
-    public class ZYNQ : BaseViewCore
+    public class ZYNQViewModel : BaseViewCore
     {
-        public ZYNQ() { }
+        public ZYNQViewModel() { }
 
         public override void DrawView(Graphics g) {}
 
@@ -107,7 +107,7 @@ namespace DRSysCtrlDisplay
 
         public override BaseView CreateObjectByPath(string objectFilePath)
         {
-            ZYNQ zynq = new ZYNQ();
+            ZYNQViewModel zynq = new ZYNQViewModel();
             if (!File.Exists(objectFilePath))
             {
                 MessageBox.Show("CreateObject_ZYNQ:没有该ZYNQ芯片对应的XML文件！");

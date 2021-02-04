@@ -12,24 +12,24 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay
 {
-    public class SystemStru : BaseView
+    public class SystemStruViewModel : BaseView
     {
         public string Type { get; set; }                                //系统的型号
         public int CntsNum { get; set; }                                //系统包含机箱的个数
         public string[] CntNames { get; set; }                          //机箱名称数组
         public List<SystemStruLink>[] LinksArray { get; set; }          //各机箱的连接信息
-        public Container[] CntsArray;                                   //机箱数组
+        public ContainerViewModel[] CntsArray;                                   //机箱数组
 
         public DrawSystemStru _drawer;                                  //系统画图类
 
-        public SystemStru() { }
+        public SystemStruViewModel() { }
 
-        public SystemStru(int cntsNum)
+        public SystemStruViewModel(int cntsNum)
         {
             CntsNum = cntsNum;
             CntNames = new string[CntsNum];
             LinksArray = new List<SystemStruLink>[CntsNum];
-            CntsArray = new Container[cntsNum];
+            CntsArray = new ContainerViewModel[cntsNum];
         }
 
         public override void DrawView(Graphics g) {}
@@ -108,7 +108,7 @@ namespace DRSysCtrlDisplay
 
         public override BaseView CreateObjectByName(string objectName)
         {
-            SystemStru sys;
+            SystemStruViewModel sys;
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetSysPath(), objectName);
             if (!File.Exists(xmlPath))
             {
@@ -120,7 +120,7 @@ namespace DRSysCtrlDisplay
             //根元素的Attribute
             XElement rt = xd.Element("SystemStru");
             int cntsNum = int.Parse(rt.Attribute("CntsNum").Value);
-            sys = new SystemStru(cntsNum);
+            sys = new SystemStruViewModel(cntsNum);
             sys.Name = rt.Attribute("Name").Value;
             sys.Type = rt.Attribute("Type").Value;
 
@@ -131,7 +131,7 @@ namespace DRSysCtrlDisplay
                 int cntSn = int.Parse(e.Attribute("CntSn").Value);
                 string cntName = e.Attribute("CntName").Value;
                 sys.CntNames[cntSn] = cntName;
-                sys.CntsArray[cntSn] = BaseViewFactory<Container>.CreateByName(sys.CntNames[cntSn]);
+                sys.CntsArray[cntSn] = BaseViewFactory<ContainerViewModel>.CreateByName(sys.CntNames[cntSn]);
             }
 
             //取links赋值到backPlane.linkDir
@@ -168,14 +168,14 @@ namespace DRSysCtrlDisplay
         /// </summary>
         public class DrawSystemStru : IDrawer
         {
-            SystemStru _sys;                        //需要画图的系统
+            SystemStruViewModel _sys;                        //需要画图的系统
             protected Graphics _graph;              //系统对应的画布
             Rectangle _sysRect;                     //系统的边框
             public Rectangle[] CntRects { get; private set; }  		                    //包含的机箱图像矩形位置集合；
             public Dictionary<SystemStruLink, Point[]> LinkDir { get; private set; }    //包含的连接及对应的点
             const double _cntScale = 9.0 / 10;      //机箱长度占单个矩形块的长宽比例
 
-            public DrawSystemStru(SystemStru sys, Graphics g, Rectangle r)
+            public DrawSystemStru(SystemStruViewModel sys, Graphics g, Rectangle r)
             {
                 _sys = sys;
                 _graph = g;
@@ -231,8 +231,8 @@ namespace DRSysCtrlDisplay
 
                 foreach (var link in links)
                 {
-                    Container cnt1 = _sys.CntsArray[link.FirstEndId];
-                    Container cnt2 = _sys.CntsArray[link.SecondEndId];
+                    ContainerViewModel cnt1 = _sys.CntsArray[link.FirstEndId];
+                    ContainerViewModel cnt2 = _sys.CntsArray[link.SecondEndId];
                     double scale = (links.IndexOf(link) + 1.0) / (linksNum + 1.0);
 
                     Point p1 = cnt1._backPlane.GetInterfacePoint(type);

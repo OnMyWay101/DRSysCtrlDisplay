@@ -17,7 +17,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay
 {
-    public class BackPlane : BaseView
+    public class BackPlaneViewModel : BaseView
     {
         [Category("\t基本信息"), Description("背板类型")]
         public String Type { get; set; }
@@ -42,9 +42,9 @@ namespace DRSysCtrlDisplay
         public BaseView ChoosedBv { get; private set; }    //当前视图被选中的图元
 
 
-        public BackPlane() { }
+        public BackPlaneViewModel() { }
 
-        public BackPlane(int slotNum)
+        public BackPlaneViewModel(int slotNum)
         {
             SlotsNum = slotNum;
             VirtualSlotsNum = slotNum + 2;
@@ -119,7 +119,7 @@ namespace DRSysCtrlDisplay
 
         public override BaseView CreateObjectByName(string objectName)
         {
-            BackPlane backPlane;
+            BackPlaneViewModel backPlane;
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetBackPlanePath(), objectName);
             if (!File.Exists(xmlPath))
             {
@@ -131,7 +131,7 @@ namespace DRSysCtrlDisplay
             //根元素的Attribute
             XElement rt = xd.Element("BackPlane");
             int slotsNum = int.Parse(rt.Attribute("SlotsNum").Value);
-            backPlane = new BackPlane(slotsNum);
+            backPlane = new BackPlaneViewModel(slotsNum);
             backPlane.Name = rt.Attribute("Name").Value;
             backPlane.Type = rt.Attribute("Type").Value;
 
@@ -139,7 +139,7 @@ namespace DRSysCtrlDisplay
             XElement links = rt.Element("Links");
             for (int i = 0; i < backPlane.VirtualSlotsNum; i++)
             {
-                List<BackPlane.BackPlaneLink> linksList = new List<BackPlane.BackPlaneLink>();
+                List<BackPlaneViewModel.BackPlaneLink> linksList = new List<BackPlaneViewModel.BackPlaneLink>();
                 //找到同一槽位的links，然后添加到list
                 var slotLinks = from link in links.Elements()
                                 where int.Parse(link.Attribute("FirstEndId").Value) == i
@@ -148,7 +148,7 @@ namespace DRSysCtrlDisplay
                 {
                     LinkType type = (LinkType)Enum.Parse(typeof(LinkType), link.Attribute("Type").Value);
 
-                    var tempLink = new BackPlane.BackPlaneLink(i, int.Parse(link.Attribute("FirstEndPos").Value)
+                    var tempLink = new BackPlaneViewModel.BackPlaneLink(i, int.Parse(link.Attribute("FirstEndPos").Value)
                         , int.Parse(link.Attribute("SecondEndId").Value), int.Parse(link.Attribute("SecondEndPos").Value), type);
                     linksList.Add(tempLink);
                 }
@@ -231,14 +231,14 @@ namespace DRSysCtrlDisplay
         /// </summary>
         public class DrawBackPlane : IDrawer
         {
-            BackPlane _backPlane;                       //需要画图的背板
+            BackPlaneViewModel _backPlane;                       //需要画图的背板
             protected Graphics _graph;                  //背板对应的画布
             Rectangle _bpRect;                          //背板的边框
             public Rectangle[] SlotRects { get; private set; }  		                //包含的槽位图像矩形位置集合；
             public Dictionary<BackPlaneLink, Point[]> LinkDir { get; private set; }     //包含的连接及对应的点
             public Boolean NoIndicate { get; set; }     //不画连接示意区标志
 
-            public DrawBackPlane(BackPlane bp, Graphics g, Rectangle r)
+            public DrawBackPlane(BackPlaneViewModel bp, Graphics g, Rectangle r)
             {
                 _backPlane = bp;
                 _graph = g;

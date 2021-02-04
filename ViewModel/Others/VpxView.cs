@@ -11,9 +11,6 @@ using System.Windows.Forms;
 
 namespace DRSysCtrlDisplay.OtherView
 {
-
-    
-
     /// <summary>
     /// 一个Vpx上的通信区的描述
     /// </summary>

@@ -13,11 +13,11 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 namespace DRSysCtrlDisplay
 {
     [TypeConverter(typeof(BaseViewCoreTypeConverter))]
-    public class FPGA : BaseViewCore
+    public class FPGAViewModel : BaseViewCore
     {
        
 
-        public FPGA() { }
+        public FPGAViewModel() { }
 
         public override void DrawView(Graphics g){}
 
@@ -123,7 +123,7 @@ namespace DRSysCtrlDisplay
 
         public override BaseView CreateObjectByPath(string objectFilePath)
         {
-            FPGA fpga = new FPGA();
+            FPGAViewModel fpga = new FPGAViewModel();
             if (!File.Exists(objectFilePath))
             {
                 MessageBox.Show("CreateObject_FPGA:没有该FPGA芯片对应的XML文件！");

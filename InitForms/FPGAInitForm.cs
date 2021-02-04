@@ -73,7 +73,7 @@ namespace DRSysCtrlDisplay
         /// 通过一FPGA实例来初始化FPGAInitForm，一般用于属性修改；
         /// </summary>
         /// <param name="fpga"></param>
-        public FPGAInitForm(FPGA fpga)
+        public FPGAInitForm(FPGAViewModel fpga)
         {
             SetFatherComponents();
             InitializeComponent();
@@ -676,7 +676,7 @@ namespace DRSysCtrlDisplay
             {
                 return;
             }
-            FPGA fpga = new FPGA();
+            FPGAViewModel fpga = new FPGAViewModel();
             RefreshFPGA(fpga);
             //XMLManager.HandleType.SaveXML_FPGA(fpga);
             fpga.SaveXmlByName();
@@ -691,7 +691,7 @@ namespace DRSysCtrlDisplay
 
         #endregion
 
-        protected void RefreshFPGA(FPGA fpga)
+        protected void RefreshFPGA(FPGAViewModel fpga)
         {
             fpga.Name = _nameTB.Text;
             fpga.Type = _typeCB.Text;

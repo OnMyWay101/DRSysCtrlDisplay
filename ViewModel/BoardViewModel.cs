@@ -19,9 +19,9 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay
 {
-    public class Board : BaseView
+    public class BoardViewModel : BaseView
     {
-        public Board()
+        public BoardViewModel()
         {
         }
 
@@ -46,7 +46,7 @@ namespace DRSysCtrlDisplay
         /// <param name="bLink"></param>
         /// <param name="endPosition">需判断的Link连接的端点位置：1，2</param>
         /// <returns></returns>
-        public bool IsLinkValidConnected(BackPlane.BackPlaneLink bLink, int endPosition)
+        public bool IsLinkValidConnected(BackPlaneViewModel.BackPlaneLink bLink, int endPosition)
         {
             int linkPostion = ((endPosition == 1) ? bLink.FirstEndPostion : bLink.SecondEndPostion);
             var validLinks = from link in LinkList
@@ -89,7 +89,7 @@ namespace DRSysCtrlDisplay
             Graphics _graph;                    //Board对应的画布
             Rectangle _boardRect;               //Board的边框
             AssignRectangle _assignRect;        //矩形分配器
-            Board _board;                       //描述的板卡
+            BoardViewModel _board;                       //描述的板卡
 
             List<Rectangle> _ppcsPositions;     //PPC图像集合
             List<Rectangle> _fpgasPositions;    //FPGA图像集合
@@ -103,7 +103,7 @@ namespace DRSysCtrlDisplay
             /// </summary>
             /// <param name="g"></param>
             /// <param name="rect">为了美观，该矩形对应的宽高比必需要为2:1</param>
-            public DrawBoard(Board board, Graphics g, Rectangle rect)
+            public DrawBoard(BoardViewModel board, Graphics g, Rectangle rect)
             {
                 _graph = g;
                 _boardRect = rect;
@@ -245,7 +245,7 @@ namespace DRSysCtrlDisplay
                 _graph.DrawRectangle(Pens.Black, _boardRect);
             }
 
-            private void DrawPPCs(List<PPC> ppcs)
+            private void DrawPPCs(List<PPCViewModel> ppcs)
             {
                 _ppcsPositions = GetPPCsPositions(ppcs.Count);
                 for (int i = 0; i < ppcs.Count; i++)
@@ -254,7 +254,7 @@ namespace DRSysCtrlDisplay
                 }
             }
 
-            private void DrawZYNQs(List<ZYNQ> zynqs)
+            private void DrawZYNQs(List<ZYNQViewModel> zynqs)
             {
                 _zynqsPositions = GetZYNQsPositions(zynqs.Count);
                 for (int i = 0; i < zynqs.Count; i++)
@@ -263,7 +263,7 @@ namespace DRSysCtrlDisplay
                 }
             }
 
-            private void DrawFPGAs(List<FPGA> fpgas)
+            private void DrawFPGAs(List<FPGAViewModel> fpgas)
             {
                 _fpgasPositions = GetFPGAsPositions(fpgas.Count);
                 for (int i = 0; i < fpgas.Count; i++)

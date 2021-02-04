@@ -298,7 +298,7 @@ namespace DRSysCtrlDisplay
         /// 修改节点时，使用PPC实例初始化PPCInitForm中各项的值
         /// </summary>
         /// <param name="ppc"></param>
-        public PPCInitForm(PPC ppc)
+        public PPCInitForm(PPCViewModel ppc)
         {
             InitializeComponent();
             _nameTB.Text = ppc.Name;
@@ -341,7 +341,7 @@ namespace DRSysCtrlDisplay
                 MessageBox.Show("数据不完整");
                 return;
             }
-            PPC ppc = new PPC();
+            PPCViewModel ppc = new PPCViewModel();
             RefreshPPC(ppc);
             //XMLManager.HandleType.SaveXML_PPC(ppc);
             ppc.SaveXmlByName();
@@ -353,7 +353,7 @@ namespace DRSysCtrlDisplay
             this.DialogResult = DialogResult.Cancel;
         }
 
-        protected void RefreshPPC(PPC ppc)
+        protected void RefreshPPC(PPCViewModel ppc)
         {
             ppc.Name = _nameTB.Text;
             ppc.Type = _typeCB.Text;

@@ -48,7 +48,7 @@ namespace DRSysCtrlDisplay
         /// 通过一个BackPlane实例来初始化BackPlaneInitForm，用于修改背板的时候
         /// </summary>
         /// <param name="bp"></param>
-        public BackPlaneInitForm(BackPlane bp)
+        public BackPlaneInitForm(BackPlaneViewModel bp)
         {
             //TODO
         }
@@ -201,7 +201,7 @@ namespace DRSysCtrlDisplay
             {
                 return;
             }
-            BackPlane bp = new BackPlane(_slotNum);
+            BackPlaneViewModel bp = new BackPlaneViewModel(_slotNum);
             ReFreshBackPlane(bp);
             bp.SaveXmlByName();
             this.DialogResult = DialogResult.Yes;
@@ -318,18 +318,18 @@ namespace DRSysCtrlDisplay
         /// 背板初始化界面初始化一个背板类
         /// </summary>
         /// <param name="bp"></param>
-        private void ReFreshBackPlane(BackPlane bp)
+        private void ReFreshBackPlane(BackPlaneViewModel bp)
         {
             bp.Name = _typeTB.Text;
             bp.Type = _typeTB.Text;
-            List<BackPlane.BackPlaneLink> linksList;     //单个槽位对应的Links列表
+            List<BackPlaneViewModel.BackPlaneLink> linksList;     //单个槽位对应的Links列表
 
             for (int i = 0; i < _slotNum; i++)
             {
                 //TODO:行信息有效性检查
                 //获取一个槽位的信息
                 var dgv = _dgvsOpt.DataGridViweList[i];
-                linksList = new List<BackPlane.BackPlaneLink>();
+                linksList = new List<BackPlaneViewModel.BackPlaneLink>();
 
                 foreach (DataGridViewRow row in dgv.Rows)
                 {
@@ -342,7 +342,7 @@ namespace DRSysCtrlDisplay
                     int end2Slot = int.Parse(row.Cells[_dgvColumnTitle_end2SlotNum].Value as string);
                     int end2Pos = int.Parse(row.Cells[_dgvColumnTitle_end2PosNum].Value as string);
 
-                    linksList.Add(new BackPlane.BackPlaneLink(end1Slot, end1Pos, end2Slot, end2Pos, type));
+                    linksList.Add(new BackPlaneViewModel.BackPlaneLink(end1Slot, end1Pos, end2Slot, end2Pos, type));
                 }
                 bp.LinksArray[i] = linksList;
             }

@@ -413,11 +413,11 @@ namespace DRSysCtrlDisplay
         public RawTopo _rawTopo { get; private set; }                           //机箱对应的原生topo图
         public TopoNet<StaticNode, StaticLine> _topoNet { get; private set; }   //计算颗粒包含的topo图
         private TopoNetView<StaticNode, StaticLine> _topoView;                  //Topo图的画图类
-        public SystemStru System { get; set; }                                  //对应的机箱
+        public SystemStruViewModel System { get; set; }                                  //对应的机箱
         public int EndNodeNum { get; private set; }                             //端点(vpx,sw,ppc,fpga,zynq)的总数量
         public int ComputeNodeNum { get; private set; }                         //计算颗粒(ppc,fpga,zynq)的数量
 
-        public StaticTopo(SystemStru sys)
+        public StaticTopo(SystemStruViewModel sys)
         {
             System = sys;
             EndNodeNum = 0;
@@ -440,7 +440,7 @@ namespace DRSysCtrlDisplay
                     string boardName = boardInfoPair.Value;
                     if (ctn.IsContainBoard(boardName))
                     {
-                        var board = BaseViewFactory<Board>.CreateByName(boardName);
+                        var board = BaseViewFactory<BoardViewModel>.CreateByName(boardName);
                         //累计计算颗粒得到计算颗粒总数
                         ComputeNodeNum += (board.PPCList.Count + board.FPGAList.Count + board.ZYNQList.Count);
                         EndNodeNum += board.SwitchList.Count;//累计交换机数量到总数量
@@ -466,7 +466,7 @@ namespace DRSysCtrlDisplay
                     {
                         continue;
                     }
-                    Board board = BaseViewFactory<Board>.CreateByName(boardPair.Value);
+                    BoardViewModel board = BaseViewFactory<BoardViewModel>.CreateByName(boardPair.Value);
                     AddBoard(board, i, boardPair.Key, ref curUrlId);
                 }
             }
@@ -475,7 +475,7 @@ namespace DRSysCtrlDisplay
         }
 
         //添加一个背板的描述到_rawTopo里面
-        private void AddBackPlane(BackPlane bp, int frameId, ref int curUrlId)
+        private void AddBackPlane(BackPlaneViewModel bp, int frameId, ref int curUrlId)
         {
             //添加节点(槽位，包含虚拟槽位)
             for (int i = 0; i < bp.VirtualSlotsNum; i++)
@@ -506,7 +506,7 @@ namespace DRSysCtrlDisplay
         }
 
         //添加一个板卡的描述到图里面
-        private void AddBoard(Board board, int frameId, int slotId, ref int curUrlId)
+        private void AddBoard(BoardViewModel board, int frameId, int slotId, ref int curUrlId)
         {
             //创建一个字典用于保存GraphNode的endId与UrlId的映射关系
             Dictionary<int, int> endId2UrlId = new Dictionary<int, int>();
@@ -591,7 +591,7 @@ namespace DRSysCtrlDisplay
             {
                 int slot1 = System.CntsArray[i]._backPlane.VirtualSlotsNum - 2;//外接口的槽位号
                 var links = System.LinksArray[i];
-                foreach (SystemStru.SystemStruLink link in links)
+                foreach (SystemStruViewModel.SystemStruLink link in links)
                 {
                     //创建一天原生子链接
                     var subLink = new RawTopo.RawSubLink(link.FirstEndPostion, link.SecondEndPostion);
@@ -827,7 +827,7 @@ namespace DRSysCtrlDisplay
         public TopoNet<DynamicNode, DynamicLine> _topoNet { get; private set; } //计算颗粒包含的topo图
         private TopoNetView<DynamicNode, DynamicLine> _topoView;                //Topo图的画图类
 
-        Component[] _cmps = null;                       //该topo对应的应用集
+        ComponentViewModel[] _cmps = null;                       //该topo对应的应用集
         List<List<DynamicNode>> _appMatchedTopoList;    //应用匹配的节点集合topo的集合
         int _choosedMatchedListNum = -1;                //选择的匹配节点集合topo的序号
         List<Boolean>[] _onLineFlags = null;            //各机箱槽位板卡在线信息
@@ -1065,9 +1065,9 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private Component.ComponentNode GetCmpNode(int matchIndex)
+        private ComponentViewModel.ComponentNode GetCmpNode(int matchIndex)
         {
-            var cmpNodeList = new List<Component.ComponentNode>();
+            var cmpNodeList = new List<ComponentViewModel.ComponentNode>();
             foreach (var cmp in _cmps)
             {
                 foreach (var node in cmp.CmpTopoNet.NodeArray)
@@ -1078,7 +1078,7 @@ namespace DRSysCtrlDisplay
             return cmpNodeList[matchIndex];
         }
 
-        private string GetCmpName(Component.ComponentNode cNode)
+        private string GetCmpName(ComponentViewModel.ComponentNode cNode)
         {
             return _cmps.Where(cmp => cmp.CmpTopoNet.NodeArray.Contains(cNode)).Select(cmp => cmp.Name).FirstOrDefault();
         }
@@ -1113,12 +1113,12 @@ namespace DRSysCtrlDisplay
 
         #region 匹配应用相关算法
 
-        public void MatchApps(Component[] cmps)
+        public void MatchApps(ComponentViewModel[] cmps)
         {
             _cmps = cmps;
             var resultTopoList = new List<List<DynamicNode>>();//记录各cmp匹配完的结果
 
-            foreach (Component cmp in cmps)
+            foreach (ComponentViewModel cmp in cmps)
             {
                 var matchedTopoList = resultTopoList;           //记录已匹配的节点
                 resultTopoList = new List<List<DynamicNode>>();   //重置结果
@@ -1157,7 +1157,7 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private void MatchOneApp(Component cmp, List<DynamicNode> usedtopo)
+        private void MatchOneApp(ComponentViewModel cmp, List<DynamicNode> usedtopo)
         {
             var sNodeArray = _topoNet.NodeArray;                         //当前所包含的所有资源节点
             var cNodeArray = cmp.CmpTopoNet.NodeArray;                  //需要匹配的应用节点集合
@@ -1185,7 +1185,7 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private void DFS_MatchNode(Component cmp, Stack<DynamicNode> selectedNode, List<DynamicNode> usedtopo)
+        private void DFS_MatchNode(ComponentViewModel cmp, Stack<DynamicNode> selectedNode, List<DynamicNode> usedtopo)
         {
             var sNodeArray = _topoNet.NodeArray;
             var cNodeArray = cmp.CmpTopoNet.NodeArray;
@@ -1213,7 +1213,7 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private bool NodeMatched(Component.ComponentNode cNode, DynamicNode dNode)
+        private bool NodeMatched(ComponentViewModel.ComponentNode cNode, DynamicNode dNode)
         {
             //判断节点的状态是否满足，只有当节点状态既不是OnLine同时也不是Used的时候，匹配失败；
             if (dNode.Status != NodeStatus.OnLine && dNode.Status != NodeStatus.Used) return false;
@@ -1223,7 +1223,7 @@ namespace DRSysCtrlDisplay
         }
 
         //判断该节点连接是否满足构件连接
-        private bool LineMatched(Component.ComponentLine cLine, DynamicLine dLine)
+        private bool LineMatched(ComponentViewModel.ComponentLine cLine, DynamicLine dLine)
         {
             if (cLine == null)//构件连接不存在，则能满足
             {
@@ -1238,7 +1238,7 @@ namespace DRSysCtrlDisplay
         }
 
         //判断cNode与cmp当中的各个构件的连接关系，是否gNode与selectedNode各个节点也满足
-        private bool LinesMatched(Component cmp, Component.ComponentNode cNode, Stack<DynamicNode> selectedNode, DynamicNode dNode)
+        private bool LinesMatched(ComponentViewModel cmp, ComponentViewModel.ComponentNode cNode, Stack<DynamicNode> selectedNode, DynamicNode dNode)
         {
             for (int i = 0; i < cmp.NodeNum; i++)
             {
@@ -1275,7 +1275,7 @@ namespace DRSysCtrlDisplay
         public class DynamicNode : BaseNode
         {
             public StaticNode SNode { get; private set; }       //对应的静态节点
-            public Component.ComponentNode CNode { get; set; }  //对应的构件组件
+            public ComponentViewModel.ComponentNode CNode { get; set; }  //对应的构件组件
             public string ComName { get; set; }                 //该节点对应的应用名
             public NodeStatus Status { get; set; }              //节点对应的状态
             public bool IsAssigned { get; set; }                //是否被分配了文件

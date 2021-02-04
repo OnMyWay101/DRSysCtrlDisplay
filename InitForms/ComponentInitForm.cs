@@ -393,7 +393,7 @@ namespace DRSysCtrlDisplay
         {
             //检查信息准确性及完整性
             //始化构件实体并记录到XML文件;
-            var retComponent = new Component();
+            var retComponent = new ComponentViewModel();
             retComponent.InitTopo(_nodeArray.Length);
             retComponent.Name = _typeTB.Text;
 
@@ -406,7 +406,7 @@ namespace DRSysCtrlDisplay
                     var nodeType = (EndType)curNode._nodeType;
                     var nodeName = curNode.Name;
                     var nodeObj = curNode._object;
-                    retComponent.CmpTopoNet.SetNodeValue(i, new Component.ComponentNode(nodeType, nodeName, i, nodeObj));
+                    retComponent.CmpTopoNet.SetNodeValue(i, new ComponentViewModel.ComponentNode(nodeType, nodeName, i, nodeObj));
                     //添加连接信息
                     var dgv = _dgvsOpt.DataGridViweList[i];
                     foreach (DataGridViewRow row in dgv.Rows)
@@ -416,7 +416,7 @@ namespace DRSysCtrlDisplay
                         int endId2 = int.Parse(row.Cells[_dgvColumnTitle_end2CmpNum].Value.ToString());
                         var linkLines = (LinkLanes)Enum.Parse(typeof(LinkLanes), row.Cells[_dgvColumnTitle_dataWidth].Value.ToString());
 
-                        var curLine = new Component.ComponentLine(linkType, endId1, endId2, linkLines);
+                        var curLine = new ComponentViewModel.ComponentLine(linkType, endId1, endId2, linkLines);
                         retComponent.CmpTopoNet.SetLinkValue(curLine);
                     }
                 }
@@ -634,7 +634,7 @@ namespace DRSysCtrlDisplay
 
         class Component_PPCInitForm : PPCInitForm
         {
-            public PPC _ppc = new PPC();
+            public PPCViewModel _ppc = new PPCViewModel();
             //初始化结束
             public Component_PPCInitForm(string name)
             {
@@ -650,7 +650,7 @@ namespace DRSysCtrlDisplay
 
         class Component_FPGAInitForm : FPGAInitForm
         {
-            public FPGA _fpga = new FPGA();
+            public FPGAViewModel _fpga = new FPGAViewModel();
             public Component_FPGAInitForm(string name)
             {
                 base.Text = name;
@@ -665,7 +665,7 @@ namespace DRSysCtrlDisplay
 
         class Component_ZYNQInitForm : ZYNQInitForm
         {
-            public ZYNQ _zynq = new ZYNQ();
+            public ZYNQViewModel _zynq = new ZYNQViewModel();
             public Component_ZYNQInitForm(string name)
             {
                 base.Text = name;

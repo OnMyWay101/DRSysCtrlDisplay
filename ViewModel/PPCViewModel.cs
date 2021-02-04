@@ -16,11 +16,11 @@ namespace DRSysCtrlDisplay
     /// PPC类，包含画图接口
     /// </summary>
     [TypeConverter(typeof(BaseViewCoreTypeConverter))]
-    public class PPC : BaseViewCore
+    public class PPCViewModel : BaseViewCore
     {
         
 
-        public PPC()
+        public PPCViewModel()
         {
             this.Name = string.Empty;
             this.Type = string.Empty;
@@ -111,7 +111,7 @@ namespace DRSysCtrlDisplay
 
         public override BaseView CreateObjectByPath(string objectFilePath)
         {
-            PPC ppc = new PPC();
+            PPCViewModel ppc = new PPCViewModel();
             if (!File.Exists(objectFilePath))
             {
                 MessageBox.Show("CreateObjectByPath:没有该PPC芯片对应的XML文件！");

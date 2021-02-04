@@ -71,43 +71,43 @@
     <Compile Include="ExeFileForm.Designer.cs">
       <DependentUpon>ExeFileForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InitFormsChildForms\ComponentInitForm_AddSource.cs">
+    <Compile Include="InitForms\ChildForm\ComponentInitForm_AddSource.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InitFormsChildForms\ComponentInitForm_AddSource.designer.cs">
+    <Compile Include="InitForms\ChildForm\ComponentInitForm_AddSource.designer.cs">
       <DependentUpon>ComponentInitForm_AddSource.cs</DependentUpon>
     </Compile>
-    <Compile Include="InitFormsChildForms\BoardInitForm_AddConnect.cs">
+    <Compile Include="InitForms\ChildForm\BoardInitForm_AddConnect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InitFormsChildForms\BoardInitForm_AddConnect.Designer.cs">
+    <Compile Include="InitForms\ChildForm\BoardInitForm_AddConnect.Designer.cs">
       <DependentUpon>BoardInitForm_AddConnect.cs</DependentUpon>
     </Compile>
-    <Compile Include="InitFormsChildForms\NodeInfoAddForm.cs">
+    <Compile Include="InitForms\ChildForm\NodeInfoAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InitFormsChildForms\NodeInfoAddForm.Designer.cs">
+    <Compile Include="InitForms\ChildForm\NodeInfoAddForm.Designer.cs">
       <DependentUpon>NodeInfoAddForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InitFormsChildForms\SlotsInitForm_AddSlot.cs">
+    <Compile Include="InitForms\ChildForm\SlotsInitForm_AddSlot.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InitFormsChildForms\SlotsInitForm_AddSlot.Designer.cs">
+    <Compile Include="InitForms\ChildForm\SlotsInitForm_AddSlot.Designer.cs">
       <DependentUpon>SlotsInitForm_AddSlot.cs</DependentUpon>
     </Compile>
     <Compile Include="InitForms\BoardInitForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InitFormsChildForms\BoardInitForm_AddChipForm.cs">
+    <Compile Include="InitForms\ChildForm\BoardInitForm_AddChipForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InitFormsChildForms\BoardInitForm_AddChipForm.Designer.cs">
+    <Compile Include="InitForms\ChildForm\BoardInitForm_AddChipForm.Designer.cs">
       <DependentUpon>BoardInitForm_AddChipForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InitFormsChildForms\BoardInitForm_AddInterChangeForm.cs">
+    <Compile Include="InitForms\ChildForm\BoardInitForm_AddInterChangeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InitFormsChildForms\BoardInitForm_AddInterChangeForm.Designer.cs">
+    <Compile Include="InitForms\ChildForm\BoardInitForm_AddInterChangeForm.Designer.cs">
       <DependentUpon>BoardInitForm_AddInterChangeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="InitForms\ComponentInitForm.cs">
@@ -172,16 +172,16 @@
     <Compile Include="TcpCommand.cs" />
     <Compile Include="TcpManager.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViewModel\Board.cs" />
-    <Compile Include="ViewModel\Component.cs" />
-    <Compile Include="ViewModel\Container.cs" />
+    <Compile Include="ViewModel\BoardViewModel.cs" />
+    <Compile Include="ViewModel\ComponentViewModel.cs" />
+    <Compile Include="ViewModel\ContainerViewModel.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\FPGA.cs" />
+    <Compile Include="ViewModel\FPGAViewModel.cs" />
     <Compile Include="FuncItemsFrom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,33 +196,33 @@
     <Compile Include="ViewModel\Others\SwitchDevice.cs" />
     <Compile Include="ViewModel\Others\SystemStruLink.cs" />
     <Compile Include="ViewModel\Others\TopoNet.cs" />
-    <Compile Include="ViewModel\OtherView.cs" />
-    <Compile Include="ViewModel\PPC.cs">
+    <Compile Include="ViewModel\Others\VpxView.cs" />
+    <Compile Include="ViewModel\PPCViewModel.cs">
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitFormsChildForms\BoardInitForm_AddConnect.resx">
+    <EmbeddedResource Include="InitForms\ChildForm\BoardInitForm_AddConnect.resx">
       <DependentUpon>BoardInitForm_AddConnect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitFormsChildForms\ComponentInitForm_AddSource.resx">
+    <EmbeddedResource Include="InitForms\ChildForm\ComponentInitForm_AddSource.resx">
       <DependentUpon>ComponentInitForm_AddSource.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitFormsChildForms\NodeInfoAddForm.resx">
+    <EmbeddedResource Include="InitForms\ChildForm\NodeInfoAddForm.resx">
       <DependentUpon>NodeInfoAddForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitFormsChildForms\SlotsInitForm_AddSlot.resx">
+    <EmbeddedResource Include="InitForms\ChildForm\SlotsInitForm_AddSlot.resx">
       <DependentUpon>SlotsInitForm_AddSlot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InitForms\BoardInitForm.resx">
       <DependentUpon>BoardInitForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitFormsChildForms\BoardInitForm_AddChipForm.resx">
+    <EmbeddedResource Include="InitForms\ChildForm\BoardInitForm_AddChipForm.resx">
       <DependentUpon>BoardInitForm_AddChipForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitFormsChildForms\BoardInitForm_AddInterChangeForm.resx">
+    <EmbeddedResource Include="InitForms\ChildForm\BoardInitForm_AddInterChangeForm.resx">
       <DependentUpon>BoardInitForm_AddInterChangeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InitForms\ComponentInitForm.resx">
@@ -940,15 +940,15 @@
     <Compile Include="ShowViewPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ViewModel\BackPlane.cs" />
+    <Compile Include="ViewModel\BackPlaneViewModel.cs" />
     <Compile Include="ViewModel\Status.cs">
     </Compile>
-    <Compile Include="ViewModel\SystemStru.cs" />
+    <Compile Include="ViewModel\SystemStruViewModel.cs" />
     <Compile Include="ViewModel\ResourceTopo.cs">
     </Compile>
     <Compile Include="ViewModel\TopoGraph.cs" />
     <Compile Include="XmlManager.cs" />
-    <Compile Include="ViewModel\ZYNQ.cs" />
+    <Compile Include="ViewModel\ZYNQViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\App\Library\EMHal\include\emhal.h">

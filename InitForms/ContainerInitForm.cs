@@ -29,7 +29,7 @@ namespace DRSysCtrlDisplay
             BpTypeComboBoxInit();
             base._yesBtn.Click += new EventHandler((s, e) =>
             {
-                var ctn = new Container();
+                var ctn = new ContainerViewModel();
                 RefreshContainer(ctn);
                 ctn.SaveXmlByName();
                 this.DialogResult = DialogResult.Yes;
@@ -39,7 +39,7 @@ namespace DRSysCtrlDisplay
         /// 通过一个Container实例来初始化ContainerInitForm，用于修改机箱的时候
         /// </summary>
         /// <param name="ctn"></param>
-        public ContainerInitForm(Container ctn)
+        public ContainerInitForm(ContainerViewModel ctn)
         {
             //TODO
         }
@@ -187,7 +187,7 @@ namespace DRSysCtrlDisplay
 
         private void _addBtn_Click(object sender, EventArgs e)
         {
-            BackPlane bp = BaseViewFactory<BackPlane>.CreateByName(_bpTypeCB.Text);
+            BackPlaneViewModel bp = BaseViewFactory<BackPlaneViewModel>.CreateByName(_bpTypeCB.Text);
             for (int i = 0; i < bp.SlotsNum; i++)
             {
                 int index = dataGridView1.Rows.Add();
@@ -197,7 +197,7 @@ namespace DRSysCtrlDisplay
         }
 
         //把初始化界面填入的内容赋值到一个Container的对象上面去；
-        private void RefreshContainer(Container ctn)
+        private void RefreshContainer(ContainerViewModel ctn)
         {
             ctn.Name = this._typeTB.Text;
             ctn.Type = this._typeTB.Text;

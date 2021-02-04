@@ -290,7 +290,7 @@ namespace DRSysCtrlDisplay
                 return;
             }
 
-            SystemStru sys = new SystemStru(CntNum);
+            SystemStruViewModel sys = new SystemStruViewModel(CntNum);
             ReFreshSys(sys);
             sys.SaveXmlByName();
             this.DialogResult = DialogResult.Yes;
@@ -416,7 +416,7 @@ namespace DRSysCtrlDisplay
         }
 
         //利用界面填入的信息来刷新一个SystemStru
-        private void ReFreshSys(SystemStru sys)
+        private void ReFreshSys(SystemStruViewModel sys)
         {
             //刷新基本信息
             sys.Name = _typeTb.Text;
@@ -434,10 +434,10 @@ namespace DRSysCtrlDisplay
             for (int i = 0; i < _dgvsOpt.DataGridViweList.Count; i++)
             {
                 var curDgv = _dgvsOpt.DataGridViweList[i];
-                var linkList = new List<SystemStru.SystemStruLink>();//连接集合
+                var linkList = new List<SystemStruViewModel.SystemStruLink>();//连接集合
                 foreach (DataGridViewRow row in curDgv.Rows)
                 {
-                    var sysLink = new SystemStru.SystemStruLink(
+                    var sysLink = new SystemStruViewModel.SystemStruLink(
                         int.Parse((string)row.Cells[_dgvColumnTitle_end1CntNum].Value),
                         int.Parse((string)row.Cells[_dgvColumnTitle_end1PosNum].Value),
                         int.Parse((string)row.Cells[_dgvColumnTitle_end2CntNum].Value),
