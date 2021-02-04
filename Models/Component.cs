@@ -1,47 +1,30 @@
-﻿using System;
-using System.Windows.Forms;
-using System.ComponentModel;
+﻿using DRSysCtrlDisplay.Princeple;
+using DRSysCtrlDisplay.ViewModel.Others;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+using System.Windows.Forms;
 using System.Xml.Linq;
-using System.IO;
-using System.Reflection;
 using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
-using DRSysCtrlDisplay.Princeple;
 
-namespace DRSysCtrlDisplay
+namespace DRSysCtrlDisplay.Models
 {
-    public class Component : BaseView
+    class Component : ModelBase, XMLManager.IXmlTransformByName
     {
-        public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
-        private TopoNetView<ComponentNode, ComponentLine> _topoView;
-        public int NodeNum { get; private set; }
-
         public Component() { }
 
-        public void InitTopo(int nodeNum)
+        public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
+        public int NodeNum { get; private set; }
+
+        private void InitTopo(int nodeNum)
         {
             NodeNum = nodeNum;
             CmpTopoNet = new TopoNet<ComponentNode, ComponentLine>(nodeNum);
         }
 
-
-        public override void DrawView(Graphics g){ }
-
-        public override void DrawView(Graphics g, Rectangle rect)
-        {
-            _topoView = new TopoNetView<ComponentNode, ComponentLine>(g, rect, CmpTopoNet);
-            _topoView.DrawView();
-        }
-
-        public override Size GetViewSize()
-        {
-            return new Size(800, 400);
-        }
-
-        public override void SaveXmlByName()
+        public void SaveXmlByName()
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetComponentPath(), this.Name);
             //先判断一些文件是否存在
@@ -96,18 +79,11 @@ namespace DRSysCtrlDisplay
             xd.Save(xmlPath);
         }
 
-        //转化二维数组到一维数组
-        private ComponentLine[] Component_LinksArrayTranse(int Num, ComponentLine[,] line2DArray)
+        //生成一个构件节点对应的Xml文件
+        private void Component_GenNodeFile(string componentName, ComponentNode nodeInfo)
         {
-            ComponentLine[] retArray = new ComponentLine[Num * Num];
-            for (int i = 0; i < Num; i++)
-            {
-                for (int j = 0; j < Num; j++)
-                {
-                    retArray[i * Num + j] = line2DArray[i, j];
-                }
-            }
-            return retArray;
+            string xmlPath = string.Format(@"{0}\{1}\{2}.xml", PathManager.GetComponentPath(), componentName, nodeInfo.Name);
+            nodeInfo.NodeObject.SaveXmlByPath(xmlPath);
         }
 
         //添加一条Link信息到XElement节点
@@ -128,7 +104,20 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        public override BaseView CreateObjectByName(string objectName)
+        private ComponentLine[] Component_LinksArrayTranse(int Num, ComponentLine[,] line2DArray)
+        {
+            ComponentLine[] retArray = new ComponentLine[Num * Num];
+            for (int i = 0; i < Num; i++)
+            {
+                for (int j = 0; j < Num; j++)
+                {
+                    retArray[i * Num + j] = line2DArray[i, j];
+                }
+            }
+            return retArray;
+        }
+
+        public ModelBase CreateObjectByName(string objectName)
         {
             Component component = new Component();
             string xmlPathDir = Path.Combine(PathManager.GetComponentPath(), objectName);
@@ -181,17 +170,6 @@ namespace DRSysCtrlDisplay
             return component;
         }
 
-        //把一个连接的XElement转化为一个ComponentLine实体
-        private ComponentLine Component_TransXmlLink(XElement LinkElement)
-        {
-            int nodeId1 = int.Parse(LinkElement.Attribute("FirstEndId").Value);
-            int nodeId2 = int.Parse(LinkElement.Attribute("SecondEndId").Value);
-            var linkType = (LinkType)(Enum.Parse(typeof(LinkType), LinkElement.Attribute("LinkType").Value));
-            var lanes = (LinkLanes)(Enum.Parse(typeof(LinkLanes), LinkElement.Attribute("LanesNum").Value));
-
-            return new ComponentLine(linkType, nodeId1, nodeId2, lanes);
-        }
-
         //通过一个xml文件来创建一个节点的BaseViewCore
         private BaseViewCore Component_GenNodeObj(Princeple.EndType type, string xmlPath)
         {
@@ -201,23 +179,5 @@ namespace DRSysCtrlDisplay
             return (BaseViewCore)(FactoryType.InvokeMember("CreateByPath"
                 , BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { xmlPath }));
         }
-
-        public override void MouseEventHandler(object sender, MouseEventArgs e)
-        {
-            CmpTopoNet.ChoosedNode = _topoView.GetChoosedNodeView(e);
-            if (CmpTopoNet.ChoosedNode != null)
-            {
-                //PropertyForm.Show(CmpTopoNet.ChoosedNode.NodeObject);
-                PropertyForm.Show(CmpTopoNet.ChoosedNode);
-            }
-            else
-            {
-                PropertyForm.Show(this);
-            }
-            base.TriggerRedrawRequst();
-        }
-
-
-
     }
 }

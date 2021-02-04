@@ -18,27 +18,7 @@ namespace DRSysCtrlDisplay
     [TypeConverter(typeof(BaseViewCoreTypeConverter))]
     public class PPC : BaseViewCore
     {
-        #region PPC的属性
-
-        [Category("基本属性"), Description("类型")]
-        public String Type { get; set; }
-
-        [Category("基本属性"), Description("主频:单位为MHZ")]
-        public int Frequency { get; set; }
-
-        [Category("基本属性"), Description("核心数")]
-        public int CoreNum { get; set; }
-
-        [Category("基本属性"), Description("矢量引擎")]
-        public String VectorEngin { get; set; }
-
-        [Category("基本属性"), Description("内存:单位为MB")]
-        public int Memory { get; set; }
-
-        [Category("基本属性"), Description("文件系统:单位为MB")]
-        public int FileSystem { get; set; }
-
-        #endregion
+        
 
         public PPC()
         {

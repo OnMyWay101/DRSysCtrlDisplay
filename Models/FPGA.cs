@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,26 +12,70 @@ namespace DRSysCtrlDisplay.Models
 {
     public class FPGA : ModelBase, XMLManager.IXmlTransformByName, XMLManager.IXmlTransformByPath
     {
+        #region FPGA的属性
+
+        [Category("\t基本属性"), Description("类型")]
         public String Type { get; set; }
+
+        [Category("\t基本属性"), Description("是否支持AD")]
         public String AD { get; set; }
+
+        [Category("\t基本属性"), Description("时钟：单位MHz")]
         public int Clock { get; set; }
+
+        [Category("逻辑资源"), Description("Slices")]
         public int Slices { get; set; }
+
+        [Category("逻辑资源"), Description("GLB")]
         public int GLB { get; set; }
+
+        [Category("逻辑资源"), Description("LogicCells")]
         public int LogicCells { get; set; }
+
+        [Category("逻辑资源"), Description("查找表")]
         public int LUT { get; set; }
+
+        [Category("IO信息"), Description("普通IO")]
         public int DifferentialIO { get; set; }
+
+        [Category("IO信息"), Description("信号IO")]
         public int SingalIO { get; set; }
+
+        [Category("内存资源"), Description("TotalBlock")]
         public int TotalBlock { get; set; }
+
+        [Category("内存资源"), Description("Block")]
         public int Block { get; set; }
+
+        [Category("内存资源"), Description("MaxDistributed")]
         public int MaxDistributed { get; set; }
+
+        [Category("速度等级"), Description("IndustrialTemp")]
         public int IndustrialTemp { get; set; }
+
+        [Category("速度等级"), Description("ExtenedTemp")]
         public int ExtenedTemp { get; set; }
+
+        [Category("速度等级"), Description("Commercial")]
         public int Commercial { get; set; }
+
+        [Category("IPCore资源"), Description("GTP")]
         public int GTP { get; set; }
+
+        [Category("IPCore资源"), Description("AES")]
         public int AES { get; set; }
+
+        [Category("IPCore资源"), Description("AMS")]
         public int AMS { get; set; }
+
+        [Category("IPCore资源"), Description("PCIE")]
         public int PCIE { get; set; }
+
+        [Category("IPCore资源"), Description("DSP")]
         public String DSP { get; set; }
+
+        #endregion
+
         public ModelBase CreateObjectByPath(string objectFilePath)
         {
             FPGA fpga = new FPGA();

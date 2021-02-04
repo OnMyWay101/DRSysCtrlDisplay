@@ -73,64 +73,6 @@ namespace DRSysCtrlDisplay
             return true;
         }
 
-        public override void SaveXmlByName()
-        {
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetContainerPath(), this.Name);
-            //先判断一些文件是否存在
-            if (!PathManager.CheckFile(xmlPath))
-            {
-                return;
-            }
-            //保存XML文件
-            XDocument xd = new XDocument(
-                new XElement("Container",
-                    new XAttribute("Name", this.Name),
-                    new XAttribute("Type", this.Type),
-                    new XAttribute("BackPlaneName", this.BackPlaneName),
-                    new XElement("Boards")
-                    )
-                );
-            //找到根节点
-            XElement rt = xd.Element("Container");
-            XElement boards = rt.Element("Boards");
-            foreach (var soltInfo in this.BoardNameDir)
-            {
-                boards.Add(new XElement("Board",
-                    new XAttribute("slotNum", soltInfo.Key),
-                    new XAttribute("boardName", soltInfo.Value)
-                    ));
-            }
-            xd.Save(xmlPath);
-        }
-
-        public override BaseView CreateObjectByName(string objectName)
-        {
-            Container container = new Container();
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetContainerPath(), objectName);
-            if (!File.Exists(xmlPath))
-            {
-                MessageBox.Show("CreateObject_Container:没有该Container对应的XML文件！");
-                return null;
-            }
-
-            XDocument xd = XDocument.Load(xmlPath);
-            //根元素的Attribute
-            XElement rt = xd.Element("Container");
-            container.Name = rt.Attribute("Name").Value;
-            container.Type = rt.Attribute("Type").Value;
-            container.BackPlaneName = rt.Attribute("BackPlaneName").Value;
-            container._backPlane = BaseViewFactory<BackPlane>.CreateByName(container.BackPlaneName);
-            container._boardViews = new VpxEndView[container._backPlane.SlotsNum];
-
-            XElement boards = rt.Element("Boards");
-            foreach (var board in boards.Elements())
-            {
-                int slotNum = int.Parse(board.Attribute("slotNum").Value);
-                string boardName = board.Attribute("boardName").Value;
-                container.AddOneBoard(slotNum, boardName);
-            }
-            return container;
-        }
 
         private void AddOneBoard(int slotNum, string boardName)
         {

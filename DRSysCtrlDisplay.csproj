@@ -95,9 +95,6 @@
     <Compile Include="InitFormsChildForms\SlotsInitForm_AddSlot.Designer.cs">
       <DependentUpon>SlotsInitForm_AddSlot.cs</DependentUpon>
     </Compile>
-    <Compile Include="InitForms\AppInitForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="InitForms\BoardInitForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,8 +139,13 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\Container.cs" />
+    <Compile Include="Models\BackPlane.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\SystemStru.cs" />
     <Compile Include="Models\ZYNQ.cs" />
     <Compile Include="Models\FPGA.cs" />
     <Compile Include="Models\PPC.cs" />
@@ -170,8 +172,6 @@
     <Compile Include="TcpCommand.cs" />
     <Compile Include="TcpManager.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViewModel\App.cs">
-    </Compile>
     <Compile Include="ViewModel\Board.cs" />
     <Compile Include="ViewModel\Component.cs" />
     <Compile Include="ViewModel\Container.cs" />
@@ -189,6 +189,13 @@
       <DependentUpon>FuncItemsFrom.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BaseView.cs" />
+    <Compile Include="ViewModel\Others\BackPlaneLink.cs" />
+    <Compile Include="ViewModel\Others\BoardLink.cs" />
+    <Compile Include="ViewModel\Others\ComponentLine.cs" />
+    <Compile Include="ViewModel\Others\ComponentNode.cs" />
+    <Compile Include="ViewModel\Others\SwitchDevice.cs" />
+    <Compile Include="ViewModel\Others\SystemStruLink.cs" />
+    <Compile Include="ViewModel\Others\TopoNet.cs" />
     <Compile Include="ViewModel\OtherView.cs" />
     <Compile Include="ViewModel\PPC.cs">
     </Compile>
@@ -208,9 +215,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InitFormsChildForms\SlotsInitForm_AddSlot.resx">
       <DependentUpon>SlotsInitForm_AddSlot.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InitForms\AppInitForm.resx">
-      <DependentUpon>AppInitForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InitForms\BoardInitForm.resx">
       <DependentUpon>BoardInitForm.cs</DependentUpon>

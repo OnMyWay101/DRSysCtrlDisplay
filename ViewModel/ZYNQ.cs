@@ -15,47 +15,6 @@ namespace DRSysCtrlDisplay
     [TypeConverter(typeof(BaseViewCoreTypeConverter))]
     public class ZYNQ : BaseViewCore
     {
-        #region ZYNQ的属性
-
-        /*添加ZYNQ属性*/
-        [Category("PS"), Description("PS类型")]
-        public String PSType { get; set; }
-
-        [Category("PS"), Description("核心数量")]
-        public int CoreNum { get; set; }
-
-        [Category("PS"), Description("主频")]
-        public String MainClock { get; set; }
-
-        [Category("PS"), Description("芯片内存")]
-        public String Memory { get; set; }
-
-        [Category("PS"), Description("扩展内存")]
-        public String ExpandMemory { get; set; }
-
-        [Category("PL"), Description("PL类型")]
-        public String PLType { get; set; }
-
-        [Category("PL"), Description("逻辑单元数")]
-        public int LogicNum { get; set; }
-
-        [Category("PL"), Description("查找表")]
-        public int LUT { get; set; }
-
-        [Category("PL"), Description("触发器")]
-        public int Flip_Flops { get; set; }
-
-        [Category("PL"), Description("Block ARM")]
-        public int Block_ARM { get; set; }
-
-        [Category("PL"), Description("DSP Slice")]
-        public String DSP_Slice { get; set; }
-
-        [Category("PL"), Description("有无AD")]
-        public String AD { get; set; }
-
-        #endregion
-
         public ZYNQ() { }
 
         public override void DrawView(Graphics g) {}

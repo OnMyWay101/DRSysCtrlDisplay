@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,30 +12,45 @@ namespace DRSysCtrlDisplay.Models
 {
     public class ZYNQ : ModelBase, XMLManager.IXmlTransformByName, XMLManager.IXmlTransformByPath
     {
+        #region ZYNQ的属性
+
+        [Category("PS"), Description("PS类型")]
         public String PSType { get; set; }
+
+        [Category("PS"), Description("核心数量")]
         public int CoreNum { get; set; }
+
+        [Category("PS"), Description("主频")]
         public String MainClock { get; set; }
+
+        [Category("PS"), Description("芯片内存")]
         public String Memory { get; set; }
+
+        [Category("PS"), Description("扩展内存")]
         public String ExpandMemory { get; set; }
+
+        [Category("PL"), Description("PL类型")]
         public String PLType { get; set; }
+
+        [Category("PL"), Description("逻辑单元数")]
         public int LogicNum { get; set; }
+
+        [Category("PL"), Description("查找表")]
         public int LUT { get; set; }
+
+        [Category("PL"), Description("触发器")]
         public int Flip_Flops { get; set; }
+
+        [Category("PL"), Description("Block ARM")]
         public int Block_ARM { get; set; }
+
+        [Category("PL"), Description("DSP Slice")]
         public String DSP_Slice { get; set; }
+
+        [Category("PL"), Description("有无AD")]
         public String AD { get; set; }
 
-        public ModelBase CreateObjectByName(string objectName)
-        {
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), objectName);
-            return CreateObjectByPath(xmlPath);
-        }
-
-        public void SaveXmlByName()
-        {
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), this.Name);
-            SaveXmlByPath(xmlPath);
-        }
+        #endregion
 
         public ModelBase CreateObjectByPath(string objectFilePath)
         {
@@ -99,6 +115,18 @@ namespace DRSysCtrlDisplay.Models
                     )
                 );
             xd.Save(xmlFilePath);
+        }
+
+        public ModelBase CreateObjectByName(string objectName)
+        {
+            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), objectName);
+            return CreateObjectByPath(xmlPath);
+        }
+
+        public void SaveXmlByName()
+        {
+            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), this.Name);
+            SaveXmlByPath(xmlPath);
         }
     }
 }

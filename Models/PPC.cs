@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,30 +12,27 @@ namespace DRSysCtrlDisplay.Models
 {
     public class PPC : ModelBase, XMLManager.IXmlTransformByName, XMLManager.IXmlTransformByPath
     {
+        #region PPC的属性
 
+        [Category("基本属性"), Description("类型")]
         public String Type { get; set; }
 
+        [Category("基本属性"), Description("主频:单位为MHZ")]
         public int Frequency { get; set; }
 
+        [Category("基本属性"), Description("核心数")]
         public int CoreNum { get; set; }
 
+        [Category("基本属性"), Description("矢量引擎")]
         public bool VectorEngin { get; set; }
 
+        [Category("基本属性"), Description("内存:单位为MB")]
         public int Memory { get; set; }
 
+        [Category("基本属性"), Description("文件系统:单位为MB")]
         public int FileSystem { get; set; }
 
-        public ModelBase CreateObjectByName(string objectName)
-        {
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetPPCPath(), objectName);
-            return CreateObjectByPath(xmlPath);
-        }
-
-        public void SaveXmlByName()
-        {
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetPPCPath(), this.Name);
-            SaveXmlByPath(xmlPath);
-        }
+        #endregion
 
         public ModelBase CreateObjectByPath(string objectFilePath)
         {
@@ -76,6 +74,17 @@ namespace DRSysCtrlDisplay.Models
                     new XElement("FileSystem", this.FileSystem.ToString())
                     ));
             xd.Save(xmlFilePath);
+        }
+        public ModelBase CreateObjectByName(string objectName)
+        {
+            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetPPCPath(), objectName);
+            return CreateObjectByPath(xmlPath);
+        }
+
+        public void SaveXmlByName()
+        {
+            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetPPCPath(), this.Name);
+            SaveXmlByPath(xmlPath);
         }
     }
 }
