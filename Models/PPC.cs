@@ -32,7 +32,7 @@ namespace DRSysCtrlDisplay.Models
         [Category("基本属性"), Description("文件系统:单位为MB")]
         public int FileSystem { get; set; }
 
-        #endregion
+        #endregion PPC的属性
 
         public ModelBase CreateObjectByPath(string objectFilePath)
         {

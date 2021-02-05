@@ -46,7 +46,7 @@ namespace DRSysCtrlDisplay
         /// <param name="bLink"></param>
         /// <param name="endPosition">需判断的Link连接的端点位置：1，2</param>
         /// <returns></returns>
-        public bool IsLinkValidConnected(BackPlaneViewModel.BackPlaneLink bLink, int endPosition)
+        public bool IsLinkValidConnected(BackPlaneViewModel*.BackPlaneLink bLink, int endPosition)
         {
             int linkPostion = ((endPosition == 1) ? bLink.FirstEndPostion : bLink.SecondEndPostion);
             var validLinks = from link in LinkList

@@ -14,14 +14,7 @@ namespace DRSysCtrlDisplay.Models
 {
     public class BackPlane : ModelBase, XMLManager.IXmlTransformByName
     {
-        public BackPlane(int slotNum)
-        {
-            SlotsNum = slotNum;
-            VirtualSlotsNum = slotNum + 2;
-            LinksArray = new List<BackPlaneLink>[VirtualSlotsNum];
-        }
-
-        #region Board的基本属性
+        #region BackPlane的基本属性
         [Category("\t基本信息"), Description("背板类型")]
         public String Type { get; set; }
 
@@ -34,7 +27,14 @@ namespace DRSysCtrlDisplay.Models
         [Category("连接信息"), Description("各槽位的连接信息")]
         public List<BackPlaneLink>[] LinksArray { get; set; }
 
-        #endregion
+        #endregion BackPlane的基本属性
+
+        public BackPlane(int slotNum)
+        {
+            SlotsNum = slotNum;
+            VirtualSlotsNum = slotNum + 2;
+            LinksArray = new List<BackPlaneLink>[VirtualSlotsNum];
+        }
 
         public void SaveXmlByName()
         {

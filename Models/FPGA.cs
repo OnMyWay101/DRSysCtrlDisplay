@@ -74,7 +74,7 @@ namespace DRSysCtrlDisplay.Models
         [Category("IPCore资源"), Description("DSP")]
         public String DSP { get; set; }
 
-        #endregion
+        #endregion FPGA的属性
 
         public ModelBase CreateObjectByPath(string objectFilePath)
         {

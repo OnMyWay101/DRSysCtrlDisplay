@@ -12,13 +12,16 @@ namespace DRSysCtrlDisplay.Models
 {
     public class Container : ModelBase, XMLManager.IXmlTransformByName
     {
-        public Container() 
-        { }
+        #region Container的基本属性
 
         [Category("\t基本信息"), Description("机箱类型")]
         public string Type { get; set; }            //机箱的型号
         public string BackPlaneName { get; set; }   //背板的名字
         public Dictionary<int, string> BoardNameDir = new Dictionary<int, string>();   //key:槽位号；value:板卡名称
+
+        #endregion Container的基本属性
+
+        public Container() { }
 
         public void SaveXmlByName()
         {

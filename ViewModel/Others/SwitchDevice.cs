@@ -9,14 +9,13 @@ namespace DRSysCtrlDisplay.ViewModel.Others
     /// <summary>
     /// 描述板卡上面交换机的类
     /// </summary>
-    public class SwitchDevice : BaseView
+    public class SwitchDevice
     {
         public SwitchCategory Category { get; set; }    //交换的种类，这里只包含EtherNet交换机和Rio交换机
         public string Type { get; set; }                //交换机的型号
 
         public SwitchDevice(SwitchCategory category, string type)
         {
-            base.Name = type;
             Category = category;
             Type = type;
         }

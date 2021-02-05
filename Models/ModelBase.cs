@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class ModelBase
+    public abstract class ModelBase
     {
         [Category("\t基本信息"), Description("名称")]
         public String Name { get; set; }

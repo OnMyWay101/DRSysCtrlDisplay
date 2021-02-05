@@ -50,7 +50,7 @@ namespace DRSysCtrlDisplay.Models
         [Category("PL"), Description("有无AD")]
         public String AD { get; set; }
 
-        #endregion
+        #endregion ZYNQ的属性
 
         public ModelBase CreateObjectByPath(string objectFilePath)
         {
@@ -83,7 +83,6 @@ namespace DRSysCtrlDisplay.Models
 
             return zynq;
         }
-
 
         public void SaveXmlByPath(string xmlFilePath)
         {

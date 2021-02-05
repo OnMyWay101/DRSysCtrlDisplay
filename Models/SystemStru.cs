@@ -1,23 +1,31 @@
-﻿using System;
+﻿using DRSysCtrlDisplay.Princeple;
+using DRSysCtrlDisplay.ViewModel.Others;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using System.Xml.Linq;
+using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
     public class SystemStru : ModelBase, XMLManager.IXmlTransformByName
     {
+        #region SystemStru的基本属性
+        public string Type { get; set; }                                //系统的型号
+        public int CntsNum { get; set; }                                //系统包含机箱的个数
+        public string[] CntNames { get; set; }                          //机箱名称数组
+        public List<SystemStruLink>[] LinksArray { get; set; }          //各机箱的连接信息
+        #endregion SystemStru的基本属性
+
         public SystemStru(int cntsNum)
         {
             CntsNum = cntsNum;
             CntNames = new string[CntsNum];
             LinksArray = new List<SystemStruLink>[CntsNum];
         }
-
-        public string Type { get; set; }                                //系统的型号
-        public int CntsNum { get; set; }                                //系统包含机箱的个数
-        public string[] CntNames { get; set; }                          //机箱名称数组
-        public List<SystemStruLink>[] LinksArray { get; set; }          //各机箱的连接信息
 
         public void SaveXmlByName()
         {
@@ -96,14 +104,13 @@ namespace DRSysCtrlDisplay.Models
             sys.Name = rt.Attribute("Name").Value;
             sys.Type = rt.Attribute("Type").Value;
 
-            //取CntNames的值赋值到CntsName,CntsArray
+            //取CntNames的值赋值到CntsName
             XElement cntNames = rt.Element("CntNames");
             foreach (var e in cntNames.Elements())
             {
                 int cntSn = int.Parse(e.Attribute("CntSn").Value);
                 string cntName = e.Attribute("CntName").Value;
                 sys.CntNames[cntSn] = cntName;
-                sys.CntsArray[cntSn] = BaseViewFactory<Container>.CreateByName(sys.CntNames[cntSn]);
             }
 
             //取links赋值到backPlane.linkDir

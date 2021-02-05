@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -13,10 +14,12 @@ namespace DRSysCtrlDisplay.Models
 {
     class Component : ModelBase, XMLManager.IXmlTransformByName
     {
-        public Component() { }
-
-        public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
+        #region Component的基本属性
         public int NodeNum { get; private set; }
+        public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
+        #endregion Component的基本属性
+
+        public Component() { }
 
         private void InitTopo(int nodeNum)
         {
@@ -36,7 +39,7 @@ namespace DRSysCtrlDisplay.Models
             //保存XML文件
             XDocument xd = new XDocument(
                 new XElement("Component",
-                    new XAttribute("Name", this.Name),
+                    new XAttribute("Name", base.Name),
                     new XAttribute("NodeNum", this.NodeNum),
                     new XElement("Nodes"),
                     new XElement("Links",
@@ -59,7 +62,7 @@ namespace DRSysCtrlDisplay.Models
                     new XAttribute("NodeName", nodeInfo.Name)
                     ));
                 //生成一个构件节点相关文件
-                Component_GenNodeFile(this.Name, nodeInfo);
+                Component_GenNodeFile(base.Name, nodeInfo);
             }
             //添加连接关系
             XElement links = rt.Element("Links");
@@ -141,7 +144,7 @@ namespace DRSysCtrlDisplay.Models
                 var nodeName = e.Attribute("NodeName").Value;
                 var nodeObject = Component_GenNodeObj(nodeType, string.Format(@"{0}\{1}.xml", xmlPathDir, nodeName));
 
-                var cmpNode = new Component.ComponentNode(nodeType, nodeName, nodeNum, nodeObject);
+                var cmpNode = new ComponentNode(nodeType, nodeName, nodeNum, nodeObject);
                 component.CmpTopoNet.SetNodeValue(nodeNum, cmpNode);
             }
 

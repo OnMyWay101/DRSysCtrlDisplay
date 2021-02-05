@@ -14,16 +14,6 @@ namespace DRSysCtrlDisplay.Models
 {
     public class Board : ModelBase, XMLManager.IXmlTransformByName
     {
-
-        public Board()
-        {
-            PPCList = new List<PPC>();
-            FPGAList = new List<FPGA>();
-            ZYNQList = new List<ZYNQ>();
-            SwitchList = new List<SwitchDevice>();
-            LinkList = new List<BoardLink>();
-        }
-
         #region Board的基本属性
 
         [Category("\t基本信息"), Description("板卡类型")]
@@ -44,11 +34,10 @@ namespace DRSysCtrlDisplay.Models
         [Category("芯片信息"), Description("Switch集合信息")]
         public SwitchDevice[] SwitchDeviceArray { get { return SwitchList.ToArray(); } }
 
+        //@Todo:List的ToArray方法返回数组是新建的吗？
+        //（里面的对象肯定都是引用，就是这个数组是不是新建的，List的内部实现起始也是一个数组，看是不是用的这个）
         [Category("连接信息"), Description("Link集合信息")]
         public BoardLink[] LinkArray { get { return LinkList.ToArray(); } }
-
-        [BrowsableAttribute(false)]
-        public List<BoardLink> LinkList { get; set; }       //板卡上连接关系的集合
 
         [BrowsableAttribute(false)]
         public List<PPC> PPCList { get; set; }              //板上的PPC芯片集合
@@ -62,7 +51,19 @@ namespace DRSysCtrlDisplay.Models
         [BrowsableAttribute(false)]
         public List<SwitchDevice> SwitchList { get; set; }  //板上的交换机芯片集合
 
-        #endregion
+        [BrowsableAttribute(false)]
+        public List<BoardLink> LinkList { get; set; }       //板卡上连接关系的集合
+
+        #endregion Board的基本属性
+
+        public Board()
+        {
+            PPCList = new List<PPC>();
+            FPGAList = new List<FPGA>();
+            ZYNQList = new List<ZYNQ>();
+            SwitchList = new List<SwitchDevice>();
+            LinkList = new List<BoardLink>();
+        }
 
         public void SaveXmlByName()
         {
