@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Diagnostics;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
@@ -298,7 +299,7 @@ namespace DRSysCtrlDisplay
         /// 修改节点时，使用PPC实例初始化PPCInitForm中各项的值
         /// </summary>
         /// <param name="ppc"></param>
-        public PPCInitForm(PPCViewModel ppc)
+        public PPCInitForm(PPC ppc)
         {
             InitializeComponent();
             _nameTB.Text = ppc.Name;
@@ -316,13 +317,13 @@ namespace DRSysCtrlDisplay
             //设置窗体显示位置
             this.StartPosition = FormStartPosition.CenterParent;
 
-            _nameTB.Text = "输入名称";
-            _coreNumCB.Text = "0";
-            _typeCB.Text = "NoType";
-            _mainFrequencyTB.Text = "0";
-            _fileSystemTB.Text = "0";
-            _memoryTB.Text = "0";
-            _vectorEnginCB.Text = "无";
+            //_nameTB.Text = "输入名称";
+            //_coreNumCB.Text = "0";
+            //_typeCB.Text = "NoType";
+            //_mainFrequencyTB.Text = "0";
+            //_fileSystemTB.Text = "0";
+            //_memoryTB.Text = "0";
+            //_vectorEnginCB.Text = "无";
         }
 
         /// <summary>

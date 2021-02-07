@@ -6,6 +6,12 @@ using System.Text;
 
 namespace DRSysCtrlDisplay.ViewModel.Others
 {
+    public enum SwitchCategory
+    {
+        EtherNetSw,
+        RioSw
+    }
+
     /// <summary>
     /// 描述板卡上面交换机的类
     /// </summary>
@@ -43,9 +49,5 @@ namespace DRSysCtrlDisplay.ViewModel.Others
         }
     }
 
-    public enum SwitchCategory
-    {
-        EtherNetSw,
-        RioSw
-    }
+  
 }

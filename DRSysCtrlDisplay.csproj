@@ -140,6 +140,7 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\ComponentNode.cs" />
     <Compile Include="Models\Container.cs" />
     <Compile Include="Models\BackPlane.cs" />
     <Compile Include="Models\Board.cs" />

@@ -10,7 +10,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class ZYNQ : ModelBase, XMLManager.IXmlTransformByName, XMLManager.IXmlTransformByPath
+    public class ZYNQ : ModelBase, XMLManager.IXmlTransformByName
     {
         #region ZYNQ的属性
 
@@ -52,7 +52,7 @@ namespace DRSysCtrlDisplay.Models
 
         #endregion ZYNQ的属性
 
-        public ModelBase CreateObjectByPath(string objectFilePath)
+        protected ModelBase CreateByPath(string objectFilePath)
         {
             ZYNQ zynq = new ZYNQ();
             if (!File.Exists(objectFilePath))
@@ -84,7 +84,7 @@ namespace DRSysCtrlDisplay.Models
             return zynq;
         }
 
-        public void SaveXmlByPath(string xmlFilePath)
+        protected void SaveByPath(string xmlFilePath)
         {
             //先判断一些文件是否存在
             if (!PathManager.CheckFile(xmlFilePath))
@@ -119,13 +119,13 @@ namespace DRSysCtrlDisplay.Models
         public ModelBase CreateObjectByName(string objectName)
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), objectName);
-            return CreateObjectByPath(xmlPath);
+            return CreateByPath(xmlPath);
         }
 
         public void SaveXmlByName()
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), this.Name);
-            SaveXmlByPath(xmlPath);
+            SaveByPath(xmlPath);
         }
     }
 }

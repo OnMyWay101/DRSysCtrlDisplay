@@ -173,6 +173,17 @@ namespace DRSysCtrlDisplay.Models
             return component;
         }
 
+        //把一个连接的XElement转化为一个ComponentLine实体
+        private ComponentLine Component_TransXmlLink(XElement LinkElement)
+        {
+            int nodeId1 = int.Parse(LinkElement.Attribute("FirstEndId").Value);
+            int nodeId2 = int.Parse(LinkElement.Attribute("SecondEndId").Value);
+            var linkType = (LinkType)(Enum.Parse(typeof(LinkType), LinkElement.Attribute("LinkType").Value));
+            var lanes = (LinkLanes)(Enum.Parse(typeof(LinkLanes), LinkElement.Attribute("LanesNum").Value));
+
+            return new ComponentLine(linkType, nodeId1, nodeId2, lanes);
+        }
+
         //通过一个xml文件来创建一个节点的BaseViewCore
         private BaseViewCore Component_GenNodeObj(Princeple.EndType type, string xmlPath)
         {
