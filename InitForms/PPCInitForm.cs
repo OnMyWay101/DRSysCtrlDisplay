@@ -342,9 +342,8 @@ namespace DRSysCtrlDisplay
                 MessageBox.Show("数据不完整");
                 return;
             }
-            PPCViewModel ppc = new PPCViewModel();
+            PPC ppc = new PPC();
             RefreshPPC(ppc);
-            //XMLManager.HandleType.SaveXML_PPC(ppc);
             ppc.SaveXmlByName();
             this.DialogResult = DialogResult.Yes;
         }
@@ -354,13 +353,13 @@ namespace DRSysCtrlDisplay
             this.DialogResult = DialogResult.Cancel;
         }
 
-        protected void RefreshPPC(PPCViewModel ppc)
+        protected void RefreshPPC(PPC ppc)
         {
             ppc.Name = _nameTB.Text;
             ppc.Type = _typeCB.Text;
             ppc.Frequency = int.Parse(_mainFrequencyTB.Text);
             ppc.CoreNum = int.Parse(_coreNumCB.Text);
-            ppc.VectorEngin = _vectorEnginCB.Text;
+            ppc.VectorEngin = bool.Parse(_vectorEnginCB.Text);
             ppc.Memory = int.Parse(_memoryTB.Text);
             ppc.FileSystem = int.Parse(_fileSystemTB.Text);
         }

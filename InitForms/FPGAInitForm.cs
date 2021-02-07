@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DRSysCtrlDisplay.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -73,7 +74,7 @@ namespace DRSysCtrlDisplay
         /// 通过一FPGA实例来初始化FPGAInitForm，一般用于属性修改；
         /// </summary>
         /// <param name="fpga"></param>
-        public FPGAInitForm(FPGAViewModel fpga)
+        public FPGAInitForm(FPGA fpga)
         {
             SetFatherComponents();
             InitializeComponent();
@@ -691,34 +692,41 @@ namespace DRSysCtrlDisplay
 
         #endregion
 
-        protected void RefreshFPGA(FPGAViewModel fpga)
+        protected void RefreshFPGA(FPGA fpga)
         {
-            fpga.Name = _nameTB.Text;
-            fpga.Type = _typeCB.Text;
-            fpga.AD = _adCB.Text;
-            fpga.Clock = int.Parse(_clockTB.Text);
-            //logic
-            fpga.Slices = int.Parse(_slicesTB.Text);
-            fpga.GLB = int.Parse(_glbTB.Text);
-            fpga.LogicCells = int.Parse(_logicCells.Text);
-            fpga.LUT = int.Parse(_lutTB.Text);
-            //IO
-            fpga.DifferentialIO = int.Parse(_difIOTB.Text);
-            fpga.SingalIO = int.Parse(_singalIOTB.Text);
-            //memory
-            fpga.TotalBlock = int.Parse(_totalBlockTB.Text);
-            fpga.Block = int.Parse(_blockTB.Text);
-            fpga.MaxDistributed = int.Parse(_maxDstTB.Text);
-            //speedLevel
-            fpga.IndustrialTemp = int.Parse(_indTempTB.Text);
-            fpga.ExtenedTemp = int.Parse(_extenedTempTB.Text);
-            fpga.Commercial = int.Parse(_commercialTB.Text);
-            //IPResource
-            fpga.GTP = int.Parse(_gtpTB.Text);
-            fpga.AES = int.Parse(_aesTB.Text);
-            fpga.AMS = int.Parse(_amsTB.Text);
-            fpga.PCIE = int.Parse(_pcieTB.Text);
-            fpga.DSP = _dspTB.Text;
+            try
+            {
+                fpga.Name = _nameTB.Text;
+                fpga.Type = _typeCB.Text;
+                fpga.AD = _adCB.Text;
+                fpga.Clock = int.Parse(_clockTB.Text);
+                //logic
+                fpga.Slices = int.Parse(_slicesTB.Text);
+                fpga.GLB = int.Parse(_glbTB.Text);
+                fpga.LogicCells = int.Parse(_logicCells.Text);
+                fpga.LUT = int.Parse(_lutTB.Text);
+                //IO
+                fpga.DifferentialIO = int.Parse(_difIOTB.Text);
+                fpga.SingalIO = int.Parse(_singalIOTB.Text);
+                //memory
+                fpga.TotalBlock = int.Parse(_totalBlockTB.Text);
+                fpga.Block = int.Parse(_blockTB.Text);
+                fpga.MaxDistributed = int.Parse(_maxDstTB.Text);
+                //speedLevel
+                fpga.IndustrialTemp = int.Parse(_indTempTB.Text);
+                fpga.ExtenedTemp = int.Parse(_extenedTempTB.Text);
+                fpga.Commercial = int.Parse(_commercialTB.Text);
+                //IPResource
+                fpga.GTP = int.Parse(_gtpTB.Text);
+                fpga.AES = int.Parse(_aesTB.Text);
+                fpga.AMS = int.Parse(_amsTB.Text);
+                fpga.PCIE = int.Parse(_pcieTB.Text);
+                fpga.DSP = _dspTB.Text;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("填入值异常", e.Message);
+            }
         }
 
         protected override void SetFatherComponents()
@@ -744,28 +752,28 @@ namespace DRSysCtrlDisplay
                 MessageBox.Show("基础属性不能为空");
                 return false;
             }
-            else if (String.Empty == _slicesTB.Text || String.Empty == _glbTB.Text || String.Empty == _logicCells.Text ||
+            if (String.Empty == _slicesTB.Text || String.Empty == _glbTB.Text || String.Empty == _logicCells.Text ||
                 String.Empty == _lutTB.Text)
             {
                 MessageBox.Show("逻辑资源信息不能为空");
                 return false;
             }
-            else if (String.Empty == _difIOTB.Text || String.Empty == _singalIOTB.Text)
+            if (String.Empty == _difIOTB.Text || String.Empty == _singalIOTB.Text)
             {
                 MessageBox.Show("IO资源不能为空");
                 return false;
             }
-            else if (String.Empty == _totalBlockTB.Text || String.Empty == _blockTB.Text || String.Empty == _maxDstTB.Text)
+            if (String.Empty == _totalBlockTB.Text || String.Empty == _blockTB.Text || String.Empty == _maxDstTB.Text)
             {
                 MessageBox.Show("内存信息不能为空");
                 return false;
             }
-            else if (String.Empty == _commercialTB.Text || String.Empty == _extenedTempTB.Text || String.Empty == _indTempTB.Text)
+            if (String.Empty == _commercialTB.Text || String.Empty == _extenedTempTB.Text || String.Empty == _indTempTB.Text)
             {
                 MessageBox.Show("速度等级不能为空");
                 return false;
             }
-            else if (String.Empty == _gtpTB.Text || String.Empty == _aesTB.Text || String.Empty == _amsTB.Text
+            if (String.Empty == _gtpTB.Text || String.Empty == _aesTB.Text || String.Empty == _amsTB.Text
                 || String.Empty == _pcieTB.Text || String.Empty == _dspTB.Text)
             {
                 MessageBox.Show("IP核信息不能为空");

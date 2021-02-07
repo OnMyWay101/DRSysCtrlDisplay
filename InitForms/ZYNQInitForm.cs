@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DRSysCtrlDisplay.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -52,7 +53,7 @@ namespace DRSysCtrlDisplay
             //设置窗体显示位置
             this.StartPosition = FormStartPosition.CenterParent;
         }
-        public ZYNQInitForm(ZYNQViewModel zynq)
+        public ZYNQInitForm(ZYNQ zynq)
         {
             InitializeComponent();
 
@@ -468,7 +469,7 @@ namespace DRSysCtrlDisplay
             {
                 return;
             }
-            ZYNQViewModel zynq = new ZYNQViewModel();
+            ZYNQ zynq = new ZYNQ();
             RefreshZYNQ(zynq);
             zynq.SaveXmlByName();
 
@@ -511,23 +512,30 @@ namespace DRSysCtrlDisplay
         /// 通过ZYNQ控件的属性初始化一个ZYNQ实例对象的属性值
         /// </summary>
         /// <param name="zynq"></param>
-        protected void RefreshZYNQ(ZYNQViewModel zynq)
+        protected void RefreshZYNQ(ZYNQ zynq)
         {
-            zynq.Name = _nameTB.Text;
-            //PS相关参数
-            zynq.PSType = _psTypeCB.Text;
-            zynq.CoreNum = int.Parse(_coreNumTB.Text);
-            zynq.MainClock = _mainClockCB.Text;
-            zynq.Memory = _memoryCB.Text;
-            zynq.ExpandMemory = _expanfMemoryCB.Text;
-            //PL相关的参数
-            zynq.PLType = _plTypeCB.Text;
-            zynq.LogicNum = int.Parse(_logicNumTB.Text);
-            zynq.LUT = int.Parse(_lutTB.Text);
-            zynq.Flip_Flops = int.Parse(_flipFlopsTB.Text);
-            zynq.Block_ARM = int.Parse(_bolckArmTB.Text);
-            zynq.DSP_Slice = _dspSliceTB.Text;
-            zynq.AD = _adCB.Text;
+            try
+            {
+                zynq.Name = _nameTB.Text;
+                //PS相关参数
+                zynq.PSType = _psTypeCB.Text;
+                zynq.CoreNum = int.Parse(_coreNumTB.Text);
+                zynq.MainClock = _mainClockCB.Text;
+                zynq.Memory = _memoryCB.Text;
+                zynq.ExpandMemory = _expanfMemoryCB.Text;
+                //PL相关的参数
+                zynq.PLType = _plTypeCB.Text;
+                zynq.LogicNum = int.Parse(_logicNumTB.Text);
+                zynq.LUT = int.Parse(_lutTB.Text);
+                zynq.Flip_Flops = int.Parse(_flipFlopsTB.Text);
+                zynq.Block_ARM = int.Parse(_bolckArmTB.Text);
+                zynq.DSP_Slice = _dspSliceTB.Text;
+                zynq.AD = _adCB.Text;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("填入值异常", e.Message);
+            }
         }
 
         public string GetObjectName()
@@ -544,7 +552,7 @@ namespace DRSysCtrlDisplay
                 MessageBox.Show("PS属性不能为空!");
                 return false;
             }
-            else if (String.Empty == _plTypeCB.Text || String.Empty == _logicNumTB.Text || String.Empty == _lutTB.Text ||
+            if (String.Empty == _plTypeCB.Text || String.Empty == _logicNumTB.Text || String.Empty == _lutTB.Text ||
                 String.Empty == _flipFlopsTB.Text || String.Empty == _bolckArmTB.Text || String.Empty == _dspSliceTB.Text ||
                 String.Empty == _adCB.Text)
             {
