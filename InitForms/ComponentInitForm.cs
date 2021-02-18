@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DRSysCtrlDisplay.Models;
 using DRSysCtrlDisplay.Princeple;
+using DRSysCtrlDisplay.ViewModel.Others;
 
 namespace DRSysCtrlDisplay
 {
@@ -393,7 +395,7 @@ namespace DRSysCtrlDisplay
         {
             //检查信息准确性及完整性
             //始化构件实体并记录到XML文件;
-            var retComponent = new ComponentViewModel();
+            var retComponent = new Models.Component();
             retComponent.InitTopo(_nodeArray.Length);
             retComponent.Name = _typeTB.Text;
 
@@ -406,7 +408,7 @@ namespace DRSysCtrlDisplay
                     var nodeType = (EndType)curNode._nodeType;
                     var nodeName = curNode.Name;
                     var nodeObj = curNode._object;
-                    retComponent.CmpTopoNet.SetNodeValue(i, new ComponentViewModel.ComponentNode(nodeType, nodeName, i, nodeObj));
+                    retComponent.CmpTopoNet.SetNodeValue(i, new ComponentNode(nodeType, nodeName, i, nodeObj));
                     //添加连接信息
                     var dgv = _dgvsOpt.DataGridViweList[i];
                     foreach (DataGridViewRow row in dgv.Rows)
@@ -416,7 +418,7 @@ namespace DRSysCtrlDisplay
                         int endId2 = int.Parse(row.Cells[_dgvColumnTitle_end2CmpNum].Value.ToString());
                         var linkLines = (LinkLanes)Enum.Parse(typeof(LinkLanes), row.Cells[_dgvColumnTitle_dataWidth].Value.ToString());
 
-                        var curLine = new ComponentViewModel.ComponentLine(linkType, endId1, endId2, linkLines);
+                        var curLine = new ComponentLine(linkType, endId1, endId2, linkLines);
                         retComponent.CmpTopoNet.SetLinkValue(curLine);
                     }
                 }
@@ -573,7 +575,7 @@ namespace DRSysCtrlDisplay
         class Node
         {
             public ComputeNodeType _nodeType;               //节点对应的芯片类型
-            public BaseViewCore _object = null;             //对应的芯片实例
+            public ModelBase _object = null;                //对应的芯片实例
             public string Name { get; private set; }        //节点对应芯片名字
             public List<EthSource> _ethPbSources = new List<EthSource>();  //以太网发布的资源
             public List<EthSource> _ethSubSources = new List<EthSource>();  //以太网订阅的资源
@@ -634,7 +636,7 @@ namespace DRSysCtrlDisplay
 
         class Component_PPCInitForm : PPCInitForm
         {
-            public PPCViewModel _ppc = new PPCViewModel();
+            public PPC _ppc = new PPC();
             //初始化结束
             public Component_PPCInitForm(string name)
             {
@@ -650,7 +652,7 @@ namespace DRSysCtrlDisplay
 
         class Component_FPGAInitForm : FPGAInitForm
         {
-            public FPGAViewModel _fpga = new FPGAViewModel();
+            public FPGA _fpga = new FPGA();
             public Component_FPGAInitForm(string name)
             {
                 base.Text = name;
@@ -665,7 +667,7 @@ namespace DRSysCtrlDisplay
 
         class Component_ZYNQInitForm : ZYNQInitForm
         {
-            public ZYNQViewModel _zynq = new ZYNQViewModel();
+            public ZYNQ _zynq = new ZYNQ();
             public Component_ZYNQInitForm(string name)
             {
                 base.Text = name;

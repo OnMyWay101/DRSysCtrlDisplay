@@ -13,7 +13,7 @@ using DRSysCtrlDisplay.Princeple;
 
 namespace DRSysCtrlDisplay
 {
-    public class ComponentViewModel : BaseView
+    public class ComponentViewModel : BaseDrawer
     {
         public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
         private TopoNetView<ComponentNode, ComponentLine> _topoView;
@@ -128,7 +128,7 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        public override BaseView CreateObjectByName(string objectName)
+        public override BaseDrawer CreateObjectByName(string objectName)
         {
             ComponentViewModel component = new ComponentViewModel();
             string xmlPathDir = Path.Combine(PathManager.GetComponentPath(), objectName);
@@ -193,12 +193,12 @@ namespace DRSysCtrlDisplay
         }
 
         //通过一个xml文件来创建一个节点的BaseViewCore
-        private BaseViewCore Component_GenNodeObj(Princeple.EndType type, string xmlPath)
+        private BaseDrawerCore Component_GenNodeObj(Princeple.EndType type, string xmlPath)
         {
             Type objType = TypeConvert.GetEndType(type);
             Type FactoryType = typeof(BaseViewCoreFactory<>);
             FactoryType = FactoryType.MakeGenericType(objType);
-            return (BaseViewCore)(FactoryType.InvokeMember("CreateByPath"
+            return (BaseDrawerCore)(FactoryType.InvokeMember("CreateByPath"
                 , BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { xmlPath }));
         }
 

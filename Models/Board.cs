@@ -209,5 +209,26 @@ namespace DRSysCtrlDisplay.Models
             return retBoard;
         }
 
+        /// <summary>
+        /// 判断一条底板连接的Link是否有效地连接到了板子的VPX的有效位置及区域类型
+        /// </summary>
+        /// <param name="bLink"></param>
+        /// <param name="endPosition">需判断的Link连接的端点位置：1，2</param>
+        /// <returns></returns>
+        public bool IsLinkValidConnected(BackPlaneLink bLink, int endPosition)
+        {
+            int linkPostion = ((endPosition == 1) ? bLink.FirstEndPostion : bLink.SecondEndPostion);
+            var validLinks = from link in LinkList
+                             where link.LinkType == bLink.LinkType &&  //类型相同
+                             ((link.FirstEndType == EndType.VPX && link.FirstEndPositionList.Contains(linkPostion))//第1端为vpx且包含相关位置；
+                             || (link.SecondEndType == EndType.VPX && link.SecondEndPositionList.Contains(linkPostion)))//第2端为vpx且包含相关位置；
+                             select link;
+            if (validLinks.ToList().Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

@@ -408,7 +408,7 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 静态topo图
     /// </summary>
-    public class StaticTopo : BaseView
+    public class StaticTopo : BaseDrawer
     {
         public RawTopo _rawTopo { get; private set; }                           //机箱对应的原生topo图
         public TopoNet<StaticNode, StaticLine> _topoNet { get; private set; }   //计算颗粒包含的topo图
@@ -649,12 +649,12 @@ namespace DRSysCtrlDisplay
         }
 
         //通过一个xml文件来创建一个节点的BaseViewCore
-        private BaseViewCore StaticTopo_GenNodeObj(Princeple.EndType type, string xmlName)
+        private BaseDrawerCore StaticTopo_GenNodeObj(Princeple.EndType type, string xmlName)
         {
             Type objType = TypeConvert.GetEndType(type);
             Type FactoryType = typeof(BaseViewCoreFactory<>);
             FactoryType = FactoryType.MakeGenericType(objType);
-            return (BaseViewCore)(FactoryType.InvokeMember("CreateByName"
+            return (BaseDrawerCore)(FactoryType.InvokeMember("CreateByName"
                 , BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { xmlName }));
         }
 
@@ -760,7 +760,7 @@ namespace DRSysCtrlDisplay
         {
             public int UrlId { get; private set; }      //点对应的全局资源定位的ID
             [BrowsableAttribute(false)]
-            public BaseViewCore NodeObject { get; set; }
+            public BaseDrawerCore NodeObject { get; set; }
             public int FrameId { get; set; }            //机箱号ID
             public int SlotId { get; set; }             //槽位号ID
             public int EndId { get; set; }              //端点号ID（端点在板内的ID号）
@@ -821,7 +821,7 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 画一个系统的动态topo图，包含计算颗粒(PPC,ZYNQ,FPGA)和连接关系(EtherNet,RapidIO,GTX,LVDS )
     /// </summary>
-    public class DynamicTopo : BaseView
+    public class DynamicTopo : BaseDrawer
     {
         private StaticTopo _sTopo = null;                                       //该动态Topo图对应的静态topo图
         public TopoNet<DynamicNode, DynamicLine> _topoNet { get; private set; } //计算颗粒包含的topo图

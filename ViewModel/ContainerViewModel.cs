@@ -15,7 +15,7 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 机箱类
     /// </summary>
-    public class ContainerViewModel : BaseView
+    public class ContainerViewModel : BaseDrawer
     {
         public string Type { get; set; }            //机箱的型号
         public string BackPlaneName { get; set; }   //背板的名字
@@ -23,7 +23,7 @@ namespace DRSysCtrlDisplay
         public Dictionary<int, string> BoardNameDir = new Dictionary<int, string>();   //key:槽位号；value:板卡名称
         public VpxEndView[] _boardViews;            //包含的板卡视图集
         private DrawContainer _drawer;              //机箱的画图类
-        private BaseView ChoosedBv;                 //机箱图像中被选中的图元
+        private BaseDrawer ChoosedBv;                 //机箱图像中被选中的图元
 
         public ContainerViewModel() { }
 
@@ -126,7 +126,7 @@ namespace DRSysCtrlDisplay
         }
 
 
-        private class DrawContainer : IDrawer
+        private class DrawContainer : IDrawerChoosed
         {
             ContainerViewModel _container;
             Graphics _graph;                                            //画板
@@ -161,9 +161,9 @@ namespace DRSysCtrlDisplay
                 }
             }
 
-            public BaseView GetChoosedBaseView(MouseEventArgs e)
+            public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
             {
-                BaseView resultBv;
+                BaseDrawer resultBv;
                 //先查鼠标位置是否在板卡里
                 for (int i = 0; i < _container._boardViews.Length; i++)
                 {
@@ -180,7 +180,7 @@ namespace DRSysCtrlDisplay
                 return _container._backPlane._drawBackPlane.GetChoosedBaseView(e);
             }
 
-            public Rectangle GetBaseViewRect(BaseView baseView, ref bool isFind)
+            public Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
             {
                 //先在板卡里面找
                 for (int i = 0; i < _container._boardViews.Length; i++)

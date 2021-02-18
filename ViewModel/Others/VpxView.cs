@@ -14,7 +14,7 @@ namespace DRSysCtrlDisplay.OtherView
     /// <summary>
     /// 一个Vpx上的通信区的描述
     /// </summary>
-    public class VpxEndAreaView : BaseView
+    public class VpxEndAreaView : BaseDrawer
     {
         public LinkType LinkType { get; private set; }    //该vpx连接区对应的连接类型
         public VpxCategory Type { get; private set; }               //该vpx的种类
@@ -72,7 +72,7 @@ namespace DRSysCtrlDisplay.OtherView
     /// 描述整个VPX区域
     /// </summary>
     [TypeConverter(typeof(VpxEndViewTypeConverter))]
-    public abstract class VpxEndView : BaseView, IDrawer
+    public abstract class VpxEndView : BaseDrawer, IDrawerChoosed
     {
         [BrowsableAttribute(false)]
         protected const int InfoAreasNum = 4;
@@ -129,9 +129,9 @@ namespace DRSysCtrlDisplay.OtherView
         //获取该view对应的信息区域的矩形
         protected virtual Rectangle GetWholeInfoAreaRect() { return new Rectangle(0, 0, 0, 0); }
 
-        public virtual BaseView GetChoosedBaseView(MouseEventArgs e){ return null; }
+        public virtual BaseDrawer GetChoosedBaseView(MouseEventArgs e){ return null; }
 
-        public virtual Rectangle GetBaseViewRect(BaseView baseView, ref bool isFind)
+        public virtual Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
         {
             isFind = false;
             return new Rectangle(0,0,0,0);
@@ -148,7 +148,7 @@ namespace DRSysCtrlDisplay.OtherView
                 return base.ConvertTo(context, culture, value, destinationType);
             }
 
-            BaseView bv = value as BaseView;
+            BaseDrawer bv = value as BaseDrawer;
 
             return bv.Name;
         }
@@ -222,9 +222,9 @@ namespace DRSysCtrlDisplay.OtherView
             return new Rectangle(p.X, p.Y, width, height);
         }
 
-        public override BaseView GetChoosedBaseView(MouseEventArgs e) { return this; }
+        public override BaseDrawer GetChoosedBaseView(MouseEventArgs e) { return this; }
 
-        public override Rectangle GetBaseViewRect(BaseView baseView, ref bool isFind)
+        public override Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
         {
             return base.GetBaseViewRect(baseView, ref isFind);
         }
@@ -275,7 +275,7 @@ namespace DRSysCtrlDisplay.OtherView
             g.DrawRectangle(Pens.Red, base.GetWholeInfoAreaRect());
         }
 
-        public override BaseView GetChoosedBaseView(MouseEventArgs e)
+        public override BaseDrawer GetChoosedBaseView(MouseEventArgs e)
         {
             if (base.GetWholeInfoAreaRect().Contains(e.Location))
             {
@@ -296,16 +296,16 @@ namespace DRSysCtrlDisplay.OtherView
         {
             //画通信区域的图像
             EthArea.DrawView(g, _infoAreaRects[0]);
-            BaseView.AddDircSentence(g, _infoAreaRects[0], "EtherNet", false);
+            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[0], "EtherNet", false);
 
             RioArea.DrawView(g, _infoAreaRects[1]);
-            BaseView.AddDircSentence(g, _infoAreaRects[1], "RapidIO", false);
+            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[1], "RapidIO", false);
 
             GtxArea.DrawView(g, _infoAreaRects[2]);
-            BaseView.AddDircSentence(g, _infoAreaRects[2], "GTX", false);
+            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[2], "GTX", false);
 
             LvdsArea.DrawView(g, _infoAreaRects[3]);
-            BaseView.AddDircSentence(g, _infoAreaRects[3], "LVDS", false);
+            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[3], "LVDS", false);
 
         }
     }

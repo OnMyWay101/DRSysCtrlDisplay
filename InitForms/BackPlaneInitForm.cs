@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Diagnostics;
 using DRSysCtrlDisplay.Princeple;
+using DRSysCtrlDisplay.ViewModel.Others;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
@@ -201,7 +203,7 @@ namespace DRSysCtrlDisplay
             {
                 return;
             }
-            BackPlaneViewModel bp = new BackPlaneViewModel(_slotNum);
+            BackPlane bp = new BackPlane(_slotNum);
             ReFreshBackPlane(bp);
             bp.SaveXmlByName();
             this.DialogResult = DialogResult.Yes;
@@ -318,18 +320,18 @@ namespace DRSysCtrlDisplay
         /// 背板初始化界面初始化一个背板类
         /// </summary>
         /// <param name="bp"></param>
-        private void ReFreshBackPlane(BackPlaneViewModel bp)
+        private void ReFreshBackPlane(BackPlane bp)
         {
             bp.Name = _typeTB.Text;
             bp.Type = _typeTB.Text;
-            List<BackPlaneViewModel.BackPlaneLink> linksList;     //单个槽位对应的Links列表
+            List<BackPlaneLink> linksList;     //单个槽位对应的Links列表
 
             for (int i = 0; i < _slotNum; i++)
             {
                 //TODO:行信息有效性检查
                 //获取一个槽位的信息
                 var dgv = _dgvsOpt.DataGridViweList[i];
-                linksList = new List<BackPlaneViewModel.BackPlaneLink>();
+                linksList = new List<BackPlaneLink>();
 
                 foreach (DataGridViewRow row in dgv.Rows)
                 {
@@ -342,7 +344,7 @@ namespace DRSysCtrlDisplay
                     int end2Slot = int.Parse(row.Cells[_dgvColumnTitle_end2SlotNum].Value as string);
                     int end2Pos = int.Parse(row.Cells[_dgvColumnTitle_end2PosNum].Value as string);
 
-                    linksList.Add(new BackPlaneViewModel.BackPlaneLink(end1Slot, end1Pos, end2Slot, end2Pos, type));
+                    linksList.Add(new BackPlaneLink(end1Slot, end1Pos, end2Slot, end2Pos, type));
                 }
                 bp.LinksArray[i] = linksList;
             }

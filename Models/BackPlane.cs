@@ -29,6 +29,10 @@ namespace DRSysCtrlDisplay.Models
 
         #endregion BackPlane的基本属性
 
+        public BackPlane()
+        {
+        }
+
         public BackPlane(int slotNum)
         {
             SlotsNum = slotNum;

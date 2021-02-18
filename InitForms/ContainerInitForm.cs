@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DRSysCtrlDisplay.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -29,7 +30,7 @@ namespace DRSysCtrlDisplay
             BpTypeComboBoxInit();
             base._yesBtn.Click += new EventHandler((s, e) =>
             {
-                var ctn = new ContainerViewModel();
+                var ctn = new Models.Container();
                 RefreshContainer(ctn);
                 ctn.SaveXmlByName();
                 this.DialogResult = DialogResult.Yes;
@@ -187,7 +188,7 @@ namespace DRSysCtrlDisplay
 
         private void _addBtn_Click(object sender, EventArgs e)
         {
-            BackPlaneViewModel bp = BaseViewFactory<BackPlaneViewModel>.CreateByName(_bpTypeCB.Text);
+            BackPlane bp = ModelFactory<BackPlane>.CreateByName(_bpTypeCB.Text);
             for (int i = 0; i < bp.SlotsNum; i++)
             {
                 int index = dataGridView1.Rows.Add();
@@ -197,7 +198,7 @@ namespace DRSysCtrlDisplay
         }
 
         //把初始化界面填入的内容赋值到一个Container的对象上面去；
-        private void RefreshContainer(ContainerViewModel ctn)
+        private void RefreshContainer(Models.Container ctn)
         {
             ctn.Name = this._typeTB.Text;
             ctn.Type = this._typeTB.Text;

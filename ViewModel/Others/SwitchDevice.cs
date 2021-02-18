@@ -6,6 +6,7 @@ using System.Text;
 
 namespace DRSysCtrlDisplay.ViewModel.Others
 {
+    using Princeple;
     public enum SwitchCategory
     {
         EtherNetSw,
@@ -15,39 +16,47 @@ namespace DRSysCtrlDisplay.ViewModel.Others
     /// <summary>
     /// 描述板卡上面交换机的类
     /// </summary>
-    public class SwitchDevice
+    public class SwitchDevice : BaseDrawer
     {
         public SwitchCategory Category { get; set; }    //交换的种类，这里只包含EtherNet交换机和Rio交换机
         public string Type { get; set; }                //交换机的型号
 
         public SwitchDevice(SwitchCategory category, string type)
+            : base(null, new Rectangle())
         {
             Category = category;
             Type = type;
         }
 
-        public override void DrawView(Graphics g) { }
-
-        public override void DrawView(Graphics g, Rectangle rect)
+        public void SetDrawingTools(Graphics g, Rectangle rect)
         {
-            var pen = (Category == SwitchCategory.EtherNetSw ? Princeple.ConnectAreaColor.Pen_EtherNet : Princeple.ConnectAreaColor.Pen_RapidIO);
-            var brush = (Category == SwitchCategory.EtherNetSw ? Princeple.ConnectAreaColor.Brushes_EtherNet : Princeple.ConnectAreaColor.Brushes_RapidIO);
-            g.DrawEllipse(pen, rect);
-            g.FillEllipse(brush, rect);
+            base._graph = g;
+            base._rect = rect;
+        }
+
+        public override void DrawView()
+        {
+            if (base._graph == null) return;
+
+            var pen = (Category == SwitchCategory.EtherNetSw ? ConnectAreaColor.Pen_EtherNet : ConnectAreaColor.Pen_RapidIO);
+            var brush = (Category == SwitchCategory.EtherNetSw ? ConnectAreaColor.Brushes_EtherNet : ConnectAreaColor.Brushes_RapidIO);
+            base._graph.DrawEllipse(pen, base._rect);
+            base._graph.FillEllipse(brush, base._rect);
+
             //给交换机加上“SW”字样
             StringFormat drawFormat = new StringFormat();
             drawFormat.Alignment = StringAlignment.Center;
             drawFormat.LineAlignment = StringAlignment.Center;
-            g.DrawString("SW", new Font("Arial", 16), Brushes.Black, rect, drawFormat);
+            base._graph.DrawString("SW", new Font("Arial", 16), Brushes.Black, base._rect, drawFormat);
         }
 
-        public override void ChoosedDrawView(Graphics g, Rectangle rect)
+        public override void ChoosedDrawView()
         {
-            Rectangle marginRect = base.GetMarginRect(rect);
-            DrawView(g, rect);
-            g.DrawEllipse(Pens.Red, marginRect);
+            if (base._graph == null) return;
+
+            Rectangle marginRect = base.GetMarginRect();
+            DrawView();
+            base._graph.DrawEllipse(Pens.Red, marginRect);
         }
     }
-
-  
 }

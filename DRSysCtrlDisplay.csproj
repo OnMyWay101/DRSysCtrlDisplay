@@ -189,7 +189,7 @@
     <Compile Include="FuncItemsFrom.Designer.cs">
       <DependentUpon>FuncItemsFrom.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\BaseView.cs" />
+    <Compile Include="ViewModel\BaseDrawer.cs" />
     <Compile Include="ViewModel\Others\BackPlaneLink.cs" />
     <Compile Include="ViewModel\Others\BoardLink.cs" />
     <Compile Include="ViewModel\Others\ComponentLine.cs" />

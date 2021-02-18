@@ -10,7 +10,7 @@ using DRSysCtrlDisplay.Princeple;
 namespace DRSysCtrlDisplay
 {
     
-    public class TopoNetView<TNode, TLine> : IGenericDrawer<TNode>
+    public class TopoNetView<TNode, TLine> : IDrawerChoosed<TNode>
         where TNode : BaseNode
         where TLine : BaseLine
     {

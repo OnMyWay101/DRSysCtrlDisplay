@@ -10,6 +10,8 @@ using System.Xml;
 using System.Diagnostics;
 using DRSysCtrlDisplay.Princeple;
 using DRSysCtrlDisplay.OtherView;
+using DRSysCtrlDisplay.Models;
+using DRSysCtrlDisplay.ViewModel.Others;
 
 namespace DRSysCtrlDisplay
 {
@@ -79,7 +81,7 @@ namespace DRSysCtrlDisplay
         /// 使用一个Board实例来构造一个BoardInitForm
         /// </summary>
         /// <param name="board"></param>
-        public BoardInitForm(BoardViewModel board)
+        public BoardInitForm(Board board)
         {
             InitializeComponent();
             ListViewInit();
@@ -87,21 +89,21 @@ namespace DRSysCtrlDisplay
             _versionTB.Text = board.Version;
 
             //由board初始化芯片集ListView
-            foreach (PPCViewModel ppc in board.PPCList)
+            foreach (PPC ppc in board.PPCList)
             {
                 ChipLvAddItems(null, "PPC", ppc.Name);
             }
-            foreach (FPGAViewModel fpga in board.FPGAList)
+            foreach (FPGA fpga in board.FPGAList)
             {
                 ChipLvAddItems(null, "FPGA", fpga.Name);
             }
-            foreach (ZYNQViewModel zynq in board.ZYNQList)
+            foreach (ZYNQ zynq in board.ZYNQList)
             {
                 ChipLvAddItems(null, "ZYNQ", zynq.Name);
             }
             foreach (SwitchDevice sw in board.SwitchList)
             {
-                if (sw.Category == SwitchDevice.SwitchCategory.EtherNetSw)
+                if (sw.Category == SwitchCategory.EtherNetSw)
                 {
                     SWLvAddItems(null, "EtherSW", sw.Type);
                 }
@@ -111,7 +113,7 @@ namespace DRSysCtrlDisplay
                 }
             }
             //初始化连接关系ListView
-            foreach (BoardViewModel.BoardLink link in board.LinkList)
+            foreach (BoardLink link in board.LinkList)
             {
                 switch (link.LinkType)
                 {
@@ -822,14 +824,14 @@ namespace DRSysCtrlDisplay
 
         private void YesButton_Click(object sender, EventArgs e)
         {
-            BoardViewModel board = new BoardViewModel();
+            Board board = new Board();
             RefreshBoard(board);
             board.SaveXmlByName();
             this.DialogResult = DialogResult.Yes;
         }
         #endregion
 
-        private void InitLinkFromBoard(BoardViewModel board, BoardViewModel.BoardLink link, ListView lv, ref int serialNum)
+        private void InitLinkFromBoard(Board board, BoardLink link, ListView lv, ref int serialNum)
         {
             string portNum = string.Empty;
             serialNum++;
@@ -864,7 +866,7 @@ namespace DRSysCtrlDisplay
             lv.EndUpdate();
         }
 
-        private String IdToName(BoardViewModel board, EndType endtype, BoardViewModel.BoardLink link, int id)
+        private String IdToName(Board board, EndType endtype, BoardLink link, int id)
         {
             String chipName = String.Empty;
             switch (endtype)
@@ -941,12 +943,12 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private void AddLinkToList(BoardViewModel board, ListView lv, LinkType linkType)
+        private void AddLinkToList(Board board, ListView lv, LinkType linkType)
         {
             IEnumerable<ListViewItem> LinkItems = lv.Items.Cast<ListViewItem>();
             foreach (var item in LinkItems)
             {
-                BoardViewModel.BoardLink link = new BoardViewModel.BoardLink();
+                BoardLink link = new BoardLink();
                 link.LinkType = linkType;
                 //端1
                 link.FirstEndType = ChooseEndType(item.SubItems[1].Text);
@@ -996,13 +998,13 @@ namespace DRSysCtrlDisplay
         /// <param name="endType"></param>
         /// <param name="chipName"></param>
         /// <returns></returns>
-        private int GetChipId(BoardViewModel board, EndType endType, String chipName)
+        private int GetChipId(Board board, EndType endType, String chipName)
         {
             int chipId = -1;
             switch (endType)
             {
                 case EndType.PPC:
-                    foreach (PPCViewModel ppc in board.PPCList)
+                    foreach (PPC ppc in board.PPCList)
                     {
                         if (ppc.Name == chipName)
                         {
@@ -1011,7 +1013,7 @@ namespace DRSysCtrlDisplay
                     }
                     break;
                 case EndType.FPGA:
-                    foreach (FPGAViewModel fpga in board.FPGAList)
+                    foreach (FPGA fpga in board.FPGAList)
                     {
                         if (fpga.Name == chipName)
                         {
@@ -1020,7 +1022,7 @@ namespace DRSysCtrlDisplay
                     }
                     break;
                 case EndType.ZYNQ:
-                    foreach (ZYNQViewModel zynq in board.ZYNQList)
+                    foreach (ZYNQ zynq in board.ZYNQList)
                     {
                         if (zynq.Name == chipName)
                         {
@@ -1045,38 +1047,6 @@ namespace DRSysCtrlDisplay
             return chipId;
         }
 
-        /* 描述：板卡库初始化界面信息完整性判断函数
-         * 参数：
-         * 返回值：信息不完整返回false，完整返回true
-         */
-        private Boolean CompleteJudgment()
-        {
-            if (String.Empty == _typeTB.Text || String.Empty == _versionTB.Text)
-            {
-                MessageBox.Show("请录入板卡基本信息！");
-                return false;
-            }
-
-            else if (ChipLV.Items.Count <= 0)
-            {
-                MessageBox.Show("请录入板卡芯片集!");
-                return false;
-            }
-            else if (EtherLV.Items.Count <= 0 && RioLV.Items.Count <= 0 && GtxLV.Items.Count <= 0
-                && LvdsLV.Items.Count <= 0)
-            {
-                MessageBox.Show("请录入板卡芯片间连接关系信息!");
-                return false;
-            }
-            //如果有以太网或者RapidIO连接，就必须增加交换机集
-            else if ((EtherLV.Items.Count > 0 || RioLV.Items.Count > 0) && SWLV.Items.Count <= 0)
-            {
-                MessageBox.Show("板卡存在网络连接！请录入交换机芯片信息！");
-                return false;
-            }
-            return true;
-        }
-
         /* 描述：芯片集添加项
          * 参数：
          * addChipItem----芯片集添加界面实例
@@ -1098,7 +1068,7 @@ namespace DRSysCtrlDisplay
         /// 通过用户填的值来更新一个Board类
         /// </summary>
         /// <param name="board"></param>
-        private void RefreshBoard(BoardViewModel board)
+        private void RefreshBoard(Board board)
         {
             BoardNodeName = _typeTB.Text;
             board.Name = _typeTB.Text;
@@ -1107,12 +1077,12 @@ namespace DRSysCtrlDisplay
 
             IEnumerable<ListViewItem> coreLVItems = ChipLV.Items.Cast<ListViewItem>();
             //添加板卡的PPC集合
-            var ppcs = from e in coreLVItems
-                       where e.SubItems[1].Text == "PPC"
-                       select e.SubItems[2].Text;
+            var ppcs = from p in coreLVItems
+                       where p.SubItems[1].Text == "PPC"
+                       select p.SubItems[2].Text;
             foreach (var ppcName in ppcs)
             {
-                board.PPCList.Add(BaseViewFactory<PPCViewModel>.CreateByName(ppcName));
+                board.PPCList.Add(ModelFactory<PPC>.CreateByName(ppcName));
             }
             //添加板卡的FPGA集合
             var fpgas = from f in coreLVItems
@@ -1120,7 +1090,7 @@ namespace DRSysCtrlDisplay
                         select f.SubItems[2].Text;
             foreach (var fpgaName in fpgas)
             {
-                board.FPGAList.Add(BaseViewFactory<FPGAViewModel>.CreateByName(fpgaName));
+                board.FPGAList.Add(ModelFactory<FPGA>.CreateByName(fpgaName));
             }
             //添加板卡的ZYNQ集合
             var zynqs = from z in coreLVItems
@@ -1128,14 +1098,13 @@ namespace DRSysCtrlDisplay
                         select z.SubItems[2].Text;
             foreach (var zynqName in zynqs)
             {
-                board.ZYNQList.Add(BaseViewFactory<ZYNQViewModel>.CreateByName(zynqName));
+                board.ZYNQList.Add(ModelFactory<ZYNQ>.CreateByName(zynqName));
             }
             //添加板卡的Sw集合
             IEnumerable<ListViewItem> swLVItems = SWLV.Items.Cast<ListViewItem>();
             foreach (var item in swLVItems)
             {
-                SwitchDevice.SwitchCategory catogory = item.SubItems[1].Text == "EtherSW" ?
-                    SwitchDevice.SwitchCategory.EtherNetSw : SwitchDevice.SwitchCategory.RioSw;
+                SwitchCategory catogory = item.SubItems[1].Text == "EtherSW" ? SwitchCategory.EtherNetSw : SwitchCategory.RioSw;
                 board.SwitchList.Add(new SwitchDevice(catogory, item.SubItems[2].Text));
             }
             //添加板卡的Link集合

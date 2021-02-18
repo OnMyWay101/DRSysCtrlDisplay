@@ -38,6 +38,37 @@ namespace DRSysCtrlDisplay
         private System.Windows.Forms.ComboBox _vectorEnginCB;
         #endregion
 
+        /// <summary>
+        /// 修改节点时，使用PPC实例初始化PPCInitForm中各项的值
+        /// </summary>
+        /// <param name="ppc"></param>
+        public PPCInitForm(PPC ppc)
+        {
+            InitializeComponent();
+            _nameTB.Text = ppc.Name;
+            _coreNumCB.SelectedItem = ppc.CoreNum.ToString();
+            _typeCB.SelectedItem = ppc.Type;
+            _mainFrequencyTB.Text = ppc.Frequency.ToString();
+            _fileSystemTB.Text = ppc.FileSystem.ToString();
+            _memoryTB.Text = ppc.Memory.ToString();
+            _vectorEnginCB.SelectedItem = ppc.VectorEngin;
+        }
+
+        public PPCInitForm()
+        {
+            InitializeComponent();
+            //设置窗体显示位置
+            this.StartPosition = FormStartPosition.CenterParent;
+
+            //_nameTB.Text = "输入名称";
+            //_coreNumCB.Text = "0";
+            //_typeCB.Text = "NoType";
+            //_mainFrequencyTB.Text = "0";
+            //_fileSystemTB.Text = "0";
+            //_memoryTB.Text = "0";
+            //_vectorEnginCB.Text = "无";
+        }
+
         //Designer初始化函数
         private void InitializeComponent()
         {
@@ -296,37 +327,6 @@ namespace DRSysCtrlDisplay
         }
 
         /// <summary>
-        /// 修改节点时，使用PPC实例初始化PPCInitForm中各项的值
-        /// </summary>
-        /// <param name="ppc"></param>
-        public PPCInitForm(PPC ppc)
-        {
-            InitializeComponent();
-            _nameTB.Text = ppc.Name;
-            _coreNumCB.SelectedItem = ppc.CoreNum.ToString();
-            _typeCB.SelectedItem = ppc.Type;
-            _mainFrequencyTB.Text = ppc.Frequency.ToString();
-            _fileSystemTB.Text = ppc.FileSystem.ToString();
-            _memoryTB.Text = ppc.Memory.ToString();
-            _vectorEnginCB.SelectedItem = ppc.VectorEngin;
-        }
-
-        public PPCInitForm()
-        {
-            InitializeComponent();
-            //设置窗体显示位置
-            this.StartPosition = FormStartPosition.CenterParent;
-
-            //_nameTB.Text = "输入名称";
-            //_coreNumCB.Text = "0";
-            //_typeCB.Text = "NoType";
-            //_mainFrequencyTB.Text = "0";
-            //_fileSystemTB.Text = "0";
-            //_memoryTB.Text = "0";
-            //_vectorEnginCB.Text = "无";
-        }
-
-        /// <summary>
         /// 获取初始化对象的名字
         /// </summary>
         /// <returns></returns>
@@ -334,6 +334,8 @@ namespace DRSysCtrlDisplay
         {
             return new string(_nameTB.Text.ToCharArray());
         }
+
+        #region 界面事件处理
 
         protected virtual void _yesBtn_Click(object sender, EventArgs e)
         {
@@ -353,15 +355,25 @@ namespace DRSysCtrlDisplay
             this.DialogResult = DialogResult.Cancel;
         }
 
+
+        #endregion 界面事件处理
+
         protected void RefreshPPC(PPC ppc)
         {
-            ppc.Name = _nameTB.Text;
-            ppc.Type = _typeCB.Text;
-            ppc.Frequency = int.Parse(_mainFrequencyTB.Text);
-            ppc.CoreNum = int.Parse(_coreNumCB.Text);
-            ppc.VectorEngin = bool.Parse(_vectorEnginCB.Text);
-            ppc.Memory = int.Parse(_memoryTB.Text);
-            ppc.FileSystem = int.Parse(_fileSystemTB.Text);
+            try
+            {
+                ppc.Name = _nameTB.Text;
+                ppc.Type = _typeCB.Text;
+                ppc.Frequency = int.Parse(_mainFrequencyTB.Text);
+                ppc.CoreNum = int.Parse(_coreNumCB.Text);
+                ppc.VectorEngin = bool.Parse(_vectorEnginCB.Text);
+                ppc.Memory = int.Parse(_memoryTB.Text);
+                ppc.FileSystem = int.Parse(_fileSystemTB.Text);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message, "填入值异常");
+            }
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace DRSysCtrlDisplay
 {
     public class ShowViewPanel : Panel
     {
-        public BaseView ShowView { get; private set; }   //图像类的基类，用于画图
+        public BaseDrawer ShowView { get; private set; }   //图像类的基类，用于画图
         public Princeple.FormType FormType { get; private set; }
         public float ZoomFactor { get; private set; }
         private TreeNode _treeNode;

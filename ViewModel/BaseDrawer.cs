@@ -13,35 +13,26 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 设备库所有设备的基类
     /// </summary>
-    public abstract class BaseView : XMLManager.IXmlTransformByName
+    public abstract class BaseDrawer
     {
-        public event Action RedrawRequst;
+        public event Action RedrawRequst;   //需要重绘事件
+        protected Graphics _graph;          //对应的画布
+        protected Rectangle _rect;          //图像的边框
 
-        [Category("\t\t名称"), Description("名称")]
-        public String Name { get; set; }
-
-        protected BaseView()
+        protected BaseDrawer(Graphics g, Rectangle rect)
         {
-            this.Name = string.Empty;
+            _graph = g;
+            _rect = rect;
         }
 
-        public abstract void DrawView(Graphics g);
-        public abstract void DrawView(Graphics g, Rectangle rect);
-        public virtual void DrawView(Graphics g, Rectangle rect, Pen pen, Brush brush) { }
-        public virtual void ChoosedDrawView(Graphics g, Rectangle rect) { }
+        public abstract void DrawView();
+        public virtual void DrawView(Pen pen, Brush brush) { }
+        public virtual void ChoosedDrawView() { }
 
         //获取该图像显示的区域大小
         public virtual Size GetViewSize() { return new Size(0, 0); }
 
-        public virtual void SaveXmlByName() { }
-        public virtual BaseView CreateObjectByName(string objectName) { return null; }
-
-        //当前baseview对应的节点信息改变的事件处理
-        public virtual void OnNodeInfoChanged(TargetNode tNode) { }
-
         //通知界面重绘
-        public virtual void MouseEventHandler(object sender, MouseEventArgs e) { }
-
         public void TriggerRedrawRequst()
         {
             if (RedrawRequst != null)
@@ -51,19 +42,19 @@ namespace DRSysCtrlDisplay
         }
 
         //获取一个矩形的外接矩形
-        protected Rectangle GetMarginRect(Rectangle rect)
+        protected Rectangle GetMarginRect()
         {
             int margin = 5;     //显示一个选中的外框离选中矩形的间距
-            int pointX = ((rect.X - margin) >= 0) ? rect.X - margin : 0;
-            int pointY = ((rect.Y - margin) >= 0) ? rect.Y - margin : 0;
-            int width = rect.Width + margin * 2;
-            int height = rect.Height + margin * 2;
+            int pointX = ((_rect.X - margin) >= 0) ? _rect.X - margin : 0;
+            int pointY = ((_rect.Y - margin) >= 0) ? _rect.Y - margin : 0;
+            int width = _rect.Width + margin * 2;
+            int height = _rect.Height + margin * 2;
 
             return new Rectangle(pointX, pointY, width, height);
         }
 
         //往一个矩形区域添加字符字段
-        public static void AddDircSentence(Graphics g, Rectangle rect, string Sentence, bool IsHorizontal)
+        public static void AddDirctionSentence(Graphics g, Rectangle rect, string Sentence, bool IsHorizontal)
         {
             StringFormat drawFormat;    //字体模板
             float fontSize;             //字体大小
@@ -87,26 +78,25 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 设备库中计算颗粒对应的设备的基类
     /// </summary>
-    public abstract class BaseViewCore : BaseView, XMLManager.IXmlTransformByPath
+    public abstract class BaseDrawerCore : BaseDrawer
     {
+        protected BaseDrawerCore(Graphics g, Rectangle rect) : base(g, rect) { }
+
         protected const int _fontScale = 5;//字体与图形外接边框Width的比列
-
-        public override void DrawView(Graphics g) { }
-        public override void DrawView(Graphics g, Rectangle rect) { }
-        public abstract void DrawView(Graphics g, Rectangle rect, string name);
-
-        public abstract void ChoosedDrawView(Graphics g, Rectangle rect, string name);
-
-        public virtual void SaveXmlByPath(string xmlFilePath) { }
-        public virtual BaseView CreateObjectByPath(string objectFilePath) { return null; }
-
-        protected void AddSentence(Graphics g, Rectangle rect, string Sentence)
+        public override void DrawView() { }
+        public abstract void DrawView(string name);
+        public abstract void ChoosedDrawView(string name);
+        public override Size GetViewSize()
+        {
+            return new Size(100, 100);
+        }
+        protected void AddSentence(string Sentence)
         {
             StringFormat drawFormat = new StringFormat();
             drawFormat.Alignment = StringAlignment.Center;
             drawFormat.LineAlignment = StringAlignment.Center;
 
-            g.DrawString(Sentence, new Font("Arial", rect.Width / _fontScale), Brushes.Black, rect, drawFormat);
+            base._graph.DrawString(Sentence, new Font("Arial", base._rect.Width / _fontScale), Brushes.Black, base._rect, drawFormat);
         }
     }
 
@@ -119,14 +109,14 @@ namespace DRSysCtrlDisplay
                 return base.ConvertTo(context, culture, value, destinationType);
             }
 
-            BaseViewCore bvCore = value as BaseViewCore;
+            BaseDrawerCore bvCore = value as BaseDrawerCore;
 
             return bvCore.Name;
         }
     }
 
     public static class BaseViewFactory<T>
-        where T : BaseView, new()
+        where T : BaseDrawer, new()
     {
         public static T CreateRaw()
         {
@@ -141,7 +131,7 @@ namespace DRSysCtrlDisplay
     }
 
     public static class BaseViewCoreFactory<T>
-        where T : BaseViewCore, new()
+        where T : BaseDrawerCore, new()
     {
         public static T CreateRaw()
         {
@@ -161,23 +151,29 @@ namespace DRSysCtrlDisplay
         }
     }
 
-    //画图类方法接口
-    public interface IDrawer
+    //画图类节点信息有变化的通知接口
+    public interface IDrawerNotify
     {
-        //获取该对象中对应点击位置的子对象
-        BaseView GetChoosedBaseView(MouseEventArgs e);
-
-        //获取一个BaseView对象在该对象里面显示的矩形区域
-        Rectangle GetBaseViewRect(BaseView baseView, ref bool isFind);
+        //当前baseview对应的节点信息改变的事件处理
+        void OnNodeInfoChanged(TargetNode tNode);
     }
 
-    //画图类方法接口
-    public interface IGenericDrawer<TNode>
+    //画图类鼠标操作选中图元的接口
+    public interface IDrawerChoosed
     {
+        BaseDrawer ChoosedBv { get; set; }
+        void MouseEventHandler(object sender, MouseEventArgs e);
+
+        //获取该对象中对应点击位置的子对象
+        BaseDrawer GetChoosedBaseView(MouseEventArgs e);
+    }
+
+    //画图类鼠标操作选中图元的接口
+    public interface IDrawerChoosed<TNode>
+    {
+        void MouseEventHandler(object sender, MouseEventArgs e);
+
         //获取该对象中对应点击位置的子对象
         TNode GetChoosedNodeView(MouseEventArgs e);
-
-        //获取一个BaseView对象在该对象里面显示的矩形区域
-        Rectangle GetBaseViewRect(TNode nodeView, ref bool isFind);
     }
 }

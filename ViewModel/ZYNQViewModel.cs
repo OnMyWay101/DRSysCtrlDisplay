@@ -1,141 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Xml;
-using System.Drawing;
-using System.IO;
-using System.Xml.Linq;
+﻿using System.Drawing;
+using DRSysCtrlDisplay.Models;
 using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay
 {
-    [TypeConverter(typeof(BaseViewCoreTypeConverter))]
-    public class ZYNQViewModel : BaseViewCore
+    using Princeple;
+    public class ZYNQViewModel : BaseDrawerCore
     {
-        public ZYNQViewModel() { }
+        ZYNQ _zynq;
 
-        public override void DrawView(Graphics g) {}
-
-        public override void DrawView(Graphics g, Rectangle rect)
+        public ZYNQViewModel(ZYNQ zynq, Graphics g, Rectangle rect)
+            : base(g, rect)
         {
-            g.DrawRectangle(Princeple.ComputeNodeColor.Pen_PL, rect);
-            g.FillRectangle(Princeple.ComputeNodeColor.Brushes_PL, rect);
-            base.AddSentence(g, rect, "ZYNQ");
+            _zynq = zynq;
         }
 
-        public override void DrawView(Graphics g, Rectangle rect, Pen pen, Brush brush)
+        public override void DrawView()
         {
-            g.DrawRectangle(pen, rect);
-            g.FillRectangle(brush, rect);
-            base.AddSentence(g, rect, "ZYNQ");
+            base._graph.DrawRectangle(ComputeNodeColor.Pen_PL, base._rect);
+            base._graph.FillRectangle(ComputeNodeColor.Brushes_PL, base._rect);
+            base.AddSentence("ZYNQ");
         }
 
-        public override void DrawView(Graphics g, Rectangle rect, string name)
+        public override void DrawView(Pen pen, Brush brush)
         {
-            g.DrawRectangle(Princeple.ComputeNodeColor.Pen_PL, rect);
-            g.FillRectangle(Princeple.ComputeNodeColor.Brushes_PL, rect);
-            base.AddSentence(g, rect, name);
+            base._graph.DrawRectangle(pen, base._rect);
+            base._graph.FillRectangle(brush, base._rect);
+            base.AddSentence("ZYNQ");
         }
 
-        public override void ChoosedDrawView(Graphics g, Rectangle rect, string name)
+        public override void DrawView(string name)
         {
-            Rectangle marginRect = base.GetMarginRect(rect);
-
-            DrawView(g, rect, name);
-            g.DrawRectangle(Pens.Red, marginRect);
+            base._graph.DrawRectangle(ComputeNodeColor.Pen_PL, base._rect);
+            base._graph.FillRectangle(ComputeNodeColor.Brushes_PL, base._rect);
+            base.AddSentence(name);
         }
 
-        public override void ChoosedDrawView(Graphics g, Rectangle rect)
+        public override void ChoosedDrawView(string name)
         {
-            Rectangle marginRect = base.GetMarginRect(rect);
-
-            DrawView(g, rect);
-            g.DrawRectangle(Pens.Red, marginRect);
+            Rectangle marginRect = base.GetMarginRect();
+            DrawView(name);
+            base._graph.DrawRectangle(Pens.Red, marginRect);
         }
 
-        public override Size GetViewSize()
+        public override void ChoosedDrawView()
         {
-            return new Size(100, 100);
-        }
-
-        public override void SaveXmlByName()
-        {
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), this.Name);
-            SaveXmlByPath(xmlPath);
-        }
-
-        public override void SaveXmlByPath(string xmlFilePath)
-        {
-            //先判断一些文件是否存在
-            if (!PathManager.CheckFile(xmlFilePath))
-            {
-                return;
-            }
-            //保存XML文件
-            XDocument xd = new XDocument(
-                new XElement("ZYNQ",
-                    new XAttribute("Name", this.Name),
-                    new XElement("PS",
-                        new XAttribute("Type", this.PSType),
-                        new XAttribute("CoreNum", this.CoreNum.ToString()),
-                        new XAttribute("MainClock", this.MainClock),
-                        new XAttribute("Memory", this.Memory),
-                        new XAttribute("ExpandMemory", this.ExpandMemory)
-                        ),
-                    new XElement("PL",
-                        new XAttribute("Type", this.PLType),
-                        new XAttribute("LogicNum", this.LogicNum.ToString()),
-                        new XAttribute("LUT", this.LUT.ToString()),
-                        new XAttribute("Flip_Flops", this.Flip_Flops.ToString()),
-                        new XAttribute("Block_ARM", this.Block_ARM.ToString()),
-                        new XAttribute("DSP_Slice", this.DSP_Slice),
-                        new XAttribute("AD", this.AD)
-                        )
-                    )
-                );
-            xd.Save(xmlFilePath);
-        }
-
-        public override BaseView CreateObjectByName(string objectName)
-        {
-            string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetZYNQPath(), objectName);
-            return CreateObjectByPath(xmlPath);
-        }
-
-        public override BaseView CreateObjectByPath(string objectFilePath)
-        {
-            ZYNQViewModel zynq = new ZYNQViewModel();
-            if (!File.Exists(objectFilePath))
-            {
-                MessageBox.Show("CreateObject_ZYNQ:没有该ZYNQ芯片对应的XML文件！");
-                return zynq;
-            }
-            XDocument xd = XDocument.Load(objectFilePath);
-            //根元素的Attribute
-            XElement rt = xd.Element("ZYNQ");
-            zynq.Name = rt.Attribute("Name").Value;
-            //ps元素的Attribute
-            XElement ps = rt.Element("PS");
-            zynq.PSType = ps.Attribute("Type").Value;
-            zynq.CoreNum = int.Parse(ps.Attribute("CoreNum").Value);
-            zynq.MainClock = ps.Attribute("MainClock").Value;
-            zynq.Memory = ps.Attribute("Memory").Value;
-            zynq.ExpandMemory = ps.Attribute("ExpandMemory").Value;
-            //pl元素的Attribute
-            XElement pl = rt.Element("PL");
-            zynq.PLType = pl.Attribute("Type").Value;
-            zynq.LogicNum = int.Parse(pl.Attribute("LogicNum").Value);
-            zynq.LUT = int.Parse(pl.Attribute("LUT").Value);
-            zynq.Flip_Flops = int.Parse(pl.Attribute("Flip_Flops").Value);
-            zynq.Block_ARM = int.Parse(pl.Attribute("Block_ARM").Value);
-            zynq.DSP_Slice = pl.Attribute("DSP_Slice").Value;
-            zynq.AD = pl.Attribute("AD").Value;
-
-            return zynq;
+            Rectangle marginRect = base.GetMarginRect();
+            DrawView();
+            base._graph.DrawRectangle(Pens.Red, marginRect);
         }
     }
-
 }

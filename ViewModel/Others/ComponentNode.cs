@@ -1,4 +1,5 @@
-﻿using DRSysCtrlDisplay.Princeple;
+﻿using DRSysCtrlDisplay.Models;
+using DRSysCtrlDisplay.Princeple;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +14,9 @@ namespace DRSysCtrlDisplay.ViewModel.Others
     {
         public int NodeNum { get; private set; }                //Node节点对应的序号
         [BrowsableAttribute(false)]
-        public BaseViewCore NodeObject { get; private set; }    //Node节点对应的实例
+        public ModelBase NodeObject { get; private set; }       //Node节点对应的实例
 
-        public ComponentNode(EndType nodeType, string nodeName, int nodeNum, BaseViewCore nodeObject)
+        public ComponentNode(EndType nodeType, string nodeName, int nodeNum, ModelBase nodeObject)
             : base(nodeType, nodeName)
         {
             this.NodeNum = nodeNum;

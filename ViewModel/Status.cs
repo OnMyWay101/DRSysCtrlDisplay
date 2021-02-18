@@ -24,7 +24,7 @@ namespace DRSysCtrlDisplay
         public string _status;          //状态
     };
 
-    public class Status : BaseView
+    public class Status : BaseDrawer
     {
         [Category("槽位信息"), Description("槽位号")]
         public string SlotChan { get; set; }
@@ -121,7 +121,7 @@ namespace DRSysCtrlDisplay
 
         public override void SaveXmlByName(){ }
 
-        public override BaseView CreateObjectByName(string objectName){return null;}
+        public override BaseDrawer CreateObjectByName(string objectName){return null;}
 
         public override void OnNodeInfoChanged(TargetNode tNode)
         {

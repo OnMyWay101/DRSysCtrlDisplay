@@ -14,35 +14,20 @@ using System.IO;
 using DRSysCtrlDisplay.Princeple;
 using DRSysCtrlDisplay.OtherView;
 using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
+using DRSysCtrlDisplay.ViewModel.Others;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
-    public class BackPlaneViewModel : BaseView
+    public class BackPlaneViewModel : BaseDrawer, IDrawerChoosed
     {
-        [Category("\t基本信息"), Description("背板类型")]
-        public String Type { get; set; }
+        public BackPlane _bp;                           //对应的背板实体
+        public BaseDrawer ChoosedBv { get; set; }       //当前视图被选中的图元
 
-        [BrowsableAttribute(false)]
-        public int VirtualSlotsNum { get; private set; }
-
-        [Category("\t基本信息"), Description("背板槽位数")]
-        public int SlotsNum { get; private set; }                       //可以插板卡的槽位数
-
-        [Category("连接信息"), Description("各槽位的连接信息")]
-        public List<BackPlaneLink>[] LinksArray { get; set; }
-
-        //包含的子视图，比槽位多2个，其中：n-1为连接示意区；n-2为外接口区
-        [Category("槽位信息"), Description("机箱的各槽位的信息")]
-        public VpxEndView[] VpxEndViewArray { get; set; }
-
-        [BrowsableAttribute(false)]
-        public DrawBackPlane _drawBackPlane { get; private set; }
-
-        [BrowsableAttribute(false)]
-        public BaseView ChoosedBv { get; private set; }    //当前视图被选中的图元
-
-
-        public BackPlaneViewModel() { }
+        public BackPlaneViewModel(BackPlane bp, Graphics g, Rectangle rect)
+            : base(g, rect)
+        {
+        }
 
         public BackPlaneViewModel(int slotNum)
         {
@@ -117,7 +102,7 @@ namespace DRSysCtrlDisplay
             xd.Save(xmlPath);
         }
 
-        public override BaseView CreateObjectByName(string objectName)
+        public override BaseDrawer CreateObjectByName(string objectName)
         {
             BackPlaneViewModel backPlane;
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetBackPlanePath(), objectName);
@@ -139,7 +124,7 @@ namespace DRSysCtrlDisplay
             XElement links = rt.Element("Links");
             for (int i = 0; i < backPlane.VirtualSlotsNum; i++)
             {
-                List<BackPlaneViewModel.BackPlaneLink> linksList = new List<BackPlaneViewModel.BackPlaneLink>();
+                List<BackPlaneLink> linksList = new List<BackPlaneLink>();
                 //找到同一槽位的links，然后添加到list
                 var slotLinks = from link in links.Elements()
                                 where int.Parse(link.Attribute("FirstEndId").Value) == i
@@ -148,7 +133,7 @@ namespace DRSysCtrlDisplay
                 {
                     LinkType type = (LinkType)Enum.Parse(typeof(LinkType), link.Attribute("Type").Value);
 
-                    var tempLink = new BackPlaneViewModel.BackPlaneLink(i, int.Parse(link.Attribute("FirstEndPos").Value)
+                    var tempLink = new BackPlaneLink(i, int.Parse(link.Attribute("FirstEndPos").Value)
                         , int.Parse(link.Attribute("SecondEndId").Value), int.Parse(link.Attribute("SecondEndPos").Value), type);
                     linksList.Add(tempLink);
                 }
@@ -229,11 +214,11 @@ namespace DRSysCtrlDisplay
         /// <summary>
         /// 用于背板显示的画图类
         /// </summary>
-        public class DrawBackPlane : IDrawer
+        public class DrawBackPlane : IDrawerChoosed
         {
-            BackPlaneViewModel _backPlane;                       //需要画图的背板
-            protected Graphics _graph;                  //背板对应的画布
-            Rectangle _bpRect;                          //背板的边框
+            BackPlaneViewModel _backPlane;                      //需要画图的背板
+            protected Graphics _graph;                          //背板对应的画布
+            Rectangle _bpRect;                                  //背板的边框
             public Rectangle[] SlotRects { get; private set; }  		                //包含的槽位图像矩形位置集合；
             public Dictionary<BackPlaneLink, Point[]> LinkDir { get; private set; }     //包含的连接及对应的点
             public Boolean NoIndicate { get; set; }     //不画连接示意区标志
@@ -251,7 +236,7 @@ namespace DRSysCtrlDisplay
                 InitLinks();
             }
 
-            public BaseView GetChoosedBaseView(MouseEventArgs e)
+            public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
             {
                 for (int i = 0; i < SlotRects.Length; i++)
                 {
@@ -263,11 +248,11 @@ namespace DRSysCtrlDisplay
                 }
                 return null;
             }
-            public Rectangle GetBaseViewRect(BaseView baseView, ref bool isFind)
+            public Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
             {
                 for (int i = 0; i < SlotRects.Length; i++)
                 {
-                    BaseView bv = _backPlane.VpxEndViewArray[i];
+                    BaseDrawer bv = _backPlane.VpxEndViewArray[i];
                     if (baseView != bv)
                     {
                         isFind = true;
@@ -289,7 +274,7 @@ namespace DRSysCtrlDisplay
                 {
                     if (!NoIndicate || (i != SlotRects.Length - 1))//判断是否该画槽位，连接示意区在最后一个
                     {
-                        BaseView bv = _backPlane.VpxEndViewArray[i];
+                        BaseDrawer bv = _backPlane.VpxEndViewArray[i];
                         bv.DrawView(_graph, SlotRects[i]);
                     }
                 }

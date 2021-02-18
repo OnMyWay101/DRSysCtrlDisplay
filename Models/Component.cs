@@ -21,7 +21,7 @@ namespace DRSysCtrlDisplay.Models
 
         public Component() { }
 
-        private void InitTopo(int nodeNum)
+        public void InitTopo(int nodeNum)
         {
             NodeNum = nodeNum;
             CmpTopoNet = new TopoNet<ComponentNode, ComponentLine>(nodeNum);
@@ -185,12 +185,12 @@ namespace DRSysCtrlDisplay.Models
         }
 
         //通过一个xml文件来创建一个节点的BaseViewCore
-        private BaseViewCore Component_GenNodeObj(Princeple.EndType type, string xmlPath)
+        private BaseDrawerCore Component_GenNodeObj(Princeple.EndType type, string xmlPath)
         {
             Type objType = TypeConvert.GetEndType(type);
             Type FactoryType = typeof(BaseViewCoreFactory<>);
             FactoryType = FactoryType.MakeGenericType(objType);
-            return (BaseViewCore)(FactoryType.InvokeMember("CreateByPath"
+            return (BaseDrawerCore)(FactoryType.InvokeMember("CreateByPath"
                 , BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { xmlPath }));
         }
     }

@@ -12,7 +12,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay
 {
-    public class SystemStruViewModel : BaseView
+    public class SystemStruViewModel : BaseDrawer
     {
         public string Type { get; set; }                                //系统的型号
         public int CntsNum { get; set; }                                //系统包含机箱的个数
@@ -106,7 +106,7 @@ namespace DRSysCtrlDisplay
             xd.Save(xmlPath);
         }
 
-        public override BaseView CreateObjectByName(string objectName)
+        public override BaseDrawer CreateObjectByName(string objectName)
         {
             SystemStruViewModel sys;
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetSysPath(), objectName);
@@ -166,7 +166,7 @@ namespace DRSysCtrlDisplay
         /// <summary>
         /// 用于系统显示的画图类
         /// </summary>
-        public class DrawSystemStru : IDrawer
+        public class DrawSystemStru : IDrawerChoosed
         {
             SystemStruViewModel _sys;                        //需要画图的系统
             protected Graphics _graph;              //系统对应的画布
@@ -296,16 +296,16 @@ namespace DRSysCtrlDisplay
                     var cntRect = CntRects[i];//当前的机箱视图
                     int nameRectWidth = cntRect.Width / 10;
                     var nameRect = new Rectangle(cntRect.X - nameRectWidth, cntRect.Y, nameRectWidth, cntRect.Height);
-                    BaseView.AddDircSentence(_graph, nameRect, _sys.CntNames[i], false);
+                    BaseDrawer.AddDirctionSentence(_graph, nameRect, _sys.CntNames[i], false);
                 }
             }
 
-            public BaseView GetChoosedBaseView(MouseEventArgs e)
+            public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
             {
                 return null;
             }
 
-            public Rectangle GetBaseViewRect(BaseView baseView, ref bool isFind)
+            public Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
             {
                 return new Rectangle(0, 0, 0, 0);
             }

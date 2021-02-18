@@ -534,7 +534,7 @@ namespace DRSysCtrlDisplay
             }
             catch(Exception e)
             {
-                MessageBox.Show("填入值异常", e.Message);
+                MessageBox.Show(e.Message, "填入值异常");
             }
         }
 
