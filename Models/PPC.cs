@@ -10,7 +10,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class PPC : ModelBase, XMLManager.IXmlTransformByName
+    public class PPC : ModelBaseCore
     {
         #region PPC的属性
 
@@ -34,7 +34,7 @@ namespace DRSysCtrlDisplay.Models
 
         #endregion PPC的属性
 
-        protected ModelBase CreateByPath(string objectFilePath)
+        public override ModelBase CreateByPath(string objectFilePath)
         {
             PPC ppc = new PPC();
             if (!File.Exists(objectFilePath))
@@ -55,7 +55,7 @@ namespace DRSysCtrlDisplay.Models
             return ppc;
         }
 
-        protected void SaveByPath(string xmlFilePath)
+        public override void SaveByPath(string xmlFilePath)
         {
             //先判断一些文件是否存在
             if (!XMLManager.PathManager.CheckFile(xmlFilePath))
@@ -76,13 +76,13 @@ namespace DRSysCtrlDisplay.Models
             xd.Save(xmlFilePath);
         }
 
-        public ModelBase CreateObjectByName(string objectName)
+        public override ModelBase CreateObjectByName(string objectName)
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetPPCPath(), objectName);
             return CreateByPath(xmlPath);
         }
 
-        public void SaveXmlByName()
+        public override void SaveXmlByName()
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetPPCPath(), this.Name);
             SaveByPath(xmlPath);

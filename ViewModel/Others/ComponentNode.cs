@@ -14,9 +14,9 @@ namespace DRSysCtrlDisplay.ViewModel.Others
     {
         public int NodeNum { get; private set; }                //Node节点对应的序号
         [BrowsableAttribute(false)]
-        public ModelBase NodeObject { get; private set; }       //Node节点对应的实例
+        public CmpNode NodeObject { get; private set; }         //Node节点对应的实例
 
-        public ComponentNode(EndType nodeType, string nodeName, int nodeNum, ModelBase nodeObject)
+        public ComponentNode(EndType nodeType, string nodeName, int nodeNum, CmpNode nodeObject)
             : base(nodeType, nodeName)
         {
             this.NodeNum = nodeNum;

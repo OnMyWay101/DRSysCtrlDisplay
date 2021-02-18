@@ -12,7 +12,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class BackPlane : ModelBase, XMLManager.IXmlTransformByName
+    public class BackPlane : ModelBase
     {
         #region BackPlane的基本属性
         [Category("\t基本信息"), Description("背板类型")]
@@ -40,7 +40,7 @@ namespace DRSysCtrlDisplay.Models
             LinksArray = new List<BackPlaneLink>[VirtualSlotsNum];
         }
 
-        public void SaveXmlByName()
+        public override void SaveXmlByName()
         {
             List<BackPlaneLink> savedLinks = new List<BackPlaneLink>(); //已经存入的连接
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetBackPlanePath(), this.Name);
@@ -85,7 +85,7 @@ namespace DRSysCtrlDisplay.Models
             xd.Save(xmlPath);
         }
 
-        public ModelBase CreateObjectByName(string objectName)
+        public override ModelBase CreateObjectByName(string objectName)
         {
             BackPlane backPlane;
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetBackPlanePath(), objectName);
@@ -123,6 +123,16 @@ namespace DRSysCtrlDisplay.Models
                 backPlane.LinksArray[i] = linksList;
             }
             return backPlane;
+        }
+
+        /// <summary>
+        /// 判断该虚拟槽位是否为连接区
+        /// </summary>
+        /// <param name="virtualSlotId"></param>
+        /// <returns></returns>
+        public bool IsConnetctAreaSlot(int virtualSlotId)
+        {
+            return virtualSlotId == (this.VirtualSlotsNum - 2);
         }
     }
 }

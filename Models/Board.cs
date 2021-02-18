@@ -12,7 +12,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class Board : ModelBase, XMLManager.IXmlTransformByName
+    public class Board : ModelBase
     {
         #region Board的基本属性
 
@@ -65,7 +65,7 @@ namespace DRSysCtrlDisplay.Models
             LinkList = new List<BoardLink>();
         }
 
-        public void SaveXmlByName()
+        public override void SaveXmlByName()
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetBoardPath(), this.Name);
             //先判断一些文件是否存在
@@ -145,7 +145,7 @@ namespace DRSysCtrlDisplay.Models
             xd.Save(xmlPath);
         }
 
-        public ModelBase CreateObjectByName(string objectName)
+        public override ModelBase CreateObjectByName(string objectName)
         {
             Board retBoard = new Board();
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetBoardPath(), objectName);

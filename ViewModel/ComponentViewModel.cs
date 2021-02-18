@@ -10,11 +10,13 @@ using System.IO;
 using System.Reflection;
 using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 using DRSysCtrlDisplay.Princeple;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
     public class ComponentViewModel : BaseDrawer
     {
+        private Models.Component _component;        //构件的实例
         public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
         private TopoNetView<ComponentNode, ComponentLine> _topoView;
         public int NodeNum { get; private set; }

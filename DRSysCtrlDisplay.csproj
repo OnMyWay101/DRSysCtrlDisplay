@@ -140,7 +140,7 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Component.cs" />
-    <Compile Include="Models\ComponentNode.cs" />
+    <Compile Include="Models\CmpNode.cs" />
     <Compile Include="Models\Container.cs" />
     <Compile Include="Models\BackPlane.cs" />
     <Compile Include="Models\Board.cs" />
@@ -194,6 +194,7 @@
     <Compile Include="ViewModel\Others\BoardLink.cs" />
     <Compile Include="ViewModel\Others\ComponentLine.cs" />
     <Compile Include="ViewModel\Others\ComponentNode.cs" />
+    <Compile Include="ViewModel\Others\ContainerLink.cs" />
     <Compile Include="ViewModel\Others\SwitchDevice.cs" />
     <Compile Include="ViewModel\Others\SystemStruLink.cs" />
     <Compile Include="ViewModel\Others\TopoNet.cs" />

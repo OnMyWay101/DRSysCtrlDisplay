@@ -13,20 +13,19 @@ namespace DRSysCtrlDisplay
     //存放Eth资源的结构体
     public struct EthSource
     {
-        public int _sn;             //序号      
-        public string _nodeName;    //节点名称
-        public string _sourceName;  //资源名称
-        //public string _protocol;    //协议
+        public int _sn;                 //序号      
+        public string _nodeName;        //节点名称
+        public string _sourceName;      //资源名称
     }
 
     //存放Rio资源结构体
     public struct RioSource
     {
-        public int _sn;              //序号
+        public int _sn;                 //序号
         public string _nodeName;        //节点名称
         public string _sourceName;      //资源名称
-        public int _packMaxLen;      //最大包长度
-        public int _bufSize;    //缓存区大小
+        public int _packMaxLen;         //最大包长度
+        public int _bufSize;            //缓存区大小
     }
 
     //构件初始化界面的添加资源的子界面

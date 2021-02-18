@@ -16,19 +16,17 @@ namespace DRSysCtrlDisplay.OtherView
     /// </summary>
     public class VpxEndAreaView : BaseDrawer
     {
-        public LinkType LinkType { get; private set; }    //该vpx连接区对应的连接类型
+        public LinkType LinkType { get; private set; }              //该vpx连接区对应的连接类型
         public VpxCategory Type { get; private set; }               //该vpx的种类
 
-        public VpxEndAreaView(string name, LinkType linkType, VpxCategory type)
+        public VpxEndAreaView(Graphics g, Rectangle rect, LinkType linkType, VpxCategory type)
+            : base(g, rect)
         {
-            base.Name = name;
             LinkType = linkType;
             Type = type;
         }
 
-        public override void DrawView(Graphics g) { }
-
-        public override void DrawView(Graphics g, Rectangle rect)
+        public override void DrawView()
         {
             Pen pen;
             Brush brush;
@@ -55,14 +53,14 @@ namespace DRSysCtrlDisplay.OtherView
                     brush = Brushes.Gray;
                     break;
             }
-            g.DrawRectangle(pen, rect);
-            g.FillRectangle(brush, rect);
+            base._graph.DrawRectangle(pen, base._rect);
+            base._graph.FillRectangle(brush, base._rect);
         }
 
-        public void DrawViewColor(Graphics g, Rectangle rect, Pen pen, Brush brush)
+        public void DrawViewColor(Pen pen, Brush brush)
         {
-            g.DrawRectangle(pen, rect);
-            g.FillRectangle(brush, rect);
+            base._graph.DrawRectangle(pen, base._rect);
+            base._graph.FillRectangle(brush, base._rect);
         }
     }
 
@@ -72,7 +70,7 @@ namespace DRSysCtrlDisplay.OtherView
     /// 描述整个VPX区域
     /// </summary>
     [TypeConverter(typeof(VpxEndViewTypeConverter))]
-    public abstract class VpxEndView : BaseDrawer, IDrawerChoosed
+    public abstract class VpxEndView : BaseDrawer
     {
         [BrowsableAttribute(false)]
         protected const int InfoAreasNum = 4;
@@ -83,60 +81,36 @@ namespace DRSysCtrlDisplay.OtherView
         [BrowsableAttribute(false)]
         protected Brush DefaultBrush = Brushes.Gray;
 
-        [BrowsableAttribute(false)]
-        protected Rectangle _rect;  //所在矩形
+        [Category("\t基本信息"), Description("名称")]
+        public string Name { get; private set; }
 
-        [BrowsableAttribute(false)]
-        public Rectangle[] _infoAreaRects = new Rectangle[InfoAreasNum];
-
-        [Category("\t基本信息"), Description("板卡类型")]
+        [Category("\t基本信息"), Description("类型")]
         public VpxCategory Type { get; private set; }               //该vpx的种类
 
         [Category("以太网信息"), Description("以太网区域信息")]
-        public VpxEndAreaView EthArea { get; private set; }
+        public VpxEndAreaView EthArea { get; protected set; }
 
         [Category("RapidIO信息"), Description("RapidIO区域信息")]
-        public VpxEndAreaView RioArea { get; private set; }
+        public VpxEndAreaView RioArea { get; protected set; }
 
         [Category("GTX信息"), Description("GTX区域信息")]
-        public VpxEndAreaView GtxArea { get; private set; }
+        public VpxEndAreaView GtxArea { get; protected set; }
 
         [Category("LVDS信息"), Description("LVDS区域信息")]
-        public VpxEndAreaView LvdsArea { get; private set; }
+        public VpxEndAreaView LvdsArea { get; protected set; }
 
-        protected VpxEndView(string name, VpxCategory type)
+        protected VpxEndView(Graphics g, Rectangle rect, string name, VpxCategory type)
+            : base(g, rect)
         {
-            base.Name = name;
+            Name = name;
             this.Type = type;
-            EthArea = new VpxEndAreaView("EthArea", LinkType.EtherNet, type);
-            RioArea = new VpxEndAreaView("RioArea", LinkType.RapidIO, type);
-            GtxArea = new VpxEndAreaView("GtxArea", LinkType.GTX, type);
-            LvdsArea = new VpxEndAreaView("LvdsArea", LinkType.LVDS, type);
         }
 
-        //画出该View的图像，不使用
-        public override void DrawView(Graphics g) { }
-
         //画出该View的图像
-        public override void DrawView(Graphics g, Rectangle rect) { }
-
-        //画出该View被选中时候的图像
-        public override void ChoosedDrawView(Graphics g, Rectangle rect) { }
-
-        //分配该view多对应的矩形
-        public virtual void AssignRect(Rectangle rect) { }
+        public override void DrawView() { }
 
         //获取该view对应的信息区域的矩形
         protected virtual Rectangle GetWholeInfoAreaRect() { return new Rectangle(0, 0, 0, 0); }
-
-        public virtual BaseDrawer GetChoosedBaseView(MouseEventArgs e){ return null; }
-
-        public virtual Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
-        {
-            isFind = false;
-            return new Rectangle(0,0,0,0);
-        }
-
     }
 
     public class VpxEndViewTypeConverter : ExpandableObjectConverter
@@ -148,9 +122,9 @@ namespace DRSysCtrlDisplay.OtherView
                 return base.ConvertTo(context, culture, value, destinationType);
             }
 
-            BaseDrawer bv = value as BaseDrawer;
+            VpxEndView vev = value as VpxEndView;
 
-            return bv.Name;
+            return vev.Name;
         }
     }
 
@@ -159,36 +133,46 @@ namespace DRSysCtrlDisplay.OtherView
     {
         public Rectangle _planeAreaRect;
         public Rectangle _nameAreaRect;
+        public Rectangle[] _infoAreaRects;
 
-        public PlaneVpx(string name, VpxCategory type) : base(name, type) { }
+        public PlaneVpx(Graphics g, Rectangle rect, string name, VpxCategory type)
+            : base(g, rect, name, type) 
+        {
+            AssignRect();
+            base.EthArea = new VpxEndAreaView(g, _infoAreaRects[0], LinkType.EtherNet, type);
+            base.RioArea = new VpxEndAreaView(g, _infoAreaRects[1], LinkType.RapidIO, type);
+            base.GtxArea = new VpxEndAreaView(g, _infoAreaRects[2], LinkType.GTX, type);
+            base.LvdsArea = new VpxEndAreaView(g, _infoAreaRects[3], LinkType.LVDS, type);
+        }
 
-        public override void DrawView(Graphics g, Rectangle rect)
+        public override void DrawView()
         {
             //画通信区域的图像
-            base.EthArea.DrawView(g, base._infoAreaRects[0]);
-            base.RioArea.DrawView(g, base._infoAreaRects[1]);
-            base.GtxArea.DrawView(g, base._infoAreaRects[2]);
-            base.LvdsArea.DrawView(g, base._infoAreaRects[3]);
+            base.EthArea.DrawView();
+            base.RioArea.DrawView();
+            base.GtxArea.DrawView();
+            base.LvdsArea.DrawView();
 
             //画底板和名称区域的图像
-            g.DrawRectangle(base.DefaultPen, this._planeAreaRect);
-            g.FillRectangle(base.DefaultBrush, this._planeAreaRect);
+            base._graph.DrawRectangle(base.DefaultPen, this._planeAreaRect);
+            base._graph.FillRectangle(base.DefaultBrush, this._planeAreaRect);
 
-            g.DrawRectangle(base.DefaultPen, this._nameAreaRect);
-            g.FillRectangle(base.DefaultBrush, this._nameAreaRect);
+            base._graph.DrawRectangle(base.DefaultPen, this._nameAreaRect);
+            base._graph.FillRectangle(base.DefaultBrush, this._nameAreaRect);
         }
 
-        public override void ChoosedDrawView(Graphics g, Rectangle rect)
+        public override void ChoosedDrawView()
         {
-            DrawView(g, rect);
-            g.DrawRectangle(Pens.Red, _rect);
+            DrawView();
+            base._graph.DrawRectangle(Pens.Red, _rect);
         }
 
-        public override void AssignRect(Rectangle rect)
+        public void AssignRect()
         {
             int rectY = 0;
-            base._rect = rect;
+            var rect = base._rect;
 
+            _infoAreaRects = new Rectangle[VpxEndView.InfoAreasNum];
             //给信息区分配子矩形
             int rectX = rect.Location.X + rect.Size.Width / InfoAreasNum;
             int rectWidth = rect.Size.Width / 2;
@@ -196,7 +180,7 @@ namespace DRSysCtrlDisplay.OtherView
             for (int i = 0; i < InfoAreasNum; i++)
             {
                 rectY = rect.Location.Y + rectHeight * i;
-                base._infoAreaRects[i] = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+                _infoAreaRects[i] = new Rectangle(rectX, rectY, rectWidth, rectHeight);
             }
 
             //分配背板区矩形
@@ -221,13 +205,6 @@ namespace DRSysCtrlDisplay.OtherView
             int height = _infoAreaRects[0].Height + _infoAreaRects[1].Height + _infoAreaRects[2].Height + _infoAreaRects[3].Height;
             return new Rectangle(p.X, p.Y, width, height);
         }
-
-        public override BaseDrawer GetChoosedBaseView(MouseEventArgs e) { return this; }
-
-        public override Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
-        {
-            return base.GetBaseViewRect(baseView, ref isFind);
-        }
     }
 
     /// <summary>
@@ -235,7 +212,9 @@ namespace DRSysCtrlDisplay.OtherView
     /// </summary>
     public class BackPlaneVpx : PlaneVpx
     {
-        public BackPlaneVpx(string name): base(name, VpxCategory.BackPlane){}
+        public BackPlaneVpx(Graphics g, Rectangle rect, string name)
+            : base(g, rect, name, VpxCategory.BackPlane)
+        { }
     }
 
     /// <summary>
@@ -243,22 +222,24 @@ namespace DRSysCtrlDisplay.OtherView
     /// </summary>
     public class EmptySlotVpx : PlaneVpx
     {
-        public EmptySlotVpx(string name) : base(name, VpxCategory.EmptySlot) { }
+        public EmptySlotVpx(Graphics g, Rectangle rect, string name)
+            : base(g, rect, name, VpxCategory.EmptySlot)
+        { }
 
-        public override void DrawView(Graphics g, Rectangle rect)
+        public override void DrawView()
         {
             //画通信区域的图像
-            base.EthArea.DrawViewColor(g, base._infoAreaRects[0], base.DefaultPen, base.DefaultBrush);
-            base.RioArea.DrawViewColor(g, base._infoAreaRects[1], base.DefaultPen, base.DefaultBrush);
-            base.GtxArea.DrawViewColor(g, base._infoAreaRects[2], base.DefaultPen, base.DefaultBrush);
-            base.LvdsArea.DrawViewColor(g, base._infoAreaRects[3], base.DefaultPen, base.DefaultBrush);
+            base.EthArea.DrawViewColor(base.DefaultPen, base.DefaultBrush);
+            base.RioArea.DrawViewColor(base.DefaultPen, base.DefaultBrush);
+            base.GtxArea.DrawViewColor(base.DefaultPen, base.DefaultBrush);
+            base.LvdsArea.DrawViewColor(base.DefaultPen, base.DefaultBrush);
 
             //画底板和名称区域的图像
-            g.DrawRectangle(base.DefaultPen, _planeAreaRect);
-            g.FillRectangle(base.DefaultBrush, _planeAreaRect);
+            base._graph.DrawRectangle(base.DefaultPen, _planeAreaRect);
+            base._graph.FillRectangle(base.DefaultBrush, _planeAreaRect);
 
-            g.DrawRectangle(base.DefaultPen, _nameAreaRect);
-            g.FillRectangle(base.DefaultBrush, _nameAreaRect);
+            base._graph.DrawRectangle(base.DefaultPen, _nameAreaRect);
+            base._graph.FillRectangle(base.DefaultBrush, _nameAreaRect);
         }
     }
 
@@ -267,21 +248,14 @@ namespace DRSysCtrlDisplay.OtherView
     /// </summary>
     public class BoardVpx : PlaneVpx
     {
-        public BoardVpx(string name) : base(name, VpxCategory.Board) { }
+        public BoardVpx(Graphics g, Rectangle rect, string name)
+            : base(g, rect, name, VpxCategory.Board)
+        { }
 
-        public override void ChoosedDrawView(Graphics g, Rectangle rect)
+        public override void ChoosedDrawView()
         {
-            DrawView(g, rect);
-            g.DrawRectangle(Pens.Red, base.GetWholeInfoAreaRect());
-        }
-
-        public override BaseDrawer GetChoosedBaseView(MouseEventArgs e)
-        {
-            if (base.GetWholeInfoAreaRect().Contains(e.Location))
-            {
-                return this;
-            }
-            return null;
+            DrawView();
+            base._graph.DrawRectangle(Pens.Red, base.GetWholeInfoAreaRect());
         }
     }
 
@@ -290,26 +264,28 @@ namespace DRSysCtrlDisplay.OtherView
     /// </summary>
     public class IndicateAreaVpx : PlaneVpx
     {
-        public IndicateAreaVpx(string name) : base(name, VpxCategory.IndicateArea) { }
+        public IndicateAreaVpx(Graphics g, Rectangle rect, string name) 
+            : base(g, rect, name, VpxCategory.IndicateArea) 
+        { }
 
-        public override void DrawView(Graphics g, Rectangle rect)
+        public override void DrawView()
         {
             //画通信区域的图像
-            EthArea.DrawView(g, _infoAreaRects[0]);
-            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[0], "EtherNet", false);
+            EthArea.DrawView();
+            BaseDrawer.AddDirctionSentence(base._graph, _infoAreaRects[0], "EtherNet", false);
 
-            RioArea.DrawView(g, _infoAreaRects[1]);
-            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[1], "RapidIO", false);
+            RioArea.DrawView();
+            BaseDrawer.AddDirctionSentence(base._graph, _infoAreaRects[1], "RapidIO", false);
 
-            GtxArea.DrawView(g, _infoAreaRects[2]);
-            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[2], "GTX", false);
+            GtxArea.DrawView();
+            BaseDrawer.AddDirctionSentence(base._graph, _infoAreaRects[2], "GTX", false);
 
-            LvdsArea.DrawView(g, _infoAreaRects[3]);
-            BaseDrawer.AddDirctionSentence(g, _infoAreaRects[3], "LVDS", false);
+            LvdsArea.DrawView();
+            BaseDrawer.AddDirctionSentence(base._graph, _infoAreaRects[3], "LVDS", false);
 
         }
     }
 
-#endregion
+    #endregion Vpx连接端相关图像类
 
 }

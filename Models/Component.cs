@@ -12,7 +12,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    class Component : ModelBase, XMLManager.IXmlTransformByName
+    class Component : ModelBase
     {
         #region Component的基本属性
         public int NodeNum { get; private set; }
@@ -27,7 +27,7 @@ namespace DRSysCtrlDisplay.Models
             CmpTopoNet = new TopoNet<ComponentNode, ComponentLine>(nodeNum);
         }
 
-        public void SaveXmlByName()
+        public override void SaveXmlByName()
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetComponentPath(), this.Name);
             //先判断一些文件是否存在
@@ -120,7 +120,7 @@ namespace DRSysCtrlDisplay.Models
             return retArray;
         }
 
-        public ModelBase CreateObjectByName(string objectName)
+        public override ModelBase CreateObjectByName(string objectName)
         {
             Component component = new Component();
             string xmlPathDir = Path.Combine(PathManager.GetComponentPath(), objectName);

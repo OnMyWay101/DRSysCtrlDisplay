@@ -20,18 +20,4 @@ namespace DRSysCtrlDisplay.Models
         }
     }
 
-    public static class ModelFactory2<T>
-    where T : ModelBase, XMLManager.IXmlTransformByPath,new()
-    {
-        public static T CreateRaw()
-        {
-            return new T();
-        }
-
-        public static T CreateByPath(string objectFilePath)
-        {
-            T t = new T();
-            return (T)t.CreateObjectByPath(objectFilePath);
-        }
-    }
 }

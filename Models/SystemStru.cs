@@ -11,7 +11,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class SystemStru : ModelBase, XMLManager.IXmlTransformByName
+    public class SystemStru : ModelBase
     {
         #region SystemStru的基本属性
         public string Type { get; set; }                                //系统的型号
@@ -27,7 +27,7 @@ namespace DRSysCtrlDisplay.Models
             LinksArray = new List<SystemStruLink>[CntsNum];
         }
 
-        public void SaveXmlByName()
+        public override void SaveXmlByName()
         {
             List<SystemStruLink> savedLinks = new List<SystemStruLink>(); //已经存入的连接
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetSysPath(), this.Name);
@@ -86,7 +86,7 @@ namespace DRSysCtrlDisplay.Models
             xd.Save(xmlPath);
         }
 
-        public ModelBase CreateObjectByName(string objectName)
+        public override ModelBase CreateObjectByName(string objectName)
         {
             SystemStru sys;
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetSysPath(), objectName);

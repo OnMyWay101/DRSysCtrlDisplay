@@ -15,7 +15,7 @@ namespace DRSysCtrlDisplay
     public class ComponentInitForm : InitFormBase
     {
         ComponentInitFormDgvsOpt _dgvsOpt = new ComponentInitFormDgvsOpt();
-        Node[] _nodeArray;//构建所包含的计算颗粒Node的集合
+        CmpNode[] _nodeArray;//构建所包含的计算颗粒Node的集合
 
         private const string _nodeName = "计算颗粒";
         private const string _dgvColumnTitle_serialNum = "序号";
@@ -302,7 +302,7 @@ namespace DRSysCtrlDisplay
             try
             {
                 var nodeType = (ComputeNodeType)Enum.Parse(typeof(ComputeNodeType), _nodeTypeCB.Text);
-                var node = new Node(nodeType, nodeName);    //弹出初始化界面
+                var node = new CmpNode(nodeType, nodeName);    //弹出初始化界面
                 if (node._object == null)
                 {
                     return;
@@ -568,72 +568,6 @@ namespace DRSysCtrlDisplay
             dgv.Click += new EventHandler(dgv_Click);
         }
 
-        #region 相关子类
-        /// <summary>
-        /// 计算颗粒节点定义
-        /// </summary>
-        class Node
-        {
-            public ComputeNodeType _nodeType;               //节点对应的芯片类型
-            public ModelBase _object = null;                //对应的芯片实例
-            public string Name { get; private set; }        //节点对应芯片名字
-            public List<EthSource> _ethPbSources = new List<EthSource>();  //以太网发布的资源
-            public List<EthSource> _ethSubSources = new List<EthSource>();  //以太网订阅的资源
-            public List<RioSource> _rioPbSources = new List<RioSource>();  //rio网订阅的资源
-            public List<RioSource> _rioSubSources = new List<RioSource>();  //rio网订阅的资源
-
-            public Node(ComputeNodeType nodeType, string nodeName)
-            {
-                _nodeType = nodeType;
-                Name = nodeName;
-                //初始界面
-                ShowInitialForm();
-            }
-
-            private void ShowInitialForm()
-            {
-                switch (_nodeType)
-                {
-                    case ComputeNodeType.PPC:
-                        Component_PPCInitForm ppcForm = new Component_PPCInitForm(Name);
-                        ppcForm.ShowDialog();
-                        if (ppcForm.DialogResult == DialogResult.Yes)
-                        {
-                            _object = ppcForm._ppc;
-                        }
-                        break;
-                    case ComputeNodeType.FPGA:
-                        Component_FPGAInitForm fpgaForm = new Component_FPGAInitForm(Name);
-                        fpgaForm.ShowDialog();
-                        if (fpgaForm.DialogResult == DialogResult.Yes)
-                        {
-                            _object = fpgaForm._fpga;
-                        }
-                        break;
-                    default://ComputeNodeType.ZYNQ
-                        Component_ZYNQInitForm zynqForm = new Component_ZYNQInitForm(Name);
-                        zynqForm.ShowDialog();
-                        if (zynqForm.DialogResult == DialogResult.Yes)
-                        {
-                            _object = zynqForm._zynq;
-                        }
-                        break;
-                }
-                //改名字
-                this.Name = _object.Name;
-            }
-
-            public void ShowNodeInfo()
-            {
-                //TODO
-            }
-
-            public void EditNodeInfo()
-            {
-                //TODO
-            }
-        }
-
         class Component_PPCInitForm : PPCInitForm
         {
             public PPC _ppc = new PPC();
@@ -778,7 +712,6 @@ namespace DRSysCtrlDisplay
 
             #endregion
         }
-        #endregion
 
     }
 }

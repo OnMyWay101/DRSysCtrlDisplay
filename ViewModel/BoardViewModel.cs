@@ -34,7 +34,7 @@ namespace DRSysCtrlDisplay
         public override void DrawView()
         {
             //画板卡对应的方框
-            _graph.DrawRectangle(Pens.Black, base._rect);
+            base._graph.DrawRectangle(Pens.Black, base._rect);
             DrawVPXs();
 
             DrawCores();

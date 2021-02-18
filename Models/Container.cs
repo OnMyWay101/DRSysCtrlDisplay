@@ -10,7 +10,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class Container : ModelBase, XMLManager.IXmlTransformByName
+    public class Container : ModelBase
     {
         #region Container的基本属性
 
@@ -23,7 +23,7 @@ namespace DRSysCtrlDisplay.Models
 
         public Container() { }
 
-        public void SaveXmlByName()
+        public override void SaveXmlByName()
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetContainerPath(), this.Name);
             //先判断一些文件是否存在
@@ -53,7 +53,7 @@ namespace DRSysCtrlDisplay.Models
             xd.Save(xmlPath);
         }
 
-        public ModelBase CreateObjectByName(string objectName)
+        public override ModelBase CreateObjectByName(string objectName)
         {
             Container container = new Container();
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetContainerPath(), objectName);
@@ -80,5 +80,19 @@ namespace DRSysCtrlDisplay.Models
             return container;
         }
 
+        //该槽位没放板卡,以后要优化判断
+        public bool IsContainBoard(int slotNum)
+        {
+            return IsContainBoard(BoardNameDir[slotNum]);
+        }
+
+        public bool IsContainBoard(string boardName)
+        {
+            if ((boardName == "-请输入-") || (boardName == "无"))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

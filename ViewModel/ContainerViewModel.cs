@@ -6,271 +6,161 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using System.IO;
-using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 using DRSysCtrlDisplay.Princeple;
 using DRSysCtrlDisplay.OtherView;
+using System.ComponentModel;
+using DRSysCtrlDisplay.ViewModel.Others;
+using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
     /// <summary>
     /// 机箱类
     /// </summary>
-    public class ContainerViewModel : BaseDrawer
+    public class ContainerViewModel : BaseDrawer, IDrawerChoosed
     {
-        public string Type { get; set; }            //机箱的型号
-        public string BackPlaneName { get; set; }   //背板的名字
-        public BackPlaneViewModel _backPlane { get; private set; }              //包含的背板
-        public Dictionary<int, string> BoardNameDir = new Dictionary<int, string>();   //key:槽位号；value:板卡名称
-        public VpxEndView[] _boardViews;            //包含的板卡视图集
-        private DrawContainer _drawer;              //机箱的画图类
-        private BaseDrawer ChoosedBv;                 //机箱图像中被选中的图元
+        private Models.Container _container;                        //包含的机箱实例
 
-        public ContainerViewModel() { }
+        public BackPlaneViewModel _bpView;                         //包含的背板图像
+        private Rectangle[] _boardRects;                            //板卡集对应的矩形集合
+        public PlaneVpx[] _boardViews;                              //包含的板卡视图集
+        private Dictionary<ContainerLink, Point[]> _links;          //包含的连接及对应的点
+        public BaseDrawer ChoosedBv { get; set; }                   //当前视图被选中的图元
 
-        public override void DrawView(Graphics g){}
-
-        public override void DrawView(Graphics g, Rectangle rect)
+        public ContainerViewModel(Models.Container container, Graphics g, Rectangle rect)
+            : base(g, rect)
         {
-            _drawer = new DrawContainer(this, g, rect);
-            _drawer.Draw();
+            _container = container;
+            Init();
         }
 
-        //画图不画连接示意区
-        public void DrawViewNoIndicate(Graphics g, Rectangle rect)
+        #region 重载虚函数
+        public override void DrawView()
         {
-            _drawer = new DrawContainer(this, g, rect);
-            _drawer.NoIndicate = true;
-            _drawer.Draw();
+            //画背板
+            _bpView.DrawView();
+
+            //画Boards
+            for (int i = 0; i < _boardViews.Length; i++)
+            {
+                _boardViews[i].DrawView();
+            }
+
+            //稍后画选中的图元
+            if (ChoosedBv != null)
+            {
+                ChoosedBv.ChoosedDrawView();
+            }
+
+            //画Links
+            foreach (var linePair in _links)
+            {
+                linePair.Key.EndRadius = _boardRects[0].Width / 20;
+                linePair.Key.DrawLine(_graph, linePair.Value.ToList());
+            }
         }
 
         public override Size GetViewSize()
         {
             return new Size(800, 400);
         }
+        #endregion 重载虚函数
 
-        //初始化背板的画图器
-        public void InitDrawContainer(Graphics g, Rectangle rect)
+        #region 实现接口
+        public void MouseEventHandler(object sender, MouseEventArgs e)
         {
-            _drawer = new DrawContainer(this, g, rect);
-        }
-
-        //该槽位没放板卡,以后要优化判断
-        public bool IsContainBoard(int slotNum)
-        {
-            if (this._backPlane.IsConnetctAreaSlot(slotNum))//槽位号为外连接区则直接返回true
-            {
-                return true;
-            }
-            return IsContainBoard(BoardNameDir[slotNum]);
-        }
-
-        public bool IsContainBoard(string boardName)
-        {
-            if ((boardName == "-请输入-") || (boardName == "无"))
-            {
-                return false;
-            }
-            return true;
-        }
-
-
-        private void AddOneBoard(int slotNum, string boardName)
-        {
-            this.BoardNameDir.Add(slotNum, boardName);
-
-            if (IsContainBoard(slotNum))
-            {
-                this._boardViews[slotNum] = new BoardVpx(boardName);
-            }
-            else
-            {
-                this._boardViews[slotNum] = new EmptySlotVpx(boardName);
-            }
-        }
-
-        public override void MouseEventHandler(object sender, MouseEventArgs e)
-        {
-            ChoosedBv = _drawer.GetChoosedBaseView(e);
+            ChoosedBv = GetChoosedBaseView(e);
             if (ChoosedBv != null)
             {
                 PropertyForm.Show(ChoosedBv);
             }
             else
             {
-                ChoosedBv = this;
+                PropertyForm.Show(this);
             }
             base.TriggerRedrawRequst();
         }
 
-        private class ContainerLink : BackPlaneViewModel.BackPlaneLink
+        public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
         {
-            public bool IsConnectValid { get; private set; }      //该连接是否有效
-
-            public ContainerLink(BackPlaneViewModel.BackPlaneLink bpLink, bool isValid)
-                : base(bpLink.FirstEndId, bpLink.FirstEndPostion, bpLink.SecondEndId, bpLink.SecondEndPostion, bpLink.LinkType)
+            //先查鼠标位置是否在板卡里
+            for (int i = 0; i < _boardViews.Length; i++)
             {
-                IsConnectValid = isValid;
-            }
-
-            public override void DrawLine(Graphics graph, List<Point> line)
-            {
-                if (IsConnectValid)
+                if (_boardRects[i].Contains(e.Location))
                 {
-                    base.DrawLine(graph, line);
+                    return _boardViews[i];
+                }
+            }
+            //检查是否在背板上
+            return _bpView.GetChoosedBaseView(e);
+        }
+
+        #endregion 实现接口
+
+        public void Init()
+        {
+            //初始化背板画图对象
+            var bp = ModelFactory<BackPlane>.CreateByName(_container.BackPlaneName);
+            _bpView = new BackPlaneViewModel(bp, base._graph, base._rect);
+            _boardRects = _bpView.SlotRects;
+
+            //初始化_boardViews
+            foreach (var pair in _container.BoardNameDir)
+            {
+                var rect = _boardRects[pair.Key];
+                if(_container.IsContainBoard(pair.Value))
+                {
+                    _boardViews[pair.Key] = new BoardVpx(base._graph, rect, pair.Value);
                 }
                 else
                 {
-                    base.DrawLineColor(graph, line, Pens.Yellow, Brushes.Yellow);
+                    _boardViews[pair.Key] = new EmptySlotVpx(base._graph, rect, pair.Value);
                 }
+            }
+
+            //分配连接
+            _links = new Dictionary<ContainerLink, Point[]>();
+            foreach (var linkPair in _bpView.LinkDir)
+            {
+                BackPlaneLink link = linkPair.Key;
+                _links.Add(new ContainerLink(link, IsValidLine(link)), linkPair.Value);
             }
         }
 
-
-        private class DrawContainer : IDrawerChoosed
+        /// <summary>
+        /// 判断一条Link的两端是否有效地连接了板卡的相关位置；
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
+        private bool IsValidLine(BackPlaneLink link)
         {
-            ContainerViewModel _container;
-            Graphics _graph;                                            //画板
-            Rectangle _ctnRect;                                         //机箱对应的矩形
-            Rectangle _bpRect;                                          //背板对应的矩形
-            Rectangle[] _boardRects;                                    //板卡对应的矩形
-            private Dictionary<ContainerLink, Point[]> _links;          //包含的连接及对应的点
-            public Boolean NoIndicate { get; set; }                     //不画连接示意区标志
-
-            public DrawContainer(ContainerViewModel ctn, Graphics g, Rectangle r)
+            //排除无效的槽位
+            if (!(_container.IsContainBoard(link.FirstEndId) && _container.IsContainBoard(link.SecondEndId)))
             {
-                _container = ctn;
-                _graph = g;
-                _ctnRect = r;
-                _bpRect = r;
-                NoIndicate = false;
-                //初始化背板画图成员
-                ctn._backPlane.InitDrawBackPlane(g, _bpRect);
-                var drawBackPlane = ctn._backPlane._drawBackPlane;
-                _boardRects = drawBackPlane.SlotRects;
-                //给BoardView分配矩形区域
-                for (int i = 0; i < ctn._boardViews.Length; i++)
-                {
-                    ctn._boardViews[i].AssignRect(_boardRects[i]);
-                }
-                //分配连接
-                _links = new Dictionary<ContainerLink, Point[]>();
-                foreach (var linkPair in drawBackPlane.LinkDir)
-                {
-                    BackPlaneViewModel.BackPlaneLink link = linkPair.Key;
-                    _links.Add(new ContainerLink(link, IsValidLine(link)), linkPair.Value);
-                }
+                return false;
             }
 
-            public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
+            //获取Link的端点1连接的板卡名字
+            if (!_bpView._bp.IsConnetctAreaSlot(link.FirstEndId))
             {
-                BaseDrawer resultBv;
-                //先查鼠标位置是否在板卡里
-                for (int i = 0; i < _container._boardViews.Length; i++)
-                {
-                    if (_boardRects[i].Contains(e.Location))
-                    {
-                        resultBv = _container._boardViews[i].GetChoosedBaseView(e);
-                        if (resultBv != null)
-                        {
-                            return resultBv;
-                        }
-                    }
-                }
-                //检查是否在背板上
-                return _container._backPlane._drawBackPlane.GetChoosedBaseView(e);
-            }
-
-            public Rectangle GetBaseViewRect(BaseDrawer baseView, ref bool isFind)
-            {
-                //先在板卡里面找
-                for (int i = 0; i < _container._boardViews.Length; i++)
-                {
-                    if (_container._boardViews[i] == baseView)
-                    {
-                        isFind = true;
-                        return _boardRects[i];
-                    }
-                }
-
-                //在背板里面找
-                var drawBackPlane = _container._backPlane._drawBackPlane;
-                return drawBackPlane.GetBaseViewRect(baseView, ref isFind);
-            }
-
-            //重定义一个Draw的函数
-            public void Draw()
-            {
-                var choosedBv = _container.ChoosedBv;
-                //画背板
-                if (NoIndicate)
-                {
-                    _container._backPlane.DrawViewNoIndicate(_graph, _bpRect);
-                }
-                else
-                {
-                    _container._backPlane.DrawView(_graph, _bpRect);
-                }
-
-                //画Boards
-                for (int i = 0; i < _container._boardViews.Length; i++)
-                {
-                    _container._boardViews[i].DrawView(_graph, _boardRects[i]);
-                }
-
-                //稍后画选中的图元
-                if (choosedBv != null)
-                {
-                    bool isFind = false;
-                    var choosedRect = GetBaseViewRect(choosedBv, ref isFind);
-                    if (isFind)
-                    {
-                        choosedBv.ChoosedDrawView(_graph, choosedRect);
-                    }
-                }
-
-                //画Links
-                foreach (var linePair in _links)
-                {
-                    linePair.Key.EndRadius = _boardRects[0].Width / 20;
-                    linePair.Key.DrawLine(_graph, linePair.Value.ToList());
-                }
-            }
-
-            /// <summary>
-            /// 判断一条Link的两端是否有效地连接了板卡的相关位置；
-            /// </summary>
-            /// <param name="link"></param>
-            /// <returns></returns>
-            private bool IsValidLine(BackPlaneViewModel.BackPlaneLink link)
-            {
-                //排除无效的槽位
-                if (!(_container.IsContainBoard(link.FirstEndId) && _container.IsContainBoard(link.SecondEndId)))
+                Board end1Board = ModelFactory<Board>.CreateByName(_container.BoardNameDir[link.FirstEndId]);
+                if (!end1Board.IsLinkValidConnected(link, 1))
                 {
                     return false;
                 }
-
-                //获取Link的端点1连接的板卡名字
-                if (!_container._backPlane.IsConnetctAreaSlot(link.FirstEndId))
-                {
-                    BoardViewModel end1Board = BaseViewFactory<BoardViewModel>.CreateByName(_container.BoardNameDir[link.FirstEndId]);
-                    if (!end1Board.IsLinkValidConnected(link, 1))
-                    {
-                        return false;
-                    }
-                }
-
-                //获取Link的端点2连接的板卡名字
-                if (!_container._backPlane.IsConnetctAreaSlot(link.SecondEndId))
-                {
-                    BoardViewModel end2Board = BaseViewFactory<BoardViewModel>.CreateByName(_container.BoardNameDir[link.SecondEndId]);
-                    if (!end2Board.IsLinkValidConnected(link, 2))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
             }
+
+            //获取Link的端点2连接的板卡名字
+            if (!_bpView._bp.IsConnetctAreaSlot(link.FirstEndId))
+            {
+                Board end2Board = ModelFactory<Board>.CreateByName(_container.BoardNameDir[link.SecondEndId]);
+                if (!end2Board.IsLinkValidConnected(link, 2))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

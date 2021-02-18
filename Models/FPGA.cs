@@ -10,7 +10,7 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    public class FPGA : ModelBase, XMLManager.IXmlTransformByName
+    public class FPGA : ModelBaseCore
     {
         #region FPGA的属性
 
@@ -76,7 +76,7 @@ namespace DRSysCtrlDisplay.Models
 
         #endregion FPGA的属性
 
-        protected ModelBase CreateByPath(string objectFilePath)
+        public override ModelBase CreateByPath(string objectFilePath)
         {
             FPGA fpga = new FPGA();
             if (!File.Exists(objectFilePath))
@@ -123,7 +123,7 @@ namespace DRSysCtrlDisplay.Models
             return fpga;
         }
 
-        protected void SaveByPath(string xmlFilePath)
+        public override void SaveByPath(string xmlFilePath)
         {
             //先判断一些文件是否存在
             if (!PathManager.CheckFile(xmlFilePath))
@@ -168,13 +168,13 @@ namespace DRSysCtrlDisplay.Models
             xd.Save(xmlFilePath);
         }
 
-        public ModelBase CreateObjectByName(string objectName)
+        public override ModelBase CreateObjectByName(string objectName)
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetFPGAPath(), objectName);
             return CreateByPath(xmlPath);
         }
 
-        public void SaveXmlByName()
+        public override void SaveXmlByName()
         {
             string xmlPath = string.Format(@"{0}\{1}.xml", PathManager.GetFPGAPath(), this.Name);
             SaveByPath(xmlPath);
