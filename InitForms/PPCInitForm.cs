@@ -59,14 +59,6 @@ namespace DRSysCtrlDisplay
             InitializeComponent();
             //设置窗体显示位置
             this.StartPosition = FormStartPosition.CenterParent;
-
-            //_nameTB.Text = "输入名称";
-            //_coreNumCB.Text = "0";
-            //_typeCB.Text = "NoType";
-            //_mainFrequencyTB.Text = "0";
-            //_fileSystemTB.Text = "0";
-            //_memoryTB.Text = "0";
-            //_vectorEnginCB.Text = "无";
         }
 
         //Designer初始化函数

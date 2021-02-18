@@ -12,14 +12,14 @@ namespace DRSysCtrlDisplay.ViewModel.Others
     //构件节点
     public class ComponentNode : BaseNode
     {
-        public int NodeNum { get; private set; }                //Node节点对应的序号
+        public int NodeId { get; private set; }                //Node节点对应的序号
         [BrowsableAttribute(false)]
         public CmpNode NodeObject { get; private set; }         //Node节点对应的实例
 
-        public ComponentNode(EndType nodeType, string nodeName, int nodeNum, CmpNode nodeObject)
-            : base(nodeType, nodeName)
+        public ComponentNode(int nodeNum, CmpNode nodeObject)
+            : base(nodeObject._nodeType, nodeObject.Name)
         {
-            this.NodeNum = nodeNum;
+            this.NodeId = nodeNum;
             this.NodeObject = nodeObject;
         }
         public override void DrawNode(Graphics graph, Rectangle rect)

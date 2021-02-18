@@ -12,10 +12,11 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    class Component : ModelBase
+    public class Component : ModelBase
     {
         #region Component的基本属性
         public int NodeNum { get; private set; }
+
         public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
         #endregion Component的基本属性
 
@@ -57,7 +58,7 @@ namespace DRSysCtrlDisplay.Models
             foreach (var nodeInfo in this.CmpTopoNet.NodeArray)
             {
                 nodes.Add(new XElement("Node",
-                    new XAttribute("NodeNum", nodeInfo.NodeNum),
+                    new XAttribute("NodeNum", nodeInfo.NodeId),
                     new XAttribute("NodeType", nodeInfo.NodeType),
                     new XAttribute("NodeName", nodeInfo.Name)
                     ));
@@ -140,11 +141,11 @@ namespace DRSysCtrlDisplay.Models
             foreach (var e in nodesElement.Elements())
             {
                 var nodeNum = int.Parse(e.Attribute("NodeNum").Value);
-                var nodeType = (EndType)(Enum.Parse(typeof(ComputeNodeType), e.Attribute("NodeType").Value));
+                var nodeType = (EndType)(Enum.Parse(typeof(EndType), e.Attribute("NodeType").Value));
                 var nodeName = e.Attribute("NodeName").Value;
                 var nodeObject = Component_GenNodeObj(nodeType, string.Format(@"{0}\{1}.xml", xmlPathDir, nodeName));
 
-                var cmpNode = new ComponentNode(nodeType, nodeName, nodeNum, nodeObject);
+                var cmpNode = new ComponentNode(nodeNum, nodeObject);
                 component.CmpTopoNet.SetNodeValue(nodeNum, cmpNode);
             }
 

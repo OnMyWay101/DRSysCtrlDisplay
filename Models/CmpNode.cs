@@ -11,16 +11,22 @@ namespace DRSysCtrlDisplay.Models
     /// </summary>
     public class CmpNode : XMLManager.IXmlTransformByPath
     {
-        public ComputeNodeType _nodeType;               //节点对应的芯片类型
+        public EndType _nodeType;               //节点对应的芯片类型
         public ModelBaseCore _object = null;            //对应的芯片实例
 
-        public List<EthSource> _ethPbSources = new List<EthSource>();   //以太网发布的资源
-        public List<EthSource> _ethSubSources = new List<EthSource>();  //以太网订阅的资源
-        public List<RioSource> _rioPbSources = new List<RioSource>();   //rio网订阅的资源
-        public List<RioSource> _rioSubSources = new List<RioSource>();  //rio网订阅的资源
+        public List<EthSource> EthPbSources { get; set; }  //以太网发布的资源
+        public List<EthSource>  EthSubSources { get; set; } //以太网订阅的资源
+        public List<RioSource>  RioPbSources { get; set; } //rio网订阅的资源
+        public List<RioSource>  RioSubSources { get; set; } //rio网订阅的资源
+        public string Name { get { return _object.Name; } }
 
-        public CmpNode(ComputeNodeType nodeType, ModelBaseCore obj)
+        public CmpNode(EndType nodeType, ModelBaseCore obj)
         {
+            EthPbSources = new List<EthSource>();
+            EthSubSources = new List<EthSource>();
+            RioPbSources = new List<RioSource>();
+            RioSubSources = new List<RioSource>();
+
             _nodeType = nodeType;
             _object = obj;
         }
@@ -28,6 +34,7 @@ namespace DRSysCtrlDisplay.Models
         public ModelBase CreateObjectByPath(string objectFilePath)
         {
             return _object.CreateByPath(objectFilePath);
+            //Todo:扩展内容以记录资源
         }
 
         public void SaveXmlByPath(string xmlFilePath)

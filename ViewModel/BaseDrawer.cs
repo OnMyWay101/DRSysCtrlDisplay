@@ -100,57 +100,6 @@ namespace DRSysCtrlDisplay
         }
     }
 
-    public class BaseViewCoreTypeConverter : TypeConverter
-    {
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-        {
-            if (destinationType != typeof(string))
-            {
-                return base.ConvertTo(context, culture, value, destinationType);
-            }
-
-            BaseDrawerCore bvCore = value as BaseDrawerCore;
-
-            return bvCore.Name;
-        }
-    }
-
-    public static class BaseViewFactory<T>
-        where T : BaseDrawer, new()
-    {
-        public static T CreateRaw()
-        {
-            return new T();
-        }
-
-        public static T CreateByName(string name)
-        {
-            T t = new T();
-            return (T)t.CreateObjectByName(name);
-        }
-    }
-
-    public static class BaseViewCoreFactory<T>
-        where T : BaseDrawerCore, new()
-    {
-        public static T CreateRaw()
-        {
-            return new T();
-        }
-
-        public static T CreateByName(string name)
-        {
-            T t = new T();
-            return (T)t.CreateObjectByName(name);
-        }
-
-        public static T CreateByPath(string objectFilePath)
-        {
-            T t = new T();
-            return (T)t.CreateObjectByPath(objectFilePath);
-        }
-    }
-
     //画图类节点信息有变化的通知接口
     public interface IDrawerNotify
     {

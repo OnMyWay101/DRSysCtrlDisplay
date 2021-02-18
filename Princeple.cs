@@ -31,19 +31,6 @@ namespace DRSysCtrlDisplay
         };
 
         /// <summary>
-        /// 表示各种计算颗粒的种类
-        /// </summary>
-        public enum ComputeNodeType
-        {
-            None,
-            PPC,        //Power计算节点
-            FPGA,
-            ZYNQ,
-            ZYNQ_PL,
-            ZYNQ_PS
-        }
-
-        /// <summary>
         /// 表示各个计算颗粒现在处于的状态
         /// </summary>
         public enum NodeStatus
@@ -177,9 +164,9 @@ namespace DRSysCtrlDisplay
             public static List<string> GetComputeNodeType_StringList()
             {
                 var list = new List<string>();
-                list.Add(ComputeNodeType.PPC.ToString());
-                list.Add(ComputeNodeType.ZYNQ.ToString());
-                list.Add(ComputeNodeType.FPGA.ToString());
+                list.Add(EndType.PPC.ToString());
+                list.Add(EndType.ZYNQ.ToString());
+                list.Add(EndType.FPGA.ToString());
                 return list;
             }
         }

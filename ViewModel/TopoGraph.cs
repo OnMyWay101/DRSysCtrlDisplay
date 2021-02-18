@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DRSysCtrlDisplay.Princeple;
+using DRSysCtrlDisplay.ViewModel.Others;
 
 namespace DRSysCtrlDisplay
 {

@@ -301,12 +301,14 @@ namespace DRSysCtrlDisplay
             //构件初始化
             try
             {
-                var nodeType = (ComputeNodeType)Enum.Parse(typeof(ComputeNodeType), _nodeTypeCB.Text);
-                var node = new CmpNode(nodeType, nodeName);    //弹出初始化界面
-                if (node._object == null)
+                var nodeType = (EndType)Enum.Parse(typeof(EndType), _nodeTypeCB.Text);
+                var core = ShowNodeInitialForm(nodeName, nodeType);   //弹出初始化界面
+                if (core == null)
                 {
                     return;
                 }
+                var node = new CmpNode(nodeType, core);    
+
                 _nodeArray[nodeNum] = node;
                 FreshNodeStatus();
             }
@@ -319,17 +321,15 @@ namespace DRSysCtrlDisplay
 
         void _editNodeBtn_Click(object sender, EventArgs e)
         {
-            int nodeNum = tabControl1.SelectedIndex;//计算颗粒号,因为tabPage与node在各自的集合里面下标是一一对应的；
-            var node = _nodeArray[nodeNum];
-            node.EditNodeInfo();
+            //计算颗粒号,因为tabPage与node在各自的集合里面下标是一一对应的；
+            ShowNodeInitialForm(_nodeArray[tabControl1.SelectedIndex]);
         }
 
 
         void _showNodeBtn_Click(object sender, EventArgs e)
         {
-            int nodeNum = tabControl1.SelectedIndex;
-            var node = _nodeArray[nodeNum];
-            node.ShowNodeInfo();
+            //计算颗粒号,因为tabPage与node在各自的集合里面下标是一一对应的；
+            ShowNodeInitialForm(_nodeArray[tabControl1.SelectedIndex]);
         }
 
         void _nodesNumBtn_Click(object sender, EventArgs e)
@@ -337,7 +337,7 @@ namespace DRSysCtrlDisplay
             try
             {
                 int cmpNum = int.Parse(_nodesNumTb.Text);
-                _nodeArray = new Node[cmpNum];
+                _nodeArray = new CmpNode[cmpNum];
                 for (int i = 0; i < cmpNum; i++)
                 {
                     //添加对应的TabPage
@@ -371,7 +371,7 @@ namespace DRSysCtrlDisplay
         private void _sourceBtn_Click(object sender, EventArgs e)
         {
             int nodeNum = tabControl1.SelectedIndex;//计算颗粒号
-            Node selectedNode = this._nodeArray[nodeNum];
+            var selectedNode = this._nodeArray[nodeNum];
             if (selectedNode == null)
             {
                 return;
@@ -383,10 +383,10 @@ namespace DRSysCtrlDisplay
 
             if (sourceForm.DialogResult == DialogResult.Yes)
             {
-                selectedNode._ethPbSources = sourceForm._ethPbSources;
-                selectedNode._ethSubSources = sourceForm._ethSubSources;
-                selectedNode._rioPbSources = sourceForm._rioPbSources;
-                selectedNode._rioSubSources = sourceForm._rioSubSources;
+                selectedNode.EthPbSources = sourceForm._ethPbSources;
+                selectedNode.EthSubSources = sourceForm._ethSubSources;
+                selectedNode.RioPbSources = sourceForm._rioPbSources;
+                selectedNode.RioSubSources = sourceForm._rioSubSources;
             }
             sourceForm.Dispose();
         }
@@ -404,11 +404,7 @@ namespace DRSysCtrlDisplay
                 if (_nodeArray[i] != null)
                 {
                     //添加节点信息
-                    Node curNode = _nodeArray[i];
-                    var nodeType = (EndType)curNode._nodeType;
-                    var nodeName = curNode.Name;
-                    var nodeObj = curNode._object;
-                    retComponent.CmpTopoNet.SetNodeValue(i, new ComponentNode(nodeType, nodeName, i, nodeObj));
+                    retComponent.CmpTopoNet.SetNodeValue(i, new ComponentNode( i, _nodeArray[i]));
                     //添加连接信息
                     var dgv = _dgvsOpt.DataGridViweList[i];
                     foreach (DataGridViewRow row in dgv.Rows)
@@ -455,36 +451,37 @@ namespace DRSysCtrlDisplay
             {
                 foreach (var node in _nodeArray)
                 {
+                    string nodeName = node.Name;
                     //EtherNet资源
-                    if (node._ethPbSources.Count > 0 || node._ethSubSources.Count > 0)
+                    if (node.EthPbSources.Count > 0 || node.EthSubSources.Count > 0)
                     {
-                        MHalCodeGen egen = new MHalCodeGen(string.Format("{0}_{1}_Emhal", cmpName, node.Name));
-                        foreach (var eSource in node._ethPbSources)
+                        MHalCodeGen egen = new MHalCodeGen(string.Format("{0}_{1}_Emhal", cmpName, nodeName));
+                        foreach (var eSource in node.EthPbSources)
                         {
                             egen.AddEMHalPublishRes(eSource._sourceName);
                         }
-                        foreach (var eSource in node._ethSubSources)
+                        foreach (var eSource in node.EthSubSources)
                         {
                             egen.AddEMHalSubscribeRes(eSource._sourceName);
                         }
                         egen.GenEMHalCode();
-                        MainForm.SetOutPutText(string.Format("生成资源文件：{0}_{1}_Emhal", cmpName, node.Name));
+                        MainForm.SetOutPutText(string.Format("生成资源文件：{0}_{1}_Emhal", cmpName, nodeName));
                     }
 
                     //RapidIO资源
-                    if (node._rioPbSources.Count > 0 || node._rioSubSources.Count > 0)
+                    if (node.RioPbSources.Count > 0 || node.RioSubSources.Count > 0)
                     {
-                        MHalCodeGen rgen = new MHalCodeGen(string.Format("{0}_{1}_Rmhal", cmpName, node.Name));
-                        foreach (var rSource in node._rioPbSources)
+                        MHalCodeGen rgen = new MHalCodeGen(string.Format("{0}_{1}_Rmhal", cmpName, nodeName));
+                        foreach (var rSource in node.RioPbSources)
                         {
                             rgen.AddRMHalPublishRes(rSource._sourceName, (uint)rSource._packMaxLen, (uint)rSource._bufSize);
                         }
-                        foreach (var rSource in node._rioSubSources)
+                        foreach (var rSource in node.RioSubSources)
                         {
                             rgen.AddRMHalSubscribeRes(rSource._sourceName);
                         }
                         rgen.GenRMHalPpcCode(false);
-                        MainForm.SetOutPutText(string.Format("生成资源文件：{0}_{1}_Rmhal", cmpName, node.Name));
+                        MainForm.SetOutPutText(string.Format("生成资源文件：{0}_{1}_Rmhal", cmpName, nodeName));
                     }
                 }
             }
@@ -514,6 +511,73 @@ namespace DRSysCtrlDisplay
                 _addNodeBtn.Enabled = false;
                 _delNodeBtn.Enabled = true;
             }
+        }
+
+        private ModelBaseCore ShowNodeInitialForm(string nodeName, EndType nodeType)
+        {
+            switch (nodeType)
+            {
+                case EndType.PPC:
+                    Component_PPCInitForm ppcForm = new Component_PPCInitForm(nodeName);
+                    ppcForm.ShowDialog();
+                    if (ppcForm.DialogResult == DialogResult.Yes)
+                    {
+                        return ppcForm._ppc;
+                    }
+                    break;
+                case EndType.FPGA:
+                    Component_FPGAInitForm fpgaForm = new Component_FPGAInitForm(nodeName);
+                    fpgaForm.ShowDialog();
+                    if (fpgaForm.DialogResult == DialogResult.Yes)
+                    {
+                        return fpgaForm._fpga;
+                    }
+                    break;
+                default://ComputeNodeType.ZYNQ
+                    Component_ZYNQInitForm zynqForm = new Component_ZYNQInitForm(nodeName);
+                    zynqForm.ShowDialog();
+                    if (zynqForm.DialogResult == DialogResult.Yes)
+                    {
+                        return zynqForm._zynq;
+                    }
+                    break;
+            }
+            return null;
+        }
+
+        private void ShowNodeInitialForm(CmpNode node)
+        {
+            switch (node._nodeType)
+            {
+                case EndType.PPC:
+                    PPC ppc = node._object as PPC;
+                    Component_PPCInitForm ppcForm = new Component_PPCInitForm(ppc);
+                    ppcForm.ShowDialog();
+                    if (ppcForm.DialogResult == DialogResult.Yes)
+                    {
+                        node._object = ppcForm._ppc;
+                    }
+                    break;
+                case EndType.FPGA:
+                    FPGA fpga = node._object as FPGA;
+                    Component_FPGAInitForm fpgaForm = new Component_FPGAInitForm(fpga);
+                    fpgaForm.ShowDialog();
+                    if (fpgaForm.DialogResult == DialogResult.Yes)
+                    {
+                        node._object = fpgaForm._fpga;
+                    }
+                    break;
+                default://ComputeNodeType.ZYNQ
+                    ZYNQ zynq = node._object as ZYNQ;
+                    Component_ZYNQInitForm zynqForm = new Component_ZYNQInitForm(zynq);
+                    zynqForm.ShowDialog();
+                    if (zynqForm.DialogResult == DialogResult.Yes)
+                    {
+                        node._object = zynqForm._zynq;
+                    }
+                    break;
+            }
+            return;
         }
 
         /// <summary>
@@ -577,6 +641,12 @@ namespace DRSysCtrlDisplay
                 base.Text = name;
             }
 
+            public Component_PPCInitForm(PPC ppc)
+                : base(ppc)
+            {
+                base.Text = ppc.Name;
+            }
+
             protected override void _yesBtn_Click(object sender, EventArgs e)
             {
                 base.RefreshPPC(_ppc);
@@ -590,6 +660,11 @@ namespace DRSysCtrlDisplay
             public Component_FPGAInitForm(string name)
             {
                 base.Text = name;
+            }
+            public Component_FPGAInitForm(FPGA fpga)
+               : base(fpga)
+            {
+                base.Text = fpga.Name;
             }
 
             protected override void yesBtn_Click(object sender, EventArgs e)
@@ -605,6 +680,12 @@ namespace DRSysCtrlDisplay
             public Component_ZYNQInitForm(string name)
             {
                 base.Text = name;
+            }
+
+            public Component_ZYNQInitForm(ZYNQ zynq)
+                : base(zynq)
+            {
+                base.Text = zynq.Name;
             }
 
             protected override void YesButton_Clicked(object sender, EventArgs e)
