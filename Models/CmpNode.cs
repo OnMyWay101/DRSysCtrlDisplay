@@ -11,7 +11,7 @@ namespace DRSysCtrlDisplay.Models
     /// </summary>
     public class CmpNode : XMLManager.IXmlTransformByPath
     {
-        public EndType _nodeType;               //节点对应的芯片类型
+        public EndType _nodeType;                       //节点对应的芯片类型
         public ModelBaseCore _object = null;            //对应的芯片实例
 
         public List<EthSource> EthPbSources { get; set; }  //以太网发布的资源
@@ -31,7 +31,7 @@ namespace DRSysCtrlDisplay.Models
             _object = obj;
         }
 
-        public ModelBase CreateObjectByPath(string objectFilePath)
+        public ModelBaseCore CreateObjectByPath(string objectFilePath)
         {
             return _object.CreateByPath(objectFilePath);
             //Todo:扩展内容以记录资源

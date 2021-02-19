@@ -6,7 +6,7 @@ using System.Text;
 namespace DRSysCtrlDisplay.Models
 {
     public static class ModelFactory<T>
-    where T : ModelBase, XMLManager.IXmlTransformByName, new()
+    where T : ModelBase, new()
     {
         public static T CreateRaw()
         {

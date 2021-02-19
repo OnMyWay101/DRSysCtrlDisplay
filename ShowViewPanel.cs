@@ -115,7 +115,7 @@ namespace DRSysCtrlDisplay
             g.TranslateTransform(_viewOffset.X, _viewOffset.Y);
 
             var size = ShowView.GetViewSize();
-            ShowView.DrawView(g, new Rectangle(ViewMargin, ViewMargin, size.Width, size.Height));
+            ShowView.DrawView();
         }
 
         void ShowViewPanel_Scroll(object sender, ScrollEventArgs e)

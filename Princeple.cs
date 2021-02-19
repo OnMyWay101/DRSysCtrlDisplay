@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
@@ -125,11 +126,11 @@ namespace DRSysCtrlDisplay
                 switch (eType)
                 {
                     case EndType.PPC:
-                        return typeof(PPCViewModel);
+                        return typeof(PPC);
                     case EndType.FPGA:
-                        return typeof(FPGAViewModel);
+                        return typeof(FPGA);
                     case EndType.ZYNQ:
-                        return typeof(ZYNQViewModel);
+                        return typeof(ZYNQ);
                     default:
                         return null;
                 }

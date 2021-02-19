@@ -13,6 +13,8 @@ using DRSysCtrlDisplay.Princeple;
 using SystemInformation = DRSysCtrlDisplay.TargetListener.MultiCastPacket.MultiCastPacketInfo.SystemInformation;
 using StaticNode = DRSysCtrlDisplay.StaticTopo.StaticNode;
 using StaticLine = DRSysCtrlDisplay.StaticTopo.StaticLine;
+using DRSysCtrlDisplay.ViewModel.Others;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
@@ -408,16 +410,18 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 静态topo图
     /// </summary>
-    public class StaticTopo : BaseDrawer
+    public class StaticTopo : BaseDrawer, IDrawerChoosed
     {
+        public SystemStru System { get; set; }                         //对应的机箱
         public RawTopo _rawTopo { get; private set; }                           //机箱对应的原生topo图
         public TopoNet<StaticNode, StaticLine> _topoNet { get; private set; }   //计算颗粒包含的topo图
         private TopoNetView<StaticNode, StaticLine> _topoView;                  //Topo图的画图类
-        public SystemStruViewModel System { get; set; }                                  //对应的机箱
         public int EndNodeNum { get; private set; }                             //端点(vpx,sw,ppc,fpga,zynq)的总数量
         public int ComputeNodeNum { get; private set; }                         //计算颗粒(ppc,fpga,zynq)的数量
+        public BaseDrawer ChoosedBv { get; set; }
 
-        public StaticTopo(SystemStruViewModel sys)
+        public StaticTopo(SystemStru sys, Graphics g, Rectangle rect)
+            : base(g, rect)
         {
             System = sys;
             EndNodeNum = 0;
@@ -430,9 +434,12 @@ namespace DRSysCtrlDisplay
         //初始化端点的总数和计算颗粒的总数
         private void InitNodeNum()
         {
-            foreach (var ctn in System.CntsArray)//遍历机箱数组
+            foreach (var ctnName in System.CntNames)//遍历机箱数组
             {
-                EndNodeNum += ctn._backPlane.VirtualSlotsNum;  //添加背板包含端点(vpx)的数量到总数量
+                var ctn = ModelFactory<Models.Container>.CreateByName(ctnName);
+                var bp = ModelFactory<Models.BackPlane>.CreateByName(ctn.BackPlaneName);
+
+                EndNodeNum += bp.VirtualSlotsNum;  //添加背板包含端点(vpx)的数量到总数量
 
                 //累加板卡包含端点(PPC,FPGA,ZYNQ,SW )的数量
                 foreach (var boardInfoPair in ctn.BoardNameDir)
@@ -440,7 +447,7 @@ namespace DRSysCtrlDisplay
                     string boardName = boardInfoPair.Value;
                     if (ctn.IsContainBoard(boardName))
                     {
-                        var board = BaseViewFactory<BoardViewModel>.CreateByName(boardName);
+                        var board = ModelFactory<Board>.CreateByName(boardName);
                         //累计计算颗粒得到计算颗粒总数
                         ComputeNodeNum += (board.PPCList.Count + board.FPGAList.Count + board.ZYNQList.Count);
                         EndNodeNum += board.SwitchList.Count;//累计交换机数量到总数量
@@ -456,17 +463,18 @@ namespace DRSysCtrlDisplay
             _rawTopo = new RawTopo(EndNodeNum);
             int curUrlId = 0;   //当前的urlId
 
-            for (int i = 0; i < System.CntsArray.Length; i++)//遍历机箱数组
+            for (int i = 0; i < System.CntNames.Length; i++)//遍历机箱数组
             {
-                var ctn = System.CntsArray[i];
-                AddBackPlane(ctn._backPlane, i, ref curUrlId);
+                var ctn = ModelFactory<Models.Container>.CreateByName(System.CntNames[i]);
+                var bp = ModelFactory<Models.BackPlane>.CreateByName(ctn.BackPlaneName);
+                AddBackPlane(bp, i, ref curUrlId);
                 foreach (var boardPair in ctn.BoardNameDir)
                 {
                     if (!ctn.IsContainBoard(boardPair.Value))
                     {
                         continue;
                     }
-                    BoardViewModel board = BaseViewFactory<BoardViewModel>.CreateByName(boardPair.Value);
+                    Board board = ModelFactory<Board>.CreateByName(boardPair.Value);
                     AddBoard(board, i, boardPair.Key, ref curUrlId);
                 }
             }
@@ -475,7 +483,7 @@ namespace DRSysCtrlDisplay
         }
 
         //添加一个背板的描述到_rawTopo里面
-        private void AddBackPlane(BackPlaneViewModel bp, int frameId, ref int curUrlId)
+        private void AddBackPlane(BackPlane bp, int frameId, ref int curUrlId)
         {
             //添加节点(槽位，包含虚拟槽位)
             for (int i = 0; i < bp.VirtualSlotsNum; i++)
@@ -506,7 +514,7 @@ namespace DRSysCtrlDisplay
         }
 
         //添加一个板卡的描述到图里面
-        private void AddBoard(BoardViewModel board, int frameId, int slotId, ref int curUrlId)
+        private void AddBoard(Board board, int frameId, int slotId, ref int curUrlId)
         {
             //创建一个字典用于保存GraphNode的endId与UrlId的映射关系
             Dictionary<int, int> endId2UrlId = new Dictionary<int, int>();
@@ -589,9 +597,11 @@ namespace DRSysCtrlDisplay
         {
             for (int i = 0; i < System.LinksArray.Length; i++)
             {
-                int slot1 = System.CntsArray[i]._backPlane.VirtualSlotsNum - 2;//外接口的槽位号
+                var ctn = ModelFactory<Models.Container>.CreateByName(System.CntNames[i]);
+                var bp = ModelFactory<Models.BackPlane>.CreateByName(ctn.BackPlaneName);
+                int slot1 = bp.VirtualSlotsNum - 2;//外接口的槽位号
                 var links = System.LinksArray[i];
-                foreach (SystemStruViewModel.SystemStruLink link in links)
+                foreach (SystemStruLink link in links)
                 {
                     //创建一天原生子链接
                     var subLink = new RawTopo.RawSubLink(link.FirstEndPostion, link.SecondEndPostion);
@@ -602,7 +612,9 @@ namespace DRSysCtrlDisplay
                         .Select(rNode => rNode.UrlId).FirstOrDefault();
 
                     //找到在_rawTopo里面端点1对应的urlId
-                    int slot2 = System.CntsArray[link.SecondEndId]._backPlane.VirtualSlotsNum - 2;
+                    var ctn2 = ModelFactory<Models.Container>.CreateByName(System.CntNames[i]);
+                    var bp2 = ModelFactory<Models.BackPlane>.CreateByName(ctn.BackPlaneName);
+                    int slot2 = bp2.VirtualSlotsNum - 2;
                     int urlId2 = _rawTopo.NodeArray.Where(rNode => rNode.FrameId == link.SecondEndId
                         && rNode.Type == EndType.VPX && rNode.SlotId == slot2)
                         .Select(rNode => rNode.UrlId).FirstOrDefault();
@@ -649,13 +661,11 @@ namespace DRSysCtrlDisplay
         }
 
         //通过一个xml文件来创建一个节点的BaseViewCore
-        private BaseDrawerCore StaticTopo_GenNodeObj(Princeple.EndType type, string xmlName)
+        private ModelBaseCore StaticTopo_GenNodeObj(Princeple.EndType type, string xmlName)
         {
             Type objType = TypeConvert.GetEndType(type);
-            Type FactoryType = typeof(BaseViewCoreFactory<>);
-            FactoryType = FactoryType.MakeGenericType(objType);
-            return (BaseDrawerCore)(FactoryType.InvokeMember("CreateByName"
-                , BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { xmlName }));
+            var core = Activator.CreateInstance(objType) as ModelBaseCore;
+            return (ModelBaseCore)(core.CreateObjectByName(xmlName));
         }
 
         //添加所有连接到TopoNet里面
@@ -724,34 +734,34 @@ namespace DRSysCtrlDisplay
                 && rNode.EndId == sNode.EndId).FirstOrDefault();
             return rawNode;
         }
-
-        public override void MouseEventHandler(object sender, MouseEventArgs e)
+        #region 实现接口
+        public void MouseEventHandler(object sender, MouseEventArgs e)
         {
-            _topoNet.ChoosedNode = _topoView.GetChoosedNodeView(e);
-            if (_topoNet.ChoosedNode != null)
-            {
-                PropertyForm.Show(_topoNet.ChoosedNode);
-            }
-            else
-            {
-                PropertyForm.Show(this);
-            }
+            //处理鼠标事件放在TopoNetView中实现
+            _topoView.MouseEventHandler(sender, e);
+            //Todo:切换相关属性的显示
             base.TriggerRedrawRequst();
         }
 
+        public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion 实现接口
+
+        #region 重载虚函数
         public override Size GetViewSize()
         {
             //计算颗粒的个数每5个计算颗粒对应800宽度
             return new Size(_topoNet.NodeArray.Length * 800 / 5, 400);
         }
 
-        public override void DrawView(Graphics g) { }
-
-        public override void DrawView(Graphics g, Rectangle rect)
+        public override void DrawView()
         {
-            _topoView = new TopoNetView<StaticNode, StaticLine>(g, rect, _topoNet);
+            _topoView = new TopoNetView<StaticNode, StaticLine>(base._graph, base._rect, _topoNet);
             _topoView.DrawView();
         }
+        #endregion 重载虚函数
 
         /// <summary>
         /// 静态topo的节点
@@ -760,7 +770,7 @@ namespace DRSysCtrlDisplay
         {
             public int UrlId { get; private set; }      //点对应的全局资源定位的ID
             [BrowsableAttribute(false)]
-            public BaseDrawerCore NodeObject { get; set; }
+            public ModelBaseCore NodeObject { get; set; }
             public int FrameId { get; set; }            //机箱号ID
             public int SlotId { get; set; }             //槽位号ID
             public int EndId { get; set; }              //端点号ID（端点在板内的ID号）
@@ -773,11 +783,13 @@ namespace DRSysCtrlDisplay
 
             public override void DrawNode(Graphics graph, Rectangle rect)
             {
-                NodeObject.DrawView(graph, rect);
+                BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject, graph, rect);
+                coreView.DrawView();
             }
             public override void DrawChoosedNode(Graphics graph, Rectangle rect)
             {
-                NodeObject.ChoosedDrawView(graph, rect);
+                BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject, graph, rect);
+                coreView.ChoosedDrawView();
             }
         }
 
@@ -821,22 +833,25 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 画一个系统的动态topo图，包含计算颗粒(PPC,ZYNQ,FPGA)和连接关系(EtherNet,RapidIO,GTX,LVDS )
     /// </summary>
-    public class DynamicTopo : BaseDrawer
+    public class DynamicTopo : BaseDrawer, IDrawerChoosed
     {
         private StaticTopo _sTopo = null;                                       //该动态Topo图对应的静态topo图
         public TopoNet<DynamicNode, DynamicLine> _topoNet { get; private set; } //计算颗粒包含的topo图
         private TopoNetView<DynamicNode, DynamicLine> _topoView;                //Topo图的画图类
+        public BaseDrawer ChoosedBv { get; set; }
+        Models.Component[] _cmps = null;                                        //该topo对应的应用集
+        List<List<DynamicNode>> _appMatchedTopoList;                            //应用匹配的节点集合topo的集合
+        int _choosedMatchedListNum = -1;                                        //选择的匹配节点集合topo的序号
 
-        ComponentViewModel[] _cmps = null;                       //该topo对应的应用集
-        List<List<DynamicNode>> _appMatchedTopoList;    //应用匹配的节点集合topo的集合
-        int _choosedMatchedListNum = -1;                //选择的匹配节点集合topo的序号
-        List<Boolean>[] _onLineFlags = null;            //各机箱槽位板卡在线信息
-        public Boolean _reconfigFlag { get; set; }      //该应用是否发生了重构
+        List<Boolean>[] _onLineFlags = null;                                    //各机箱槽位板卡在线信息
+        public Boolean _reconfigFlag { get; set; }                              //该应用是否发生了重构
 
-        public DynamicTopo(StaticTopo sTopo)
+        public DynamicTopo(StaticTopo sTopo, Graphics g, Rectangle rect)
+            : base(g, rect)
         {
             _sTopo = sTopo;
             _appMatchedTopoList = new List<List<DynamicNode>>();
+            _topoView = new TopoNetView<DynamicNode, DynamicLine>(g, rect, _topoNet);
             InitTopoNet();
 
             InitOnlineFlags();
@@ -876,12 +891,13 @@ namespace DRSysCtrlDisplay
         //初始化槽位的在线状态，目前只默认存在机箱0在线，其余板卡不在线
         private void InitOnlineFlags()
         {
-            _onLineFlags = new List<Boolean>[_sTopo.System.CntsArray.Length];
+            _onLineFlags = new List<Boolean>[_sTopo.System.CntNames.Length];
             for (int i = 0; i < _onLineFlags.Length; i++)
             {
-                var cnt = _sTopo.System.CntsArray[i];   //当前对应机箱
+                var ctn = ModelFactory<Models.Container>.CreateByName(_sTopo.System.CntNames[i]);
+                var bp = ModelFactory<Models.BackPlane>.CreateByName(ctn.BackPlaneName);
                 _onLineFlags[i] = new List<bool>();     //该机箱板卡对应在线情况
-                for (int j = 0; j < cnt._backPlane.SlotsNum; j++)
+                for (int j = 0; j < bp.SlotsNum; j++)
                 {
                     if (i == 0)//判断是否为机箱0
                     {
@@ -905,7 +921,7 @@ namespace DRSysCtrlDisplay
             return null;
         }
 
-        public override void OnNodeInfoChanged(TargetNode tNode)
+        public void OnNodeInfoChanged(TargetNode tNode)
         {
             Boolean nodeDropFlag = false;   //是否有点接掉线
             _reconfigFlag = false;
@@ -1065,9 +1081,9 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private ComponentViewModel.ComponentNode GetCmpNode(int matchIndex)
+        private ComponentNode GetCmpNode(int matchIndex)
         {
-            var cmpNodeList = new List<ComponentViewModel.ComponentNode>();
+            var cmpNodeList = new List<ComponentNode>();
             foreach (var cmp in _cmps)
             {
                 foreach (var node in cmp.CmpTopoNet.NodeArray)
@@ -1078,30 +1094,30 @@ namespace DRSysCtrlDisplay
             return cmpNodeList[matchIndex];
         }
 
-        private string GetCmpName(ComponentViewModel.ComponentNode cNode)
+        private string GetCmpName(ComponentNode cNode)
         {
             return _cmps.Where(cmp => cmp.CmpTopoNet.NodeArray.Contains(cNode)).Select(cmp => cmp.Name).FirstOrDefault();
         }
 
-        public override void MouseEventHandler(object sender, MouseEventArgs e)
+        #region 实现接口
+        public void MouseEventHandler(object sender, MouseEventArgs e)
         {
-            _topoNet.ChoosedNode = _topoView.GetChoosedNodeView(e);
-            if (_topoNet.ChoosedNode != null)
-            {
-                PropertyForm.Show(_topoNet.ChoosedNode);
-            }
-            else
-            {
-                PropertyForm.Show(this);
-            }
+            //处理鼠标事件放在TopoNetView中实现
+            _topoView.MouseEventHandler(sender, e);
+            //Todo:切换相关属性的显示
             base.TriggerRedrawRequst();
         }
 
-        public override void DrawView(Graphics g) { }
-
-        public override void DrawView(Graphics g, Rectangle rect)
+        public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
         {
-            _topoView = new TopoNetView<DynamicNode, DynamicLine>(g, rect, _topoNet);
+            throw new NotImplementedException();
+        }
+        #endregion 实现接口
+
+
+        #region 重载虚函数
+        public override void DrawView()
+        {
             _topoView.DrawView();
         }
 
@@ -1110,15 +1126,16 @@ namespace DRSysCtrlDisplay
             //计算颗粒的个数每5个计算颗粒对应800宽度
             return new Size(_topoNet.NodeArray.Length * 800 / 5, 400);
         }
+        #endregion 重载虚函数
 
         #region 匹配应用相关算法
 
-        public void MatchApps(ComponentViewModel[] cmps)
+        public void MatchApps(Models.Component[] cmps)
         {
             _cmps = cmps;
             var resultTopoList = new List<List<DynamicNode>>();//记录各cmp匹配完的结果
 
-            foreach (ComponentViewModel cmp in cmps)
+            foreach (Models.Component cmp in cmps)
             {
                 var matchedTopoList = resultTopoList;           //记录已匹配的节点
                 resultTopoList = new List<List<DynamicNode>>();   //重置结果
@@ -1157,7 +1174,7 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private void MatchOneApp(ComponentViewModel cmp, List<DynamicNode> usedtopo)
+        private void MatchOneApp(Models.Component cmp, List<DynamicNode> usedtopo)
         {
             var sNodeArray = _topoNet.NodeArray;                         //当前所包含的所有资源节点
             var cNodeArray = cmp.CmpTopoNet.NodeArray;                  //需要匹配的应用节点集合
@@ -1185,7 +1202,7 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private void DFS_MatchNode(ComponentViewModel cmp, Stack<DynamicNode> selectedNode, List<DynamicNode> usedtopo)
+        private void DFS_MatchNode(Models.Component cmp, Stack<DynamicNode> selectedNode, List<DynamicNode> usedtopo)
         {
             var sNodeArray = _topoNet.NodeArray;
             var cNodeArray = cmp.CmpTopoNet.NodeArray;
@@ -1213,7 +1230,7 @@ namespace DRSysCtrlDisplay
             }
         }
 
-        private bool NodeMatched(ComponentViewModel.ComponentNode cNode, DynamicNode dNode)
+        private bool NodeMatched(ComponentNode cNode, DynamicNode dNode)
         {
             //判断节点的状态是否满足，只有当节点状态既不是OnLine同时也不是Used的时候，匹配失败；
             if (dNode.Status != NodeStatus.OnLine && dNode.Status != NodeStatus.Used) return false;
@@ -1223,7 +1240,7 @@ namespace DRSysCtrlDisplay
         }
 
         //判断该节点连接是否满足构件连接
-        private bool LineMatched(ComponentViewModel.ComponentLine cLine, DynamicLine dLine)
+        private bool LineMatched(ComponentLine cLine, DynamicLine dLine)
         {
             if (cLine == null)//构件连接不存在，则能满足
             {
@@ -1238,7 +1255,7 @@ namespace DRSysCtrlDisplay
         }
 
         //判断cNode与cmp当中的各个构件的连接关系，是否gNode与selectedNode各个节点也满足
-        private bool LinesMatched(ComponentViewModel cmp, ComponentViewModel.ComponentNode cNode, Stack<DynamicNode> selectedNode, DynamicNode dNode)
+        private bool LinesMatched(Models.Component cmp, ComponentNode cNode, Stack<DynamicNode> selectedNode, DynamicNode dNode)
         {
             for (int i = 0; i < cmp.NodeNum; i++)
             {
@@ -1248,16 +1265,16 @@ namespace DRSysCtrlDisplay
                     break;
                     //continue;
                 }
-                var curDNode = selectedNode.Reverse().ToList()[curCNode.NodeNum];   //当前的动态节点
+                var curDNode = selectedNode.Reverse().ToList()[curCNode.NodeId];   //当前的动态节点
                 //GTX连接判断
-                var cGTXLine = cmp.CmpTopoNet.GTXLinks[cNode.NodeNum, curCNode.NodeNum];
+                var cGTXLine = cmp.CmpTopoNet.GTXLinks[cNode.NodeId, curCNode.NodeId];
                 var dGtxLine = _topoNet.GTXLinks[dNode.SNode.UrlId, curDNode.SNode.UrlId];
                 if (!LineMatched(cGTXLine, dGtxLine))
                 {
                     return false;
                 }
                 //LVDS连接判断
-                var cLVDSLine = cmp.CmpTopoNet.LVDSLinks[cNode.NodeNum, curCNode.NodeNum];
+                var cLVDSLine = cmp.CmpTopoNet.LVDSLinks[cNode.NodeId, curCNode.NodeId];
                 var dLVDSLine = _topoNet.LVDSLinks[dNode.SNode.UrlId, curDNode.SNode.UrlId];
                 if (!LineMatched(cLVDSLine, dLVDSLine))
                 {
@@ -1275,7 +1292,7 @@ namespace DRSysCtrlDisplay
         public class DynamicNode : BaseNode
         {
             public StaticNode SNode { get; private set; }       //对应的静态节点
-            public ComponentViewModel.ComponentNode CNode { get; set; }  //对应的构件组件
+            public ComponentNode CNode { get; set; }            //对应的构件组件
             public string ComName { get; set; }                 //该节点对应的应用名
             public NodeStatus Status { get; set; }              //节点对应的状态
             public bool IsAssigned { get; set; }                //是否被分配了文件
@@ -1294,32 +1311,34 @@ namespace DRSysCtrlDisplay
 
             public override void DrawNode(Graphics graph, Rectangle rect)
             {
+                var coreView = base.GetBaseDrawerCore(SNode.NodeObject, graph, rect);
                 if (Status == NodeStatus.OnLine)
                 {
-                    SNode.NodeObject.DrawView(graph, rect);
+                    coreView.DrawView();
                 }
                 else if (Status == NodeStatus.Used)
                 {
-                    SNode.NodeObject.DrawView(graph, rect, CNode.Name);
+                    coreView.DrawView(CNode.Name);
                 }
                 else
                 {
-                    SNode.NodeObject.DrawView(graph, rect, Pens.Gray, Brushes.Gray);
+                    coreView.DrawView(Pens.Gray, Brushes.Gray);
                 }
             }
             public override void DrawChoosedNode(Graphics graph, Rectangle rect)
             {
+                var coreView = base.GetBaseDrawerCore(SNode.NodeObject, graph, rect);
                 if (Status == NodeStatus.OnLine)
                 {
-                    SNode.NodeObject.ChoosedDrawView(graph, rect);
+                    coreView.ChoosedDrawView();
                 }
                 else if (Status == NodeStatus.Used)
                 {
-                    SNode.NodeObject.ChoosedDrawView(graph, rect, CNode.Name);
+                    coreView.ChoosedDrawView(CNode.Name);
                 }
                 else
                 {
-                    SNode.NodeObject.DrawView(graph, rect, Pens.Gray, Brushes.Gray);
+                    coreView.DrawView(Pens.Gray, Brushes.Gray);
                 }
             }
         }

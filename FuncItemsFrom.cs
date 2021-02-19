@@ -14,6 +14,7 @@ using System.Xml;
 using System.Diagnostics;
 using DynamicNode = DRSysCtrlDisplay.DynamicTopo.DynamicNode;
 using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
@@ -413,8 +414,8 @@ namespace DRSysCtrlDisplay
             {
                 case "PPCs":
                     //通过读取XML文件初始化PPC,然后用一个PPC实例初始化PPCInitForm
-                    PPCViewModel ppcView = BaseViewFactory<PPCViewModel>.CreateByName(selectedNode.Text);
-                    PPCInitForm ppcInitForm = new PPCInitForm(ppcView);
+                    PPC ppc = ModelFactory<PPC>.CreateByName(selectedNode.Text);
+                    PPCInitForm ppcInitForm = new PPCInitForm(ppc);
                     ppcInitForm.ShowDialog();
 
                     if (ppcInitForm.DialogResult == DialogResult.Yes)
@@ -429,8 +430,8 @@ namespace DRSysCtrlDisplay
                     ppcInitForm.Dispose();
                     break;
                 case "FPGAs":
-                    FPGAViewModel fpgaView = BaseViewFactory<FPGAViewModel>.CreateByName(selectedNode.Text);
-                    FPGAInitForm fpgaInitForm = new FPGAInitForm(fpgaView);
+                    FPGA fpga = ModelFactory<FPGA>.CreateByName(selectedNode.Text);
+                    FPGAInitForm fpgaInitForm = new FPGAInitForm(fpga);
                     fpgaInitForm.ShowDialog();
 
                     if (fpgaInitForm.DialogResult == DialogResult.Yes)
@@ -445,8 +446,8 @@ namespace DRSysCtrlDisplay
                     fpgaInitForm.Dispose();
                     break;
                 case "ZYNQs":
-                    ZYNQViewModel zynqView = BaseViewFactory<ZYNQViewModel>.CreateByName(selectedNode.Text);
-                    ZYNQInitForm zynqInitForm = new ZYNQInitForm(zynqView);
+                    ZYNQ zynq = ModelFactory<ZYNQ>.CreateByName(selectedNode.Text);
+                    ZYNQInitForm zynqInitForm = new ZYNQInitForm(zynq);
                     zynqInitForm.ShowDialog();
 
                     if (zynqInitForm.DialogResult == DialogResult.Yes)
@@ -461,8 +462,8 @@ namespace DRSysCtrlDisplay
                     zynqInitForm.Dispose();
                     break;
                 case "板卡库":
-                    BoardViewModel boardView = BaseViewFactory<BoardViewModel>.CreateByName(selectedNode.Text);
-                    BoardInitForm boardInitForm = new BoardInitForm(boardView);
+                    Board board = ModelFactory<Board>.CreateByName(selectedNode.Text);
+                    BoardInitForm boardInitForm = new BoardInitForm(board);
                     boardInitForm.ShowDialog();
 
                     if (boardInitForm.DialogResult == DialogResult.Yes)
@@ -477,8 +478,8 @@ namespace DRSysCtrlDisplay
                     boardInitForm.Dispose();
                     break;
                 case "背板库":
-                    BackPlaneViewModel bpView = BaseViewFactory<BackPlaneViewModel>.CreateByName(selectedNode.Text);
-                    BackPlaneInitForm bpInitForm = new BackPlaneInitForm(bpView);
+                    BackPlane bp = ModelFactory<BackPlane>.CreateByName(selectedNode.Text);
+                    BackPlaneInitForm bpInitForm = new BackPlaneInitForm(bp);
                     bpInitForm.ShowDialog();
 
                     if (bpInitForm.DialogResult == DialogResult.Yes)
@@ -493,7 +494,7 @@ namespace DRSysCtrlDisplay
                     bpInitForm.Dispose();
                     break;
                 case "机箱库":
-                    ContainerViewModel ctnView = BaseViewFactory<ContainerViewModel>.CreateByName(selectedNode.Text); ;
+                    Models.Container ctnView = ModelFactory<Models.Container>.CreateByName(selectedNode.Text); ;
                     ContainerInitForm ctnInitForm = new ContainerInitForm(ctnView);
                     ctnInitForm.ShowDialog();
 

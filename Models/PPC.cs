@@ -34,7 +34,7 @@ namespace DRSysCtrlDisplay.Models
 
         #endregion PPC的属性
 
-        public override ModelBase CreateByPath(string objectFilePath)
+        public override ModelBaseCore CreateByPath(string objectFilePath)
         {
             PPC ppc = new PPC();
             if (!File.Exists(objectFilePath))

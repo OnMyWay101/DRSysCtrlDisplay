@@ -618,7 +618,7 @@ namespace DRSysCtrlDisplay
         public interface IXmlTransformByPath
         {
             void SaveXmlByPath(string xmlFilePath);
-            Models.ModelBase CreateObjectByPath(string objectFilePath);
+            Models.ModelBaseCore CreateObjectByPath(string objectFilePath);
         }
     }
 }

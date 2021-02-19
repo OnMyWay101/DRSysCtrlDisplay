@@ -46,7 +46,8 @@ namespace DRSysCtrlDisplay
         private Dictionary<int, SlotInfo> _statusInfo;  //槽位及对应矩形表
         private DrawStatus _drawStatus;
 
-        public Status()
+        public Status(Graphics g, Rectangle rect)
+            : base(g, rect)
         {
             Type = string.Empty;
             Temp = string.Empty;
@@ -59,7 +60,8 @@ namespace DRSysCtrlDisplay
             _drawStatus = null;
         }
 
-        public Status(Dictionary<int, SlotInfo> info)
+        public Status(Dictionary<int, SlotInfo> info, Graphics g, Rectangle rect)
+            : base(g, rect)
         {
             Type = string.Empty;
             Temp = string.Empty;
@@ -72,41 +74,25 @@ namespace DRSysCtrlDisplay
             _drawStatus = null;
         }
 
-        //备用TODO:
-        public Status(ContainerViewModel ct,Dictionary<int, SlotInfo> info)
+        //public override void DrawView()
+        //{
+        //    int staWidth = 600;    //机箱状态视图默认宽度 
+        //    int staHeight = 600;    //机箱状态视图默认高度 
+        //    int staSlotNum = 10;    //机箱的默认槽位
+
+        //    Rectangle rtg = new Rectangle(200, 20, staWidth, staHeight * _slotNum / staSlotNum);
+        //    base._graph.DrawRectangle(Pens.Black, rtg);
+
+        //    _drawStatus = new DrawStatus(this, base._graph, rtg);
+        //    StatusUpdate(_drawStatus, _statusInfo);
+        //    _drawStatus.Draw();
+        //}
+
+        public override void DrawView()
         {
-            Type = string.Empty;
-            Temp = string.Empty;
-            Voltage = string.Empty;
-            Electric = string.Empty;
-            Power = string.Empty;
-            BoardStatus = string.Empty;
+            base._graph.DrawRectangle(Pens.Black, base._rect);
 
-            //TODO：根据机箱对象初始化
-            _slotNum = 0;
-            _statusInfo = info;
-            _drawStatus = null;
-        }
-
-        public override void DrawView(Graphics g)
-        {
-            int staWidth = 600;    //机箱状态视图默认宽度 
-            int staHeight = 600;    //机箱状态视图默认高度 
-            int staSlotNum = 10;    //机箱的默认槽位
-
-            Rectangle rtg = new Rectangle(200, 20, staWidth, staHeight * _slotNum / staSlotNum);
-            g.DrawRectangle(Pens.Black, rtg);
-
-            _drawStatus = new DrawStatus(this, g, rtg);
-            StatusUpdate(_drawStatus, _statusInfo);
-            _drawStatus.Draw();
-        }
-
-        public override void DrawView(Graphics g, Rectangle rect)
-        {
-            g.DrawRectangle(Pens.Black, rect);
-
-            DrawStatus ds = new DrawStatus(this, g, rect);
+            DrawStatus ds = new DrawStatus(this, base._graph, base._rect);
             _drawStatus = ds;
             ds.Draw();         
         }
@@ -119,11 +105,8 @@ namespace DRSysCtrlDisplay
             return new Size(600, defaultHeight * _slotNum / defaultSlotNum);
         }
 
-        public override void SaveXmlByName(){ }
 
-        public override BaseDrawer CreateObjectByName(string objectName){return null;}
-
-        public override void OnNodeInfoChanged(TargetNode tNode)
+        public void OnNodeInfoChanged(TargetNode tNode)
         {
             Dictionary<int, SlotInfo> infos = new Dictionary<int, SlotInfo>();   //当前的健康信息数据集合
             //处理数据

@@ -10,7 +10,6 @@ using DRSysCtrlDisplay.ViewModel.Others;
 
 namespace DRSysCtrlDisplay
 {
-    
     public class TopoNetView<TNode, TLine> : IDrawerChoosed<TNode>
         where TNode : BaseNode
         where TLine : BaseLine
@@ -33,6 +32,7 @@ namespace DRSysCtrlDisplay
         private const double _nodeHeightScale = 1.5 / 10;    //节点图像的高度与矩形框高度的比例
         private const double _nodeWidthScale = 1.5 / 10;    //节点图像的宽度与矩形框高度的比例
         private const double _lineRangeScale = 2.0 / 10;      //线所包含范围的宽度与矩形框高度的比例
+        public TNode ChoosedBv { get; set; }
 
         public TopoNetView(Graphics g, Rectangle r, TopoNet<TNode, TLine> topo)
         {
@@ -306,8 +306,6 @@ namespace DRSysCtrlDisplay
 
         public void DrawView()
         {
-            TNode choosedNode = _topoNet.ChoosedNode;
-
             DrawEthNetBar();
             DrawRioNetBar();
             DrawNodes();
@@ -316,17 +314,18 @@ namespace DRSysCtrlDisplay
             DrawLinesMatrix(LinkType.GTX);
             DrawLinesMatrix(LinkType.LVDS);
             //画被选中的图像
-            if (choosedNode != null)
+            if (ChoosedBv != null)
             {
                 bool isFind = false;
-                Rectangle choosedRect = GetBaseViewRect(choosedNode, ref isFind);
+                Rectangle choosedRect = GetBaseViewRect(ChoosedBv, ref isFind);
                 if (isFind)
                 {
-                    choosedNode.DrawChoosedNode(_graph, choosedRect);
+                    ChoosedBv.DrawChoosedNode(_graph, choosedRect);
                 }
             }
         }
 
+#region 实现接口
         public TNode GetChoosedNodeView(MouseEventArgs e)
         {
             for (int i = 0; i < _nodeRects.Length; i++)
@@ -339,6 +338,13 @@ namespace DRSysCtrlDisplay
             }
             return null;
         }
+
+        public void MouseEventHandler(object sender, MouseEventArgs e)
+        {
+            ChoosedBv = GetChoosedNodeView(e);
+        }
+
+        #endregion 实现接口
 
         public Rectangle GetBaseViewRect(TNode nodeView, ref bool isFind)
         {

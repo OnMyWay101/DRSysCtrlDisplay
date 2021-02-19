@@ -40,9 +40,10 @@ namespace DRSysCtrlDisplay
         /// 通过一个Container实例来初始化ContainerInitForm，用于修改机箱的时候
         /// </summary>
         /// <param name="ctn"></param>
-        public ContainerInitForm(ContainerViewModel ctn)
+        public ContainerInitForm(Models.Container ctn)
         {
             //TODO
+            throw new NotImplementedException();
         }
 
         private void InitializeComponent()

@@ -24,7 +24,7 @@ namespace DRSysCtrlDisplay.Models
 
     public abstract class ModelBaseCore : ModelBase
     {
-        public virtual ModelBase CreateByPath(string objectFilePath) 
+        public virtual ModelBaseCore CreateByPath(string objectFilePath) 
         {
             throw new NotImplementedException();
         }

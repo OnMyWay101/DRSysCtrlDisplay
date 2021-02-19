@@ -21,6 +21,11 @@ namespace DRSysCtrlDisplay
 
         protected BaseDrawer(Graphics g, Rectangle rect)
         {
+            Init(g, rect);
+        }
+
+        public void Init(Graphics g, Rectangle rect)
+        {
             _graph = g;
             _rect = rect;
         }
@@ -120,6 +125,7 @@ namespace DRSysCtrlDisplay
     //画图类鼠标操作选中图元的接口
     public interface IDrawerChoosed<TNode>
     {
+        TNode ChoosedBv { get; set; }
         void MouseEventHandler(object sender, MouseEventArgs e);
 
         //获取该对象中对应点击位置的子对象

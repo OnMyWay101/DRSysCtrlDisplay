@@ -76,7 +76,7 @@ namespace DRSysCtrlDisplay.Models
 
         #endregion FPGA的属性
 
-        public override ModelBase CreateByPath(string objectFilePath)
+        public override ModelBaseCore CreateByPath(string objectFilePath)
         {
             FPGA fpga = new FPGA();
             if (!File.Exists(objectFilePath))

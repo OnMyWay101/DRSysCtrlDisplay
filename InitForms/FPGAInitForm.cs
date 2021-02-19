@@ -677,7 +677,7 @@ namespace DRSysCtrlDisplay
             {
                 return;
             }
-            FPGAViewModel fpga = new FPGAViewModel();
+            FPGA fpga = new FPGA();
             RefreshFPGA(fpga);
             //XMLManager.HandleType.SaveXML_FPGA(fpga);
             fpga.SaveXmlByName();

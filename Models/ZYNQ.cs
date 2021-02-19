@@ -52,7 +52,7 @@ namespace DRSysCtrlDisplay.Models
 
         #endregion ZYNQ的属性
 
-        public override ModelBase CreateByPath(string objectFilePath)
+        public override ModelBaseCore CreateByPath(string objectFilePath)
         {
             ZYNQ zynq = new ZYNQ();
             if (!File.Exists(objectFilePath))

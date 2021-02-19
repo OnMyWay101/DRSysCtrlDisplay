@@ -1,4 +1,5 @@
-﻿using DRSysCtrlDisplay.Princeple;
+﻿using DRSysCtrlDisplay.Models;
+using DRSysCtrlDisplay.Princeple;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -19,6 +20,26 @@ namespace DRSysCtrlDisplay.ViewModel.Others
 
         public abstract void DrawNode(Graphics graph, Rectangle rect);
         public abstract void DrawChoosedNode(Graphics graph, Rectangle rect);
+
+        //实现一个
+        protected BaseDrawerCore GetBaseDrawerCore(ModelBaseCore obj, Graphics graph, Rectangle rect)
+        {
+            if (NodeType == EndType.PPC)
+            {
+                PPC ppc = obj as PPC;
+                return new PPCViewModel(ppc, graph, rect);
+            }
+            else if (NodeType == EndType.FPGA)
+            {
+                FPGA fpga = obj as FPGA;
+                return new FPGAViewModel(fpga, graph, rect);
+            }
+            else //NodeType == EndType.ZYNQ
+            {
+                ZYNQ zynq = obj as ZYNQ;
+                return new ZYNQViewModel(zynq, graph, rect);
+            }
+        }
     }
 
     public abstract class BaseLine
@@ -51,7 +72,6 @@ namespace DRSysCtrlDisplay.ViewModel.Others
         where TNode : BaseNode
         where TLine : BaseLine
     {
-        public TNode ChoosedNode { get; set; }  //被选中的节点
         public TNode[] NodeArray { get; set; }
         public TLine[] EthLinks { get; set; }    //节点是否接入局域网(以太网)
         public TLine[] RioLinks { get; set; }    //节点是否接入topo网(RapidIO网络)

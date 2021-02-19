@@ -140,13 +140,13 @@ namespace DRSysCtrlDisplay.Models
             var nodesElement = rt.Element("Nodes");
             foreach (var e in nodesElement.Elements())
             {
-                var nodeNum = int.Parse(e.Attribute("NodeNum").Value);
+                var nodeId = int.Parse(e.Attribute("NodeNum").Value);
                 var nodeType = (EndType)(Enum.Parse(typeof(EndType), e.Attribute("NodeType").Value));
                 var nodeName = e.Attribute("NodeName").Value;
                 var nodeObject = Component_GenNodeObj(nodeType, string.Format(@"{0}\{1}.xml", xmlPathDir, nodeName));
 
-                var cmpNode = new ComponentNode(nodeNum, nodeObject);
-                component.CmpTopoNet.SetNodeValue(nodeNum, cmpNode);
+                var cmpNode = new ComponentNode(nodeId, nodeObject);
+                component.CmpTopoNet.SetNodeValue(nodeId, cmpNode);
             }
 
             var linksElement = rt.Element("Links");
@@ -186,13 +186,13 @@ namespace DRSysCtrlDisplay.Models
         }
 
         //通过一个xml文件来创建一个节点的BaseViewCore
-        private BaseDrawerCore Component_GenNodeObj(Princeple.EndType type, string xmlPath)
+        private CmpNode Component_GenNodeObj(Princeple.EndType type, string xmlPath)
         {
             Type objType = TypeConvert.GetEndType(type);
-            Type FactoryType = typeof(BaseViewCoreFactory<>);
-            FactoryType = FactoryType.MakeGenericType(objType);
-            return (BaseDrawerCore)(FactoryType.InvokeMember("CreateByPath"
-                , BindingFlags.Default | BindingFlags.InvokeMethod, null, null, new object[] { xmlPath }));
+            var core = Activator.CreateInstance(objType) as ModelBaseCore;
+            var cmpNode = new CmpNode(type, core);
+            cmpNode._object = cmpNode.CreateObjectByPath(xmlPath);
+            return cmpNode;
         }
     }
 }
