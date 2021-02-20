@@ -50,7 +50,7 @@ namespace DRSysCtrlDisplay
         /// 通过一个BackPlane实例来初始化BackPlaneInitForm，用于修改背板的时候
         /// </summary>
         /// <param name="bp"></param>
-        public BackPlaneInitForm(BackPlaneViewModel bp)
+        public BackPlaneInitForm(BackPlane bp)
         {
             //TODO
         }

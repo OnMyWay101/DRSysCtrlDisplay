@@ -20,6 +20,7 @@ namespace DRSysCtrlDisplay.Models
         public List<SystemStruLink>[] LinksArray { get; set; }          //各机箱的连接信息
         #endregion SystemStru的基本属性
 
+        public SystemStru() { }
         public SystemStru(int cntsNum)
         {
             CntsNum = cntsNum;

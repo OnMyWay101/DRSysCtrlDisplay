@@ -33,39 +33,48 @@ namespace DRSysCtrlDisplay
             switch (FormType)
             {
                 case Princeple.FormType.PPC:
-                    ShowView = BaseViewFactory<PPCViewModel>.CreateByName();
                     PPC ppc = ModelFactory<PPC>.CreateByName(node.Text);
-                    
+                    ShowView = new PPCViewModel(ppc);
                     break;
                 case Princeple.FormType.FPGA:
-                    ShowView = BaseViewFactory<FPGAViewModel>.CreateByName(node.Text);
+                    FPGA fpga = ModelFactory<FPGA>.CreateByName(node.Text);
+                    ShowView = new FPGAViewModel(fpga);
                     break;
                 case Princeple.FormType.ZYNQ:
-                    ShowView = BaseViewFactory<ZYNQViewModel>.CreateByName(node.Text);
+                    ZYNQ zynq = ModelFactory<ZYNQ>.CreateByName(node.Text);
+                    ShowView = new ZYNQViewModel(zynq);
                     break;
                 case Princeple.FormType.BOARD:
-                    ShowView = BaseViewFactory<BoardViewModel>.CreateByName(node.Text);
+                    Board board = ModelFactory<Board>.CreateByName(node.Text);
+                    ShowView = new BoardViewModel(board);
                     break;
                 case Princeple.FormType.BACKPLANE:
-                    ShowView = BaseViewFactory<BackPlaneViewModel>.CreateByName(node.Text);
+                    BackPlane bp = ModelFactory<BackPlane>.CreateByName(node.Text);
+                    ShowView = new BackPlaneViewModel(bp);
                     break;
                 case Princeple.FormType.CONTIANER:
-                    ShowView = BaseViewFactory<ContainerViewModel>.CreateByName(node.Text);
+                    Container ctn = ModelFactory<Container>.CreateByName(node.Text);
+                    ShowView = new ContainerViewModel(ctn);
                     break;
                 case Princeple.FormType.COMPONENT:
-                    ShowView = BaseViewFactory<ComponentViewModel>.CreateByName(node.Text);
+                    Component cmp = ModelFactory<Component>.CreateByName(node.Text);
+                    ShowView = new ComponentViewModel(cmp);
                     break;
                 case Princeple.FormType.SYSTEM:
-                    ShowView = BaseViewFactory<SystemStruViewModel>.CreateByName(node.Text);
+                    SystemStru sys = ModelFactory<SystemStru>.CreateByName(node.Text);
+                    ShowView = new SystemStruViewModel(sys);
                     break;
                 case Princeple.FormType.TOPO:
                     var sysName = node.Text.Substring(node.Text.IndexOf(':') + 1);
-                    ShowView = new StaticTopo(BaseViewFactory<SystemStruViewModel>.CreateByName(sysName));
+                    SystemStru sys2 = ModelFactory<SystemStru>.CreateByName(sysName);
+                    ShowView = new StaticTopo(sys2);
                     break;
                 case Princeple.FormType.APP:
                     var sysNode = node.Parent.Nodes[0];
                     var sysSName = sysNode.Text.Substring(sysNode.Text.IndexOf(':') + 1);
-                    ShowView = new DynamicTopo(new StaticTopo(BaseViewFactory<SystemStruViewModel>.CreateByName(sysSName)));
+                    SystemStru sys3 = ModelFactory<SystemStru>.CreateByName(sysSName);
+                    var sysStatic = new StaticTopo(sys3);
+                    ShowView = new DynamicTopo(sysStatic);
 
                     ((DynamicTopo)ShowView).MatchApps(GetNodeCmps(node));
                     break;
@@ -78,19 +87,21 @@ namespace DRSysCtrlDisplay
             SetViewSize();
 
             //绑定界面点击事件的处理
-            this.MouseClick += new MouseEventHandler(ShowView.MouseEventHandler);
+            if(ShowView as IDrawerChoosed != null) 
+                this.MouseClick += new MouseEventHandler(((IDrawerChoosed)ShowView).MouseEventHandler);
+            if(ShowView as IDrawerNotify != null)
+                info.NodeInfoChanged += new Action<TargetNode>(((IDrawerNotify)ShowView).OnNodeInfoChanged);
             ShowView.RedrawRequst += new Action(OnShowViewRedrawRequst);
-            info.NodeInfoChanged += new Action<TargetNode>(ShowView.OnNodeInfoChanged);
             this.Scroll += new ScrollEventHandler(ShowViewPanel_Scroll);
             this.MouseWheel += new MouseEventHandler(ShowViewPanel_MouseWheel);
         }
 
-        private ComponentViewModel[] GetNodeCmps(TreeNode tNode)
+        private Component[] GetNodeCmps(TreeNode tNode)
         {
-            List<ComponentViewModel> cmps = new List<ComponentViewModel>();
+            List<Component> cmps = new List<Component>();
             foreach (TreeNode node in tNode.Nodes)
             {
-                var cmp = BaseViewFactory<ComponentViewModel>.CreateByName(node.Text);
+                var cmp = ModelFactory<Component>.CreateByName(node.Text);
                 cmps.Add(cmp);
             }
             return cmps.ToArray();

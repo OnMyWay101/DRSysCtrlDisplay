@@ -46,9 +46,22 @@ namespace DRSysCtrlDisplay
         private Dictionary<int, SlotInfo> _statusInfo;  //槽位及对应矩形表
         private DrawStatus _drawStatus;
 
+        public Status(){ }
+
         public Status(Graphics g, Rectangle rect)
-            : base(g, rect)
         {
+            Init(g, rect);
+        }
+
+        public Status(Dictionary<int, SlotInfo> info, Graphics g, Rectangle rect)
+        {
+            Init(g, rect);
+            _statusInfo = info;
+        }
+
+        public override void Init(Graphics g, Rectangle rect)
+        {
+            base.Init(g, rect);
             Type = string.Empty;
             Temp = string.Empty;
             Voltage = string.Empty;
@@ -57,20 +70,6 @@ namespace DRSysCtrlDisplay
             BoardStatus = string.Empty;
             _slotNum = 10;
             _statusInfo = null;
-            _drawStatus = null;
-        }
-
-        public Status(Dictionary<int, SlotInfo> info, Graphics g, Rectangle rect)
-            : base(g, rect)
-        {
-            Type = string.Empty;
-            Temp = string.Empty;
-            Voltage = string.Empty;
-            Electric = string.Empty;
-            Power = string.Empty;
-            BoardStatus = string.Empty;
-            _slotNum = 10;
-            _statusInfo = info;
             _drawStatus = null;
         }
 
