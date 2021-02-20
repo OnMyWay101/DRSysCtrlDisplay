@@ -24,9 +24,19 @@ namespace DRSysCtrlDisplay
         public BaseDrawer ChoosedBv { get; set; }               //当前视图被选中的图元
 
         public BoardViewModel(Board board, Graphics g, Rectangle rect)
-            : base(g, rect)
         {
             _board = board;
+            Init(g, rect);
+        }
+
+        public BoardViewModel(Board board)
+        {
+            _board = board;
+        }
+
+        public override void Init(Graphics g, Rectangle rect)
+        {
+            base.Init(g, rect);
             _assignRect = new AssignRectangle(base._rect);
         }
 

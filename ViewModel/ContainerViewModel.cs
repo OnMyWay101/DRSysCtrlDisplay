@@ -29,9 +29,19 @@ namespace DRSysCtrlDisplay
         public BaseDrawer ChoosedBv { get; set; }                   //当前视图被选中的图元
 
         public ContainerViewModel(Models.Container container, Graphics g, Rectangle rect)
-            : base(g, rect)
         {
             _container = container;
+            Init(g, rect);
+        }
+
+        public ContainerViewModel(Models.Container container)
+        {
+            _container = container;
+        }
+
+        public override void Init(Graphics g, Rectangle rect)
+        {
+            base.Init(g, rect);
             Init();
         }
 
@@ -98,7 +108,7 @@ namespace DRSysCtrlDisplay
 
         #endregion 实现接口
 
-        public void Init()
+        private void Init()
         {
             //初始化背板画图对象
             var bp = ModelFactory<BackPlane>.CreateByName(_container.BackPlaneName);

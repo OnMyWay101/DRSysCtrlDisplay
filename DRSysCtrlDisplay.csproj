@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DRSysCtrlDisplay</RootNamespace>
     <AssemblyName>DRSysCtrlDisplay</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -174,7 +174,6 @@
     <Compile Include="TcpCommand.cs" />
     <Compile Include="TcpManager.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViewModel\BaseDrawerFactory.cs" />
     <Compile Include="ViewModel\BoardViewModel.cs" />
     <Compile Include="ViewModel\ComponentViewModel.cs" />
     <Compile Include="ViewModel\ContainerViewModel.cs" />

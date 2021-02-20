@@ -28,6 +28,11 @@ namespace DRSysCtrlDisplay
             _sys = sys;
         }
 
+        public SystemStruViewModel(SystemStru sys)
+        {
+            _sys = sys;
+        }
+
         #region 重载虚函数
 
         public override void DrawView()

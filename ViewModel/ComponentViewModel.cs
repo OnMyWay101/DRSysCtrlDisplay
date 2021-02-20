@@ -29,6 +29,16 @@ namespace DRSysCtrlDisplay
             _topoView = new TopoNetView<ComponentNode, ComponentLine>(base._graph, base._rect, _component.CmpTopoNet);
         }
 
+        public ComponentViewModel(Models.Component cmp)
+        {
+            _component = cmp;
+        }
+
+        public override void Init(Graphics g, Rectangle rect)
+        {
+            base.Init(g, rect);
+            _topoView = new TopoNetView<ComponentNode, ComponentLine>(base._graph, base._rect, _component.CmpTopoNet);
+        }
 
         #region 重载虚函数
         public override void DrawView()

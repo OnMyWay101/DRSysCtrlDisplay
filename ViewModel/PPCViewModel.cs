@@ -19,6 +19,11 @@ namespace DRSysCtrlDisplay
             _ppc = ppc;
         }
 
+        public PPCViewModel(PPC ppc)
+        {
+            _ppc = ppc;
+        }
+
         public override void DrawView()
         {
             base._graph.DrawRectangle(ComputeNodeColor.Pen_PPC, base._rect);

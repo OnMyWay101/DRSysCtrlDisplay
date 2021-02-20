@@ -412,18 +412,33 @@ namespace DRSysCtrlDisplay
     /// </summary>
     public class StaticTopo : BaseDrawer, IDrawerChoosed
     {
-        public SystemStru System { get; set; }                         //对应的机箱
+        public SystemStru System { get; set; }                                  //对应的机箱
+
         public RawTopo _rawTopo { get; private set; }                           //机箱对应的原生topo图
+
         public TopoNet<StaticNode, StaticLine> _topoNet { get; private set; }   //计算颗粒包含的topo图
+
         private TopoNetView<StaticNode, StaticLine> _topoView;                  //Topo图的画图类
+
         public int EndNodeNum { get; private set; }                             //端点(vpx,sw,ppc,fpga,zynq)的总数量
+
         public int ComputeNodeNum { get; private set; }                         //计算颗粒(ppc,fpga,zynq)的数量
+
         public BaseDrawer ChoosedBv { get; set; }
 
         public StaticTopo(SystemStru sys, Graphics g, Rectangle rect)
-            : base(g, rect)
         {
             System = sys;
+            Init(g, rect);
+        }
+        public StaticTopo(SystemStru sys)
+        {
+            System = sys;
+        }
+
+        public override void Init(Graphics g, Rectangle rect)
+        {
+            base.Init(g, rect);
             EndNodeNum = 0;
             ComputeNodeNum = 0;
             InitNodeNum();
@@ -847,9 +862,18 @@ namespace DRSysCtrlDisplay
         public Boolean _reconfigFlag { get; set; }                              //该应用是否发生了重构
 
         public DynamicTopo(StaticTopo sTopo, Graphics g, Rectangle rect)
-            : base(g, rect)
         {
             _sTopo = sTopo;
+            Init(g, rect);
+        }
+
+        public DynamicTopo(StaticTopo sTopo)
+        {
+            _sTopo = sTopo;
+        }
+        public override void Init(Graphics g, Rectangle rect)
+        {
+            base.Init(g, rect);
             _appMatchedTopoList = new List<List<DynamicNode>>();
             _topoView = new TopoNetView<DynamicNode, DynamicLine>(g, rect, _topoNet);
             InitTopoNet();

@@ -6,6 +6,7 @@ using System.Xml;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay
 {
@@ -32,7 +33,9 @@ namespace DRSysCtrlDisplay
             switch (FormType)
             {
                 case Princeple.FormType.PPC:
-                    ShowView = BaseViewFactory<PPCViewModel>.CreateByName(node.Text);
+                    ShowView = BaseViewFactory<PPCViewModel>.CreateByName();
+                    PPC ppc = ModelFactory<PPC>.CreateByName(node.Text);
+                    
                     break;
                 case Princeple.FormType.FPGA:
                     ShowView = BaseViewFactory<FPGAViewModel>.CreateByName(node.Text);

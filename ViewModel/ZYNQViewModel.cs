@@ -14,6 +14,10 @@ namespace DRSysCtrlDisplay
         {
             _zynq = zynq;
         }
+        public ZYNQViewModel(ZYNQ zynq)
+        {
+            _zynq = zynq;
+        }
 
         public override void DrawView()
         {

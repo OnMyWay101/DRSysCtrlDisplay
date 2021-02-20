@@ -23,8 +23,9 @@ namespace DRSysCtrlDisplay
         {
             Init(g, rect);
         }
+        protected BaseDrawer() { }
 
-        public void Init(Graphics g, Rectangle rect)
+        public virtual void Init(Graphics g, Rectangle rect)
         {
             _graph = g;
             _rect = rect;
@@ -85,6 +86,7 @@ namespace DRSysCtrlDisplay
     /// </summary>
     public abstract class BaseDrawerCore : BaseDrawer
     {
+        protected BaseDrawerCore() { }
         protected BaseDrawerCore(Graphics g, Rectangle rect) : base(g, rect) { }
 
         protected const int _fontScale = 5;//字体与图形外接边框Width的比列

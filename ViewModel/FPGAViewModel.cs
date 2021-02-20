@@ -14,6 +14,11 @@ namespace DRSysCtrlDisplay
             _fpga = fpga;
         }
 
+        public FPGAViewModel(FPGA fpga)
+        {
+            _fpga = fpga;
+        }
+
         public override void DrawView()
         {
             base._graph.DrawRectangle(ComputeNodeColor.Pen_FPGA, base._rect);

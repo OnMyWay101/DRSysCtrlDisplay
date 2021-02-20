@@ -19,13 +19,24 @@ namespace DRSysCtrlDisplay
         public Dictionary<BackPlaneLink, Point[]> LinkDir { get; private set; }     //包含的连接及对应的点
         public BaseDrawer ChoosedBv { get; set; }                                   //当前视图被选中的图元
         public BackPlaneViewModel(BackPlane bp, Graphics g, Rectangle rect)
-            : base(g, rect)
         {
+            _bp = bp;
+            Init(g, rect);
+        }
+
+        public BackPlaneViewModel(BackPlane bp)
+        {
+            _bp = bp;
+        }
+
+        public override void Init(Graphics g, Rectangle rect)
+        {
+            base.Init(g, rect);
             //初始化基类的矩形
-            int newRectWidth = rect.Width * bp.VirtualSlotsNum / 12;
+            int newRectWidth = rect.Width * _bp.VirtualSlotsNum / 12;
             base._rect = new Rectangle(rect.X + (rect.Width - newRectWidth) / 2, rect.Y, newRectWidth, rect.Height);
             //槽位矩形的分配
-            SlotRects = new Rectangle[bp.VirtualSlotsNum];
+            SlotRects = new Rectangle[_bp.VirtualSlotsNum];
             AssignSloteRects();
 
             InitVpxEndViews();
