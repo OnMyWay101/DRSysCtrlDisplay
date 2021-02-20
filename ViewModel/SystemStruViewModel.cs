@@ -22,35 +22,45 @@ namespace DRSysCtrlDisplay
         public Rectangle[] CntRects { get; private set; }                           //包含的机箱图像矩形位置集合；
         public Dictionary<SystemStruLink, Point[]> LinkDir { get; private set; }    //包含的连接及对应的点
 
-        public SystemStruViewModel(SystemStru sys, Graphics g, Rectangle rect)
-            : base(g, rect)
+        public SystemStruViewModel(SystemStru sys, Rectangle rect)
         {
             _sys = sys;
+            Init(rect);
         }
 
         public SystemStruViewModel(SystemStru sys)
         {
             _sys = sys;
         }
+        public override void Init(Rectangle rect)
+        {
+            base.Init(rect);
+            CntRects = new Rectangle[_sys.CntsNum];
+            CntsArray = new ContainerViewModel[_sys.CntsNum];
+            AssignCntRects();
+
+            LinkDir = new Dictionary<SystemStruLink, Point[]>();
+            InitLinks();
+        }
 
         #region 重载虚函数
 
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
             //画机箱
             for (int i = 0; i < _sys.CntsNum; i++)
             {
                 var curCnt = CntsArray[i];
-                curCnt.DrawView();
+                curCnt.DrawView(g);
             }
             //填入机箱名
-            AddCntNames();
+            AddCntNames(g);
             //画连接线
             foreach (var linkPair in LinkDir)
             {
                 var link = linkPair.Key;
                 var points = linkPair.Value.ToList();
-                link.DrawLine(_graph, points);
+                link.DrawLine(g, points);
             }
         }
 
@@ -62,15 +72,6 @@ namespace DRSysCtrlDisplay
         }
 
         #endregion 重载虚函数
-
-        public void Init()
-        {
-            CntRects = new Rectangle[_sys.CntsNum];
-            AssignCntRects();
-
-            LinkDir = new Dictionary<SystemStruLink, Point[]>();
-            InitLinks();
-        }
 
         /// <summary>
         /// 通过_sysRect来给该图形的图元分配矩形容器
@@ -94,7 +95,7 @@ namespace DRSysCtrlDisplay
             {
                 CntRects[i] = new Rectangle(pointX, pointY, width, height);
                 var cnt = ModelFactory<Container>.CreateByName(_sys.CntNames[i]);
-                CntsArray[i] = new ContainerViewModel(cnt, base._graph, CntRects[i]);//创建对应机箱的画图器
+                CntsArray[i] = new ContainerViewModel(cnt, CntRects[i]);//创建对应机箱的画图器
                 pointY += childHeight;
             }
         }
@@ -154,14 +155,14 @@ namespace DRSysCtrlDisplay
             AssignLinksPoints(LinkType.RapidIO, rioLinks);
         }
 
-        private void AddCntNames()
+        private void AddCntNames(Graphics g)
         {
             for (int i = 0; i < CntRects.Length; i++)
             {
                 var cntRect = CntRects[i];//当前的机箱视图
                 int nameRectWidth = cntRect.Width / 10;
                 var nameRect = new Rectangle(cntRect.X - nameRectWidth, cntRect.Y, nameRectWidth, cntRect.Height);
-                BaseDrawer.AddDirctionSentence(_graph, nameRect, _sys.CntNames[i], false);
+                BaseDrawer.AddDirctionSentence(g, nameRect, _sys.CntNames[i], false);
             }
         }
     }

@@ -24,14 +24,14 @@ namespace DRSysCtrlDisplay.ViewModel.Others
         }
         public override void DrawNode(Graphics graph, Rectangle rect)
         {
-            BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject._object, graph, rect);
-            coreView.DrawView();
+            BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject._object,rect);
+            coreView.DrawView(graph);
         }
 
         public override void DrawChoosedNode(Graphics graph, Rectangle rect)
         {
-            BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject._object, graph, rect);
-            coreView.ChoosedDrawView();
+            BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject._object, rect);
+            coreView.ChoosedDrawView(graph);
         }
     }
 }

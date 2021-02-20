@@ -75,7 +75,7 @@ namespace DRSysCtrlDisplay.Models
             {
                 int slotNum = int.Parse(board.Attribute("slotNum").Value);
                 string boardName = board.Attribute("boardName").Value;
-                BoardNameDir.Add(slotNum, boardName);
+                container.BoardNameDir.Add(slotNum, boardName);
             }
             return container;
         }
@@ -83,7 +83,14 @@ namespace DRSysCtrlDisplay.Models
         //该槽位没放板卡,以后要优化判断
         public bool IsContainBoard(int slotNum)
         {
-            return IsContainBoard(BoardNameDir[slotNum]);
+            try
+            {
+                return IsContainBoard(BoardNameDir[slotNum]);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return false;
+            }
         }
 
         public bool IsContainBoard(string boardName)

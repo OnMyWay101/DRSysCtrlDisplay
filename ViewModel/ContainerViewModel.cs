@@ -28,10 +28,10 @@ namespace DRSysCtrlDisplay
         private Dictionary<ContainerLink, Point[]> _links;          //包含的连接及对应的点
         public BaseDrawer ChoosedBv { get; set; }                   //当前视图被选中的图元
 
-        public ContainerViewModel(Models.Container container, Graphics g, Rectangle rect)
+        public ContainerViewModel(Models.Container container, Rectangle rect)
         {
             _container = container;
-            Init(g, rect);
+            Init(rect);
         }
 
         public ContainerViewModel(Models.Container container)
@@ -39,35 +39,35 @@ namespace DRSysCtrlDisplay
             _container = container;
         }
 
-        public override void Init(Graphics g, Rectangle rect)
+        public override void Init(Rectangle rect)
         {
-            base.Init(g, rect);
+            base.Init(rect);
             Init();
         }
 
         #region 重载虚函数
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
             //画背板
-            _bpView.DrawView();
+            _bpView.DrawView(g);
 
             //画Boards
             for (int i = 0; i < _boardViews.Length; i++)
             {
-                _boardViews[i].DrawView();
+                _boardViews[i].DrawView(g);
             }
 
             //稍后画选中的图元
             if (ChoosedBv != null)
             {
-                ChoosedBv.ChoosedDrawView();
+                ChoosedBv.ChoosedDrawView(g);
             }
 
             //画Links
             foreach (var linePair in _links)
             {
                 linePair.Key.EndRadius = _boardRects[0].Width / 20;
-                linePair.Key.DrawLine(_graph, linePair.Value.ToList());
+                linePair.Key.DrawLine(g, linePair.Value.ToList());
             }
         }
 
@@ -112,7 +112,8 @@ namespace DRSysCtrlDisplay
         {
             //初始化背板画图对象
             var bp = ModelFactory<BackPlane>.CreateByName(_container.BackPlaneName);
-            _bpView = new BackPlaneViewModel(bp, base._graph, base._rect);
+            _boardViews = new PlaneVpx[bp.SlotsNum];
+            _bpView = new BackPlaneViewModel(bp, base._rect);
             _boardRects = _bpView.SlotRects;
 
             //初始化_boardViews
@@ -121,11 +122,11 @@ namespace DRSysCtrlDisplay
                 var rect = _boardRects[pair.Key];
                 if(_container.IsContainBoard(pair.Value))
                 {
-                    _boardViews[pair.Key] = new BoardVpx(base._graph, rect, pair.Value);
+                    _boardViews[pair.Key] = new BoardVpx(rect, pair.Value);
                 }
                 else
                 {
-                    _boardViews[pair.Key] = new EmptySlotVpx(base._graph, rect, pair.Value);
+                    _boardViews[pair.Key] = new EmptySlotVpx(rect, pair.Value);
                 }
             }
 

@@ -127,9 +127,10 @@ namespace DRSysCtrlDisplay
             Graphics g = e.Graphics;
             g.ScaleTransform(ZoomFactor, ZoomFactor);
             g.TranslateTransform(_viewOffset.X, _viewOffset.Y);
-
             var size = ShowView.GetViewSize();
-            ShowView.DrawView();
+
+            ShowView.Init(new Rectangle(100, 100, size.Width, size.Height));
+            ShowView.DrawView(g);
         }
 
         void ShowViewPanel_Scroll(object sender, ScrollEventArgs e)

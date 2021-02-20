@@ -9,8 +9,8 @@ namespace DRSysCtrlDisplay
     {
         ZYNQ _zynq;
 
-        public ZYNQViewModel(ZYNQ zynq, Graphics g, Rectangle rect)
-            : base(g, rect)
+        public ZYNQViewModel(ZYNQ zynq, Rectangle rect)
+            : base(rect)
         {
             _zynq = zynq;
         }
@@ -19,39 +19,39 @@ namespace DRSysCtrlDisplay
             _zynq = zynq;
         }
 
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
-            base._graph.DrawRectangle(ComputeNodeColor.Pen_PL, base._rect);
-            base._graph.FillRectangle(ComputeNodeColor.Brushes_PL, base._rect);
-            base.AddSentence("ZYNQ");
+            g.DrawRectangle(ComputeNodeColor.Pen_PL, base._rect);
+            g.FillRectangle(ComputeNodeColor.Brushes_PL, base._rect);
+            base.AddSentence(g, "ZYNQ");
         }
 
-        public override void DrawView(Pen pen, Brush brush)
+        public override void DrawView(Graphics g, Pen pen, Brush brush)
         {
-            base._graph.DrawRectangle(pen, base._rect);
-            base._graph.FillRectangle(brush, base._rect);
-            base.AddSentence("ZYNQ");
+            g.DrawRectangle(pen, base._rect);
+            g.FillRectangle(brush, base._rect);
+            base.AddSentence(g, "ZYNQ");
         }
 
-        public override void DrawView(string name)
+        public override void DrawView(Graphics g, string name)
         {
-            base._graph.DrawRectangle(ComputeNodeColor.Pen_PL, base._rect);
-            base._graph.FillRectangle(ComputeNodeColor.Brushes_PL, base._rect);
-            base.AddSentence(name);
+            g.DrawRectangle(ComputeNodeColor.Pen_PL, base._rect);
+            g.FillRectangle(ComputeNodeColor.Brushes_PL, base._rect);
+            base.AddSentence(g, name);
         }
 
-        public override void ChoosedDrawView(string name)
+        public override void ChoosedDrawView(Graphics g, string name)
         {
             Rectangle marginRect = base.GetMarginRect();
-            DrawView(name);
-            base._graph.DrawRectangle(Pens.Red, marginRect);
+            DrawView(g, name);
+            g.DrawRectangle(Pens.Red, marginRect);
         }
 
-        public override void ChoosedDrawView()
+        public override void ChoosedDrawView(Graphics g)
         {
             Rectangle marginRect = base.GetMarginRect();
-            DrawView();
-            base._graph.DrawRectangle(Pens.Red, marginRect);
+            DrawView(g);
+            g.DrawRectangle(Pens.Red, marginRect);
         }
     }
 }

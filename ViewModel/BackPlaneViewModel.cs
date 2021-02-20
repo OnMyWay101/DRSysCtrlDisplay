@@ -18,10 +18,10 @@ namespace DRSysCtrlDisplay
         public PlaneVpx[] PlaneVpxArray { get; set; }                           //包含的子视图，比槽位多2个，其中：n-1为连接示意区；n-2为外接口区
         public Dictionary<BackPlaneLink, Point[]> LinkDir { get; private set; }     //包含的连接及对应的点
         public BaseDrawer ChoosedBv { get; set; }                                   //当前视图被选中的图元
-        public BackPlaneViewModel(BackPlane bp, Graphics g, Rectangle rect)
+        public BackPlaneViewModel(BackPlane bp, Rectangle rect)
         {
             _bp = bp;
-            Init(g, rect);
+            Init(rect);
         }
 
         public BackPlaneViewModel(BackPlane bp)
@@ -29,9 +29,9 @@ namespace DRSysCtrlDisplay
             _bp = bp;
         }
 
-        public override void Init(Graphics g, Rectangle rect)
+        public override void Init( Rectangle rect)
         {
-            base.Init(g, rect);
+            base.Init(rect);
             //初始化基类的矩形
             int newRectWidth = rect.Width * _bp.VirtualSlotsNum / 12;
             base._rect = new Rectangle(rect.X + (rect.Width - newRectWidth) / 2, rect.Y, newRectWidth, rect.Height);
@@ -45,19 +45,19 @@ namespace DRSysCtrlDisplay
         }
 
         #region 重载虚函数
-        public override void DrawView() 
+        public override void DrawView(Graphics g) 
         {
-            DrawBoundary();
+            DrawBoundary(g);
             //画槽位
             for (int i = 0; i < SlotRects.Length; i++)
             {
                 BaseDrawer bv = PlaneVpxArray[i];
-                bv.DrawView();
+                bv.DrawView(g);
             }
             //稍后画选中的图元
             if (ChoosedBv != null)
             {
-                ChoosedBv.ChoosedDrawView();
+                ChoosedBv.ChoosedDrawView(g);
             }
 
             //画Links
@@ -65,7 +65,7 @@ namespace DRSysCtrlDisplay
             {
                 var link = linePair.Key;
                 link.EndRadius = SlotRects[0].Width / 20;
-                link.DrawLine(_graph, linePair.Value.ToList());
+                link.DrawLine(g, linePair.Value.ToList());
             }
         }
 
@@ -111,15 +111,15 @@ namespace DRSysCtrlDisplay
             {
                 if (i == _bp.VirtualSlotsNum - 1)//第n-1个为连接示意区
                 {
-                    PlaneVpxArray[i] = new IndicateAreaVpx(base._graph, SlotRects[i], "连接示意区");
+                    PlaneVpxArray[i] = new IndicateAreaVpx(SlotRects[i], "连接示意区");
                 }
                 else if (i == _bp.VirtualSlotsNum - 2)//第n-2个为外连口区
                 {
-                    PlaneVpxArray[i] = new BackPlaneVpx(base._graph, SlotRects[i], "外连口区");
+                    PlaneVpxArray[i] = new BackPlaneVpx(SlotRects[i], "外连口区");
                 }
                 else
                 {
-                    PlaneVpxArray[i] = new BackPlaneVpx(base._graph, SlotRects[i], "槽位" + (i + 1));
+                    PlaneVpxArray[i] = new BackPlaneVpx(SlotRects[i], "槽位" + (i + 1));
                 }
             }
         }
@@ -145,32 +145,32 @@ namespace DRSysCtrlDisplay
         /// <summary>
         /// 画背板最外面的边框
         /// </summary>
-        protected void DrawBoundary()
+        protected void DrawBoundary(Graphics g)
         {
             int margin = 10;
-            _graph.DrawRectangle(Pens.Black, new Rectangle(base._rect.Location.X - margin,
+            g.DrawRectangle(Pens.Black, new Rectangle(base._rect.Location.X - margin,
                 base._rect.Location.Y - margin, base._rect.Size.Width + 2 * margin, base._rect.Size.Height + 2 * margin));
         }
 
-        protected void DrawLine(Point p1, Point p2)
-        {
-            _graph.DrawLine(Pens.Black, p1, p2);
-            int radius = SlotRects[0].Width / 20;   //半径值取区域矩形的宽度的1/20
-            _graph.DrawEllipse(Pens.Black, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
-            _graph.FillEllipse(Brushes.Black, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
-            _graph.DrawEllipse(Pens.Black, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
-            _graph.FillEllipse(Brushes.Black, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
-        }
+        //protected void DrawLine(Point p1, Point p2)
+        //{
+        //    _graph.DrawLine(Pens.Black, p1, p2);
+        //    int radius = SlotRects[0].Width / 20;   //半径值取区域矩形的宽度的1/20
+        //    _graph.DrawEllipse(Pens.Black, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
+        //    _graph.FillEllipse(Brushes.Black, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
+        //    _graph.DrawEllipse(Pens.Black, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
+        //    _graph.FillEllipse(Brushes.Black, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
+        //}
 
-        protected void DrawLineWithColor(Point p1, Point p2, Pen pen, Brush brush)
-        {
-            _graph.DrawLine(pen, p1, p2);
-            int radius = SlotRects[0].Width / 20;   //半径值取区域矩形的宽度的1/20
-            _graph.DrawEllipse(pen, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
-            _graph.FillEllipse(brush, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
-            _graph.DrawEllipse(pen, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
-            _graph.FillEllipse(brush, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
-        }
+        //protected void DrawLineWithColor(Point p1, Point p2, Pen pen, Brush brush)
+        //{
+        //    _graph.DrawLine(pen, p1, p2);
+        //    int radius = SlotRects[0].Width / 20;   //半径值取区域矩形的宽度的1/20
+        //    _graph.DrawEllipse(pen, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
+        //    _graph.FillEllipse(brush, p1.X - radius, p1.Y - radius, 2 * radius, 2 * radius);
+        //    _graph.DrawEllipse(pen, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
+        //    _graph.FillEllipse(brush, p2.X - radius, p2.Y - radius, 2 * radius, 2 * radius);
+        //}
 
         private void AssignSloteRects()
         {

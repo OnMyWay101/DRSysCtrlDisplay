@@ -22,22 +22,22 @@ namespace DRSysCtrlDisplay.ViewModel.Others
         public abstract void DrawChoosedNode(Graphics graph, Rectangle rect);
 
         //实现一个
-        protected BaseDrawerCore GetBaseDrawerCore(ModelBaseCore obj, Graphics graph, Rectangle rect)
+        protected BaseDrawerCore GetBaseDrawerCore(ModelBaseCore obj, Rectangle rect)
         {
             if (NodeType == EndType.PPC)
             {
                 PPC ppc = obj as PPC;
-                return new PPCViewModel(ppc, graph, rect);
+                return new PPCViewModel(ppc, rect);
             }
             else if (NodeType == EndType.FPGA)
             {
                 FPGA fpga = obj as FPGA;
-                return new FPGAViewModel(fpga, graph, rect);
+                return new FPGAViewModel(fpga, rect);
             }
             else //NodeType == EndType.ZYNQ
             {
                 ZYNQ zynq = obj as ZYNQ;
-                return new ZYNQViewModel(zynq, graph, rect);
+                return new ZYNQViewModel(zynq,rect);
             }
         }
     }

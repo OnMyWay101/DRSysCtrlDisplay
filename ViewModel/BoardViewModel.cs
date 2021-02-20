@@ -23,10 +23,10 @@ namespace DRSysCtrlDisplay
         List<Rectangle> _vpxsPositions;                         //VPX的图像位置集合;一共4个成员：EtherNet(0),RapidIO(1),GTX(2),LVDS(3)
         public BaseDrawer ChoosedBv { get; set; }               //当前视图被选中的图元
 
-        public BoardViewModel(Board board, Graphics g, Rectangle rect)
+        public BoardViewModel(Board board, Rectangle rect)
         {
             _board = board;
-            Init(g, rect);
+            Init(rect);
         }
 
         public BoardViewModel(Board board)
@@ -34,25 +34,25 @@ namespace DRSysCtrlDisplay
             _board = board;
         }
 
-        public override void Init(Graphics g, Rectangle rect)
+        public override void Init( Rectangle rect)
         {
-            base.Init(g, rect);
+            base.Init(rect);
             _assignRect = new AssignRectangle(base._rect);
         }
 
         #region 重载虚函数
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
             //画板卡对应的方框
-            base._graph.DrawRectangle(Pens.Black, base._rect);
-            DrawVPXs();
+            g.DrawRectangle(Pens.Black, base._rect);
+            DrawVPXs(g);
 
-            DrawCores();
+            DrawCores(g);
             if (ChoosedBv != null)
             {
-                ChoosedBv.ChoosedDrawView();
+                ChoosedBv.ChoosedDrawView(g);
             }
-            DrawLinks(_board.LinkList);
+            DrawLinks(g, _board.LinkList);
         }
         public override Size GetViewSize()
         {
@@ -84,7 +84,7 @@ namespace DRSysCtrlDisplay
                 {
                     if (_ppcsPositions[i].Contains(e.Location))
                     {
-                        return new PPCViewModel(_board.PPCList[i], base._graph, _ppcsPositions[i]);
+                        return new PPCViewModel(_board.PPCList[i], _ppcsPositions[i]);
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace DRSysCtrlDisplay
                 {
                     if (_fpgasPositions[i].Contains(e.Location))
                     {
-                        return new FPGAViewModel(_board.FPGAList[i], base._graph, _fpgasPositions[i]);
+                        return new FPGAViewModel(_board.FPGAList[i], _fpgasPositions[i]);
                     }
                 }
             }
@@ -106,7 +106,7 @@ namespace DRSysCtrlDisplay
                 {
                     if (_zynqsPositions[i].Contains(e.Location))
                     {
-                        return new ZYNQViewModel(_board.ZYNQList[i], base._graph, _zynqsPositions[i]);
+                        return new ZYNQViewModel(_board.ZYNQList[i], _zynqsPositions[i]);
                     }
                 }
             }
@@ -127,56 +127,56 @@ namespace DRSysCtrlDisplay
 
         #endregion 实现接口
 
-        private void DrawVPXs()
+        private void DrawVPXs(Graphics g)
         {
             _vpxsPositions = GetVPXsPositions();
             //画vpx连接区的EtherNet区域
-            _graph.DrawRectangle(ConnectAreaColor.Pen_EtherNet, _vpxsPositions[0]);
-            _graph.FillRectangle(ConnectAreaColor.Brushes_EtherNet, _vpxsPositions[0]);
-            BaseDrawer.AddDirctionSentence(_graph, _vpxsPositions[0], "EtherNet", true);
+            g.DrawRectangle(ConnectAreaColor.Pen_EtherNet, _vpxsPositions[0]);
+            g.FillRectangle(ConnectAreaColor.Brushes_EtherNet, _vpxsPositions[0]);
+            BaseDrawer.AddDirctionSentence(g, _vpxsPositions[0], "EtherNet", true);
 
             //画vpx连接区的RapidIO区域
-            _graph.DrawRectangle(Princeple.ConnectAreaColor.Pen_RapidIO, _vpxsPositions[1]);
-            _graph.FillRectangle(Princeple.ConnectAreaColor.Brushes_RapidIO, _vpxsPositions[1]);
-            BaseDrawer.AddDirctionSentence(_graph, _vpxsPositions[1], "RapidIO", true);
+            g.DrawRectangle(Princeple.ConnectAreaColor.Pen_RapidIO, _vpxsPositions[1]);
+            g.FillRectangle(Princeple.ConnectAreaColor.Brushes_RapidIO, _vpxsPositions[1]);
+            BaseDrawer.AddDirctionSentence(g, _vpxsPositions[1], "RapidIO", true);
 
             //画vpx连接区的GTX区域
-            _graph.DrawRectangle(Princeple.ConnectAreaColor.Pen_GTX, _vpxsPositions[2]);
-            _graph.FillRectangle(Princeple.ConnectAreaColor.Brushes_GTX, _vpxsPositions[2]);
-            BaseDrawer.AddDirctionSentence(_graph, _vpxsPositions[2], "GTX", true);
+            g.DrawRectangle(Princeple.ConnectAreaColor.Pen_GTX, _vpxsPositions[2]);
+            g.FillRectangle(Princeple.ConnectAreaColor.Brushes_GTX, _vpxsPositions[2]);
+            BaseDrawer.AddDirctionSentence(g, _vpxsPositions[2], "GTX", true);
 
             //画vpx连接区的LVDS区域
-            _graph.DrawRectangle(Princeple.ConnectAreaColor.Pen_LVDS, _vpxsPositions[3]);
-            _graph.FillRectangle(Princeple.ConnectAreaColor.Brushes_LVDS, _vpxsPositions[3]);
-            BaseDrawer.AddDirctionSentence(_graph, _vpxsPositions[3], "LVDS", true);
+            g.DrawRectangle(Princeple.ConnectAreaColor.Pen_LVDS, _vpxsPositions[3]);
+            g.FillRectangle(Princeple.ConnectAreaColor.Brushes_LVDS, _vpxsPositions[3]);
+            BaseDrawer.AddDirctionSentence(g, _vpxsPositions[3], "LVDS", true);
 
         }
 
         /// <summary>
         /// 画所有的芯片：PPC集合，FPGA集合，ZYNQ集合，SwitchDevice集合
         /// </summary>
-        private void DrawCores()
+        private void DrawCores(Graphics g)
         {
             //PPC集合
             _ppcsPositions = GetPPCsPositions(_board.PPCList.Count);
             for (int i = 0; i < _board.PPCList.Count; i++)
             {
-                var ppcDrawer = new PPCViewModel(_board.PPCList[i], base._graph, _ppcsPositions[i]);
-                ppcDrawer.DrawView();
+                var ppcDrawer = new PPCViewModel(_board.PPCList[i], _ppcsPositions[i]);
+                ppcDrawer.DrawView(g);
             }
             //FPGA集合
             _fpgasPositions = GetFPGAsPositions(_board.FPGAList.Count);
             for (int i = 0; i < _board.FPGAList.Count; i++)
             {
-                var fpgaDrawer = new FPGAViewModel(_board.FPGAList[i], base._graph, _fpgasPositions[i]);
-                fpgaDrawer.DrawView();
+                var fpgaDrawer = new FPGAViewModel(_board.FPGAList[i], _fpgasPositions[i]);
+                fpgaDrawer.DrawView(g);
             }
             //ZYNQ集合
             _zynqsPositions = GetZYNQsPositions(_board.ZYNQList.Count);
             for (int i = 0; i < _board.ZYNQList.Count; i++)
             {
-                var zynqDrawer = new ZYNQViewModel(_board.ZYNQList[i], base._graph, _zynqsPositions[i]);
-                zynqDrawer.DrawView();
+                var zynqDrawer = new ZYNQViewModel(_board.ZYNQList[i], _zynqsPositions[i]);
+                zynqDrawer.DrawView(g);
             }
             //SwitchDevice集合
             _swsPositions = GetSwsPositions();
@@ -184,19 +184,19 @@ namespace DRSysCtrlDisplay
             {
                 if (sw.Category == SwitchCategory.EtherNetSw)//以太网交换机
                 {
-                    sw.SetDrawingTools(_graph, _swsPositions[0]);
-                    sw.DrawView();
-                    DrawSw2Vpx(_swsPositions[0], _vpxsPositions[0], ConnectAreaColor.Pen_EtherNet);
+                    sw.SetDrawingRect(_swsPositions[0]);
+                    sw.DrawView(g);
+                    DrawSw2Vpx(g, _swsPositions[0], _vpxsPositions[0], ConnectAreaColor.Pen_EtherNet);
                 }
                 else//Rio交换机
                 {
-                    sw.SetDrawingTools(_graph, _swsPositions[1]);
-                    sw.DrawView();
-                    DrawSw2Vpx(_swsPositions[1], _vpxsPositions[1], ConnectAreaColor.Pen_RapidIO);
+                    sw.SetDrawingRect(_swsPositions[1]);
+                    sw.DrawView(g);
+                    DrawSw2Vpx(g, _swsPositions[1], _vpxsPositions[1], ConnectAreaColor.Pen_RapidIO);
                 }
             }
         }
-        private void DrawLinks(List<BoardLink> links)
+        private void DrawLinks(Graphics g, List<BoardLink> links)
         {
             //把所有的links转化为,连接位置关系的集合
             _linksPositions = GetLinksPositions(links);
@@ -222,17 +222,17 @@ namespace DRSysCtrlDisplay
                 //把一个List转化为Array
                 Point[] points = new Point[linkPositions.Key.Count];
                 linkPositions.Key.CopyTo(points);
-                _graph.DrawLines(pen, points);
+                g.DrawLines(pen, points);
             }
         }
 
         //画交换机到vpx的连线；
         //(注意：有提升空间，现在只是表示连接关系画了一条虚拟的线，没细化到有具体多少根，和每根对应的sw端口及vpx位置)
-        private void DrawSw2Vpx(Rectangle sw, Rectangle vpx, Pen pen)
+        private void DrawSw2Vpx(Graphics g, Rectangle sw, Rectangle vpx, Pen pen)
         {
             var point1 = new Point(sw.Location.X + sw.Size.Width / 2, sw.Location.Y + sw.Size.Height);
             var point2 = new Point(point1.X, vpx.Location.Y);
-            _graph.DrawLine(pen, point1, point2);
+            g.DrawLine(pen, point1, point2);
         }
 
         private List<Rectangle> GetPPCsPositions(int num)

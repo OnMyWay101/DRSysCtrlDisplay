@@ -15,9 +15,9 @@ namespace DRSysCtrlDisplay
         where TLine : BaseLine
     {
         readonly TopoNet<TNode, TLine> _topoNet;
-        readonly Graphics _graph;
-        readonly int _gOffsetX;
-        readonly int _gOffsetY;
+        Graphics _graph;
+        int _gOffsetX;
+        int _gOffsetY;
         readonly Rectangle _rect;
         readonly int _nodeNum;
 
@@ -34,11 +34,8 @@ namespace DRSysCtrlDisplay
         private const double _lineRangeScale = 2.0 / 10;      //线所包含范围的宽度与矩形框高度的比例
         public TNode ChoosedBv { get; set; }
 
-        public TopoNetView(Graphics g, Rectangle r, TopoNet<TNode, TLine> topo)
+        public TopoNetView(Rectangle r, TopoNet<TNode, TLine> topo)
         {
-            _graph = g;
-            _gOffsetX = (int)g.Transform.OffsetX;
-            _gOffsetY = (int)g.Transform.OffsetY;
             _rect = r;
             _topoNet = topo;
             _nodeNum = topo.NodeArray.Length;
@@ -304,8 +301,11 @@ namespace DRSysCtrlDisplay
 
         #endregion
 
-        public void DrawView()
+        public void DrawView(Graphics g)
         {
+            _graph = g;
+            _gOffsetX = (int)g.Transform.OffsetX;
+            _gOffsetY = (int)g.Transform.OffsetY;
             DrawEthNetBar();
             DrawRioNetBar();
             DrawNodes();

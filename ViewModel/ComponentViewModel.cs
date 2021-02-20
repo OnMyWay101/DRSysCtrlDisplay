@@ -1,15 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Xml.Linq;
-using System.IO;
-using System.Reflection;
-using DRSysCtrlDisplay.Princeple;
-using DRSysCtrlDisplay.Models;
 using DRSysCtrlDisplay.ViewModel.Others;
 using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
@@ -21,12 +12,10 @@ namespace DRSysCtrlDisplay
         private TopoNetView<ComponentNode, ComponentLine> _topoView;
         public BaseDrawer ChoosedBv { get; set; }
 
-
-        public ComponentViewModel(Models.Component cmp, Graphics g, Rectangle rect)
-            : base(g, rect)
+        public ComponentViewModel(Models.Component cmp, Rectangle rect)
         {
             _component = cmp;
-            _topoView = new TopoNetView<ComponentNode, ComponentLine>(base._graph, base._rect, _component.CmpTopoNet);
+            Init(rect);
         }
 
         public ComponentViewModel(Models.Component cmp)
@@ -34,16 +23,16 @@ namespace DRSysCtrlDisplay
             _component = cmp;
         }
 
-        public override void Init(Graphics g, Rectangle rect)
+        public override void Init( Rectangle rect)
         {
-            base.Init(g, rect);
-            _topoView = new TopoNetView<ComponentNode, ComponentLine>(base._graph, base._rect, _component.CmpTopoNet);
+            base.Init(rect);
+            _topoView = new TopoNetView<ComponentNode, ComponentLine>(base._rect, _component.CmpTopoNet);
         }
 
         #region 重载虚函数
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
-            _topoView.DrawView();
+            _topoView.DrawView(g);
         }
         public override Size GetViewSize()
         {

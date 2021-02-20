@@ -16,24 +16,22 @@ namespace DRSysCtrlDisplay
     public abstract class BaseDrawer
     {
         public event Action RedrawRequst;   //需要重绘事件
-        protected Graphics _graph;          //对应的画布
         protected Rectangle _rect;          //图像的边框
 
-        protected BaseDrawer(Graphics g, Rectangle rect)
+        protected BaseDrawer(Rectangle rect)
         {
-            Init(g, rect);
+            Init(rect);
         }
         protected BaseDrawer() { }
 
-        public virtual void Init(Graphics g, Rectangle rect)
+        public virtual void Init(Rectangle rect)
         {
-            _graph = g;
             _rect = rect;
         }
 
-        public abstract void DrawView();
-        public virtual void DrawView(Pen pen, Brush brush) { }
-        public virtual void ChoosedDrawView() { }
+        public abstract void DrawView(Graphics g);
+        public virtual void DrawView(Graphics g, Pen pen, Brush brush) { }
+        public virtual void ChoosedDrawView(Graphics g) { }
 
         //获取该图像显示的区域大小
         public virtual Size GetViewSize() { return new Size(0, 0); }
@@ -87,23 +85,23 @@ namespace DRSysCtrlDisplay
     public abstract class BaseDrawerCore : BaseDrawer
     {
         protected BaseDrawerCore() { }
-        protected BaseDrawerCore(Graphics g, Rectangle rect) : base(g, rect) { }
+        protected BaseDrawerCore(Rectangle rect) : base(rect) { }
 
         protected const int _fontScale = 5;//字体与图形外接边框Width的比列
-        public override void DrawView() { }
-        public abstract void DrawView(string name);
-        public abstract void ChoosedDrawView(string name);
+        public override void DrawView(Graphics g) { }
+        public abstract void DrawView(Graphics g, string name);
+        public abstract void ChoosedDrawView(Graphics g, string name);
         public override Size GetViewSize()
         {
             return new Size(100, 100);
         }
-        protected void AddSentence(string Sentence)
+        protected void AddSentence(Graphics g, string Sentence)
         {
             StringFormat drawFormat = new StringFormat();
             drawFormat.Alignment = StringAlignment.Center;
             drawFormat.LineAlignment = StringAlignment.Center;
 
-            base._graph.DrawString(Sentence, new Font("Arial", base._rect.Width / _fontScale), Brushes.Black, base._rect, drawFormat);
+            g.DrawString(Sentence, new Font("Arial", base._rect.Width / _fontScale), Brushes.Black, base._rect, drawFormat);
         }
     }
 

@@ -48,20 +48,20 @@ namespace DRSysCtrlDisplay
 
         public Status(){ }
 
-        public Status(Graphics g, Rectangle rect)
+        public Status( Rectangle rect)
         {
-            Init(g, rect);
+            Init(rect);
         }
 
-        public Status(Dictionary<int, SlotInfo> info, Graphics g, Rectangle rect)
+        public Status(Dictionary<int, SlotInfo> info, Rectangle rect)
         {
-            Init(g, rect);
+            Init(rect);
             _statusInfo = info;
         }
 
-        public override void Init(Graphics g, Rectangle rect)
+        public override void Init(Rectangle rect)
         {
-            base.Init(g, rect);
+            base.Init(rect);
             Type = string.Empty;
             Temp = string.Empty;
             Voltage = string.Empty;
@@ -87,11 +87,10 @@ namespace DRSysCtrlDisplay
         //    _drawStatus.Draw();
         //}
 
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
-            base._graph.DrawRectangle(Pens.Black, base._rect);
-
-            DrawStatus ds = new DrawStatus(this, base._graph, base._rect);
+            g.DrawRectangle(Pens.Black, base._rect);
+            DrawStatus ds = new DrawStatus(this, g, base._rect);
             _drawStatus = ds;
             ds.Draw();         
         }
@@ -196,7 +195,6 @@ namespace DRSysCtrlDisplay
                 {
                     _listSlots = _status._statusInfo;
                 }
-
             }
 
             /// <summary>

@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Reflection;
 using System.Linq;
-using System.Text;
-using System.Diagnostics;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 using DRSysCtrlDisplay.Princeple;
+using DRSysCtrlDisplay.ViewModel.Others;
+using DRSysCtrlDisplay.Models;
 using SystemInformation = DRSysCtrlDisplay.TargetListener.MultiCastPacket.MultiCastPacketInfo.SystemInformation;
 using StaticNode = DRSysCtrlDisplay.StaticTopo.StaticNode;
 using StaticLine = DRSysCtrlDisplay.StaticTopo.StaticLine;
-using DRSysCtrlDisplay.ViewModel.Others;
-using DRSysCtrlDisplay.Models;
+
 
 namespace DRSysCtrlDisplay
 {
@@ -426,21 +423,24 @@ namespace DRSysCtrlDisplay
 
         public BaseDrawer ChoosedBv { get; set; }
 
-        public StaticTopo(SystemStru sys, Graphics g, Rectangle rect)
+        public StaticTopo(SystemStru sys, Rectangle rect)
         {
             System = sys;
-            Init(g, rect);
+            Init(rect);
         }
         public StaticTopo(SystemStru sys)
         {
             System = sys;
         }
 
-        public override void Init(Graphics g, Rectangle rect)
+        public override void Init(Rectangle rect)
         {
-            base.Init(g, rect);
+            base.Init(rect);
+
+            _topoView = new TopoNetView<StaticNode, StaticLine>(base._rect, _topoNet);
             EndNodeNum = 0;
             ComputeNodeNum = 0;
+
             InitNodeNum();
             InitRawTopo();
             InitTopoNet();
@@ -771,10 +771,9 @@ namespace DRSysCtrlDisplay
             return new Size(_topoNet.NodeArray.Length * 800 / 5, 400);
         }
 
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
-            _topoView = new TopoNetView<StaticNode, StaticLine>(base._graph, base._rect, _topoNet);
-            _topoView.DrawView();
+            _topoView.DrawView(g);
         }
         #endregion 重载虚函数
 
@@ -798,13 +797,13 @@ namespace DRSysCtrlDisplay
 
             public override void DrawNode(Graphics graph, Rectangle rect)
             {
-                BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject, graph, rect);
-                coreView.DrawView();
+                BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject, rect);
+                coreView.DrawView(graph);
             }
             public override void DrawChoosedNode(Graphics graph, Rectangle rect)
             {
-                BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject, graph, rect);
-                coreView.ChoosedDrawView();
+                BaseDrawerCore coreView = base.GetBaseDrawerCore(NodeObject, rect);
+                coreView.ChoosedDrawView(graph);
             }
         }
 
@@ -861,21 +860,21 @@ namespace DRSysCtrlDisplay
         List<Boolean>[] _onLineFlags = null;                                    //各机箱槽位板卡在线信息
         public Boolean _reconfigFlag { get; set; }                              //该应用是否发生了重构
 
-        public DynamicTopo(StaticTopo sTopo, Graphics g, Rectangle rect)
+        public DynamicTopo(StaticTopo sTopo, Rectangle rect)
         {
             _sTopo = sTopo;
-            Init(g, rect);
+            Init(rect);
         }
 
         public DynamicTopo(StaticTopo sTopo)
         {
             _sTopo = sTopo;
         }
-        public override void Init(Graphics g, Rectangle rect)
+        public override void Init(Rectangle rect)
         {
-            base.Init(g, rect);
+            base.Init(rect);
+            _topoView = new TopoNetView<DynamicNode, DynamicLine>(base._rect, _topoNet);
             _appMatchedTopoList = new List<List<DynamicNode>>();
-            _topoView = new TopoNetView<DynamicNode, DynamicLine>(g, rect, _topoNet);
             InitTopoNet();
 
             InitOnlineFlags();
@@ -1140,9 +1139,9 @@ namespace DRSysCtrlDisplay
 
 
         #region 重载虚函数
-        public override void DrawView()
+        public override void DrawView(Graphics g)
         {
-            _topoView.DrawView();
+            _topoView.DrawView(g);
         }
 
         public override Size GetViewSize()
@@ -1335,34 +1334,34 @@ namespace DRSysCtrlDisplay
 
             public override void DrawNode(Graphics graph, Rectangle rect)
             {
-                var coreView = base.GetBaseDrawerCore(SNode.NodeObject, graph, rect);
+                var coreView = base.GetBaseDrawerCore(SNode.NodeObject, rect);
                 if (Status == NodeStatus.OnLine)
                 {
-                    coreView.DrawView();
+                    coreView.DrawView(graph);
                 }
                 else if (Status == NodeStatus.Used)
                 {
-                    coreView.DrawView(CNode.Name);
+                    coreView.DrawView(graph, CNode.Name);
                 }
                 else
                 {
-                    coreView.DrawView(Pens.Gray, Brushes.Gray);
+                    coreView.DrawView(graph, Pens.Gray, Brushes.Gray);
                 }
             }
             public override void DrawChoosedNode(Graphics graph, Rectangle rect)
             {
-                var coreView = base.GetBaseDrawerCore(SNode.NodeObject, graph, rect);
+                var coreView = base.GetBaseDrawerCore(SNode.NodeObject,rect);
                 if (Status == NodeStatus.OnLine)
                 {
-                    coreView.ChoosedDrawView();
+                    coreView.ChoosedDrawView(graph);
                 }
                 else if (Status == NodeStatus.Used)
                 {
-                    coreView.ChoosedDrawView(CNode.Name);
+                    coreView.ChoosedDrawView(graph, CNode.Name);
                 }
                 else
                 {
-                    coreView.DrawView(Pens.Gray, Brushes.Gray);
+                    coreView.DrawView(graph, Pens.Gray, Brushes.Gray);
                 }
             }
         }
