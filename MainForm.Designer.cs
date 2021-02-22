@@ -57,9 +57,14 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this._connectTSBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this._connectTSBtn = new System.Windows.Forms.ToolStripButton();
+            this._disconnectTSBtn = new System.Windows.Forms.ToolStripButton();
+            this._addSrcTSBtn = new System.Windows.Forms.ToolStripButton();
+            this._delSrcTSBtn = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -144,7 +149,7 @@
             // 关于ToolStripMenuItem1
             // 
             this.关于ToolStripMenuItem1.Name = "关于ToolStripMenuItem1";
-            this.关于ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.关于ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
             this.关于ToolStripMenuItem1.Text = "关于";
             this.关于ToolStripMenuItem1.Click += new System.EventHandler(this.关于ToolStripMenuItem1_Click);
             // 
@@ -166,37 +171,33 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(30, 30);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._connectTSBtn,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this._disconnectTSBtn,
+            this.toolStripSeparator2,
+            this._addSrcTSBtn,
+            this.toolStripSeparator3,
+            this._delSrcTSBtn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(766, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(766, 37);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // _connectTSBtn
-            // 
-            this._connectTSBtn.AutoSize = false;
-            this._connectTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._connectTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._connectTSBtn.Name = "_connectTSBtn";
-            this._connectTSBtn.Size = new System.Drawing.Size(23, 22);
-            this._connectTSBtn.Text = "连接目标机";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 37);
             // 
             // dockPanel1
             // 
             this.dockPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dockPanel1.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.dockPanel1.Location = new System.Drawing.Point(0, 50);
+            this.dockPanel1.Location = new System.Drawing.Point(0, 62);
             this.dockPanel1.Name = "dockPanel1";
-            this.dockPanel1.Size = new System.Drawing.Size(766, 447);
+            this.dockPanel1.Size = new System.Drawing.Size(766, 435);
             dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
             dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
             autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
@@ -245,6 +246,52 @@
             this.dockPanel1.Skin = dockPanelSkin1;
             this.dockPanel1.TabIndex = 4;
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 37);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 37);
+            // 
+            // _connectTSBtn
+            // 
+            this._connectTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._connectTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.ConnectImage;
+            this._connectTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._connectTSBtn.Name = "_connectTSBtn";
+            this._connectTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._connectTSBtn.Text = "连接目标机";
+            // 
+            // toolStripButton1
+            // 
+            this._disconnectTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._disconnectTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.DisconnectImage;
+            this._disconnectTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._disconnectTSBtn.Name = "toolStripButton1";
+            this._disconnectTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._disconnectTSBtn.Text = "取消连接";
+            // 
+            // toolStripButton2
+            // 
+            this._addSrcTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._addSrcTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.tianjia;
+            this._addSrcTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._addSrcTSBtn.Name = "toolStripButton2";
+            this._addSrcTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._addSrcTSBtn.Text = "添加资源";
+            // 
+            // toolStripButton3
+            // 
+            this._delSrcTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._delSrcTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.qingchu;
+            this._delSrcTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._delSrcTSBtn.Name = "toolStripButton3";
+            this._delSrcTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._delSrcTSBtn.Text = "清除资源";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -288,6 +335,11 @@
         public System.Windows.Forms.ToolStripMenuItem OutPutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Connect_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 断开ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton _disconnectTSBtn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton _addSrcTSBtn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton _delSrcTSBtn;
     }
 }
 

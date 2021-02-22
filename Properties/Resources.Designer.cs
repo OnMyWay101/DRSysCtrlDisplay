@@ -83,6 +83,26 @@ namespace DRSysCtrlDisplay.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap qingchu {
+            get {
+                object obj = ResourceManager.GetObject("qingchu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap tianjia {
+            get {
+                object obj = ResourceManager.GetObject("tianjia", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap ZKHXImage {
             get {
                 object obj = ResourceManager.GetObject("ZKHXImage", resourceCulture);

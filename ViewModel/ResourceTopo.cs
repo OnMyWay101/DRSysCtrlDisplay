@@ -426,24 +426,21 @@ namespace DRSysCtrlDisplay
         public StaticTopo(SystemStru sys, Rectangle rect)
         {
             System = sys;
+            InitNodeNum();
             Init(rect);
         }
         public StaticTopo(SystemStru sys)
         {
             System = sys;
+            InitNodeNum();
         }
 
         public override void Init(Rectangle rect)
         {
             base.Init(rect);
-
-            _topoView = new TopoNetView<StaticNode, StaticLine>(base._rect, _topoNet);
-            EndNodeNum = 0;
-            ComputeNodeNum = 0;
-
-            InitNodeNum();
             InitRawTopo();
             InitTopoNet();
+            _topoView = new TopoNetView<StaticNode, StaticLine>(base._rect, _topoNet);
         }
 
         //初始化端点的总数和计算颗粒的总数
@@ -768,7 +765,7 @@ namespace DRSysCtrlDisplay
         public override Size GetViewSize()
         {
             //计算颗粒的个数每5个计算颗粒对应800宽度
-            return new Size(_topoNet.NodeArray.Length * 800 / 5, 400);
+            return new Size(ComputeNodeNum * 800 / 5, 400);
         }
 
         public override void DrawView(Graphics g)

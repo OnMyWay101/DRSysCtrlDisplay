@@ -117,6 +117,7 @@ namespace DRSysCtrlDisplay
         {
             var size = ShowView.GetViewSize();
             this.AutoScrollMinSize = new Size(size.Width + 2 * ViewMargin, size.Height + 2 * ViewMargin);
+            ShowView.Init(new Rectangle(100, 100, size.Width, size.Height));
         }
 
         #region 事件处理函数
@@ -127,9 +128,6 @@ namespace DRSysCtrlDisplay
             Graphics g = e.Graphics;
             g.ScaleTransform(ZoomFactor, ZoomFactor);
             g.TranslateTransform(_viewOffset.X, _viewOffset.Y);
-            var size = ShowView.GetViewSize();
-
-            ShowView.Init(new Rectangle(100, 100, size.Width, size.Height));
             ShowView.DrawView(g);
         }
 
