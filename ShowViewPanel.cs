@@ -74,9 +74,9 @@ namespace DRSysCtrlDisplay
                     var sysSName = sysNode.Text.Substring(sysNode.Text.IndexOf(':') + 1);
                     SystemStru sys3 = ModelFactory<SystemStru>.CreateByName(sysSName);
                     var sysStatic = new StaticTopo(sys3);
-                    ShowView = new DynamicTopo(sysStatic);
 
-                    ((DynamicTopo)ShowView).MatchApps(GetNodeCmps(node));
+                    ShowView = new DynamicTopo(sysStatic);
+                    ((DynamicTopo)ShowView).Components = (GetNodeCmps(node));
                     break;
                 case Princeple.FormType.STATUS:
                     ShowView = new Status();

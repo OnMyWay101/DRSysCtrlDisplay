@@ -850,7 +850,7 @@ namespace DRSysCtrlDisplay
         public TopoNet<DynamicNode, DynamicLine> _topoNet { get; private set; } //计算颗粒包含的topo图
         private TopoNetView<DynamicNode, DynamicLine> _topoView;                //Topo图的画图类
         public BaseDrawer ChoosedBv { get; set; }
-        Models.Component[] _cmps = null;                                        //该topo对应的应用集
+        public Models.Component[] Components { get; set; }                             //该topo对应的应用集
         List<List<DynamicNode>> _appMatchedTopoList;                            //应用匹配的节点集合topo的集合
         int _choosedMatchedListNum = -1;                                        //选择的匹配节点集合topo的序号
 
@@ -867,16 +867,23 @@ namespace DRSysCtrlDisplay
         {
             _sTopo = sTopo;
         }
+
         public override void Init(Rectangle rect)
         {
             base.Init(rect);
-            _topoView = new TopoNetView<DynamicNode, DynamicLine>(base._rect, _topoNet);
-            _appMatchedTopoList = new List<List<DynamicNode>>();
-            InitTopoNet();
+            _sTopo.Init(rect);
 
+            InitTopoNet();
+            _appMatchedTopoList = new List<List<DynamicNode>>();
+            MatchApps();
+
+            _topoView = new TopoNetView<DynamicNode, DynamicLine>(base._rect, _topoNet);
             InitOnlineFlags();
         }
 
+        /// <summary>
+        /// 初始化成员变量_topoNet（TopoNet<DynamicNode, DynamicLine>）
+        /// </summary>
         private void InitTopoNet()
         {
             _topoNet = new TopoNet<DynamicNode, DynamicLine>(_sTopo.ComputeNodeNum);
@@ -1104,7 +1111,7 @@ namespace DRSysCtrlDisplay
         private ComponentNode GetCmpNode(int matchIndex)
         {
             var cmpNodeList = new List<ComponentNode>();
-            foreach (var cmp in _cmps)
+            foreach (var cmp in Components)
             {
                 foreach (var node in cmp.CmpTopoNet.NodeArray)
                 {
@@ -1116,7 +1123,7 @@ namespace DRSysCtrlDisplay
 
         private string GetCmpName(ComponentNode cNode)
         {
-            return _cmps.Where(cmp => cmp.CmpTopoNet.NodeArray.Contains(cNode)).Select(cmp => cmp.Name).FirstOrDefault();
+            return Components.Where(cmp => cmp.CmpTopoNet.NodeArray.Contains(cNode)).Select(cmp => cmp.Name).FirstOrDefault();
         }
 
         #region 实现接口
@@ -1144,18 +1151,17 @@ namespace DRSysCtrlDisplay
         public override Size GetViewSize()
         {
             //计算颗粒的个数每5个计算颗粒对应800宽度
-            return new Size(_topoNet.NodeArray.Length * 800 / 5, 400);
+            return new Size(this._sTopo.ComputeNodeNum * 800 / 5, 400);
         }
         #endregion 重载虚函数
 
         #region 匹配应用相关算法
 
-        public void MatchApps(Models.Component[] cmps)
+        private void MatchApps()
         {
-            _cmps = cmps;
             var resultTopoList = new List<List<DynamicNode>>();//记录各cmp匹配完的结果
 
-            foreach (Models.Component cmp in cmps)
+            foreach (Models.Component cmp in Components)
             {
                 var matchedTopoList = resultTopoList;           //记录已匹配的节点
                 resultTopoList = new List<List<DynamicNode>>();   //重置结果
@@ -1176,7 +1182,7 @@ namespace DRSysCtrlDisplay
                 }
                 if (resultTopoList.Count == 0)
                 {
-                    MessageBox.Show(string.Format("应用{0}匹配失败", cmps.ToList().IndexOf(cmp)));
+                    MessageBox.Show(string.Format("应用{0}匹配失败", Components.ToList().IndexOf(cmp)));
                     return;
                 }
             }

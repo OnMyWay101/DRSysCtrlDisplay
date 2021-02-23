@@ -105,7 +105,7 @@ namespace DRSysCtrlDisplay
             }
             catch (System.Exception ep)
             {
-                MessageBox.Show("SrTreeView_AfterSelect:" + ep.Message);
+                MessageBox.Show(ep.StackTrace);
             }
         }
 
@@ -685,7 +685,7 @@ namespace DRSysCtrlDisplay
             }
             catch (Exception e)
             {
-                MainForm.SetOutPutText("SelectLibNodeToShow" + e.Message);
+                MainForm.SetOutPutText(e.StackTrace);
             }
         }
 
