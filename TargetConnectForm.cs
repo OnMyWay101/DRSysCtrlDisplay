@@ -227,6 +227,15 @@ namespace DRSysCtrlDisplay
                     if (!_targets.ContainsKey(iep.Address))
                     {
                         _targets.Add(iep.Address, new MultiCastPacket(data));
+                        //测试使用保存一份广播数据
+                        //using (var fs = new FileStream(@"C: \Users\wangcj.SINODSP\Desktop\MhalData\Mhal广播数据.txt", FileMode.Create))
+                        //{
+                        //    if (fs.CanWrite)
+                        //    {
+                        //        fs.Write(data, 0, data.Length);
+                        //        fs.Flush();
+                        //    }
+                        //}
                     }
                     else
                     {

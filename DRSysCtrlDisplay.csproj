@@ -196,6 +196,7 @@
     <Compile Include="ViewModel\Others\ComponentLine.cs" />
     <Compile Include="ViewModel\Others\ComponentNode.cs" />
     <Compile Include="ViewModel\Others\ContainerLink.cs" />
+    <Compile Include="ViewModel\Others\RawTopo.cs" />
     <Compile Include="ViewModel\Others\SwitchDevice.cs" />
     <Compile Include="ViewModel\Others\SystemStruLink.cs" />
     <Compile Include="ViewModel\Others\TopoNet.cs" />
@@ -945,10 +946,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ViewModel\BackPlaneViewModel.cs" />
+    <Compile Include="ViewModel\StaticTopo.cs" />
     <Compile Include="ViewModel\Status.cs">
     </Compile>
     <Compile Include="ViewModel\SystemStruViewModel.cs" />
-    <Compile Include="ViewModel\ResourceTopo.cs">
+    <Compile Include="ViewModel\DynamicTopo.cs">
     </Compile>
     <Compile Include="ViewModel\Others\TopoNetView.cs" />
     <Compile Include="XmlManager.cs" />
