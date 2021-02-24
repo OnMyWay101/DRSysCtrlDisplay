@@ -15,7 +15,7 @@ namespace DRSysCtrlDisplay.Models
     public class BackPlane : ModelBase
     {
         #region BackPlane的基本属性
-        [Category("\t基本信息"), Description("背板类型")]
+        [Category("\t基本信息"), Description("背板类型"), ReadOnly(true)]
         public String Type { get; set; }
 
         [BrowsableAttribute(false)]
@@ -25,6 +25,15 @@ namespace DRSysCtrlDisplay.Models
         public int SlotsNum { get; private set; }                       //可以插板卡的槽位数
 
         [Category("连接信息"), Description("各槽位的连接信息")]
+        public LinksPresentArray<BackPlaneLink>[] LinkArrays
+        {
+            get
+            {
+                return LinksArray.Select(links => new LinksPresentArray<BackPlaneLink>(links)).ToArray();
+            } 
+        }
+
+        [BrowsableAttribute(false)]
         public List<BackPlaneLink>[] LinksArray { get; set; }
 
         #endregion BackPlane的基本属性
@@ -133,6 +142,18 @@ namespace DRSysCtrlDisplay.Models
         public bool IsConnetctAreaSlot(int virtualSlotId)
         {
             return virtualSlotId == (this.VirtualSlotsNum - 2);
+        }
+    }
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public class LinksPresentArray<TLink>
+        where TLink : BaseLine
+    {
+        [Description("槽位的连接信息")]
+        public TLink[] linksArray { get; private set; }
+        public LinksPresentArray(List<TLink> linksList)
+        {
+            linksArray = linksList.ToArray();
         }
     }
 }

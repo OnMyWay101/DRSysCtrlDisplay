@@ -751,7 +751,16 @@ namespace DRSysCtrlDisplay
         {
             //处理鼠标事件放在TopoNetView中实现
             _topoView.MouseEventHandler(sender, e);
-            //Todo:切换相关属性的显示
+
+            if (_topoView.ChoosedBv != null)
+            {
+                var chooseNode = _topoView.ChoosedBv as StaticNode;
+                PropertyForm.Show(chooseNode);
+            }
+            else
+            {
+                PropertyForm.Show(this.GetModelInstance());
+            }
             base.TriggerRedrawRequst();
         }
 
@@ -772,20 +781,33 @@ namespace DRSysCtrlDisplay
         {
             _topoView.DrawView(g);
         }
+
+        public override object GetModelInstance()
+        {
+            return this._topoNet;
+        }
         #endregion 重载虚函数
 
         /// <summary>
         /// 静态topo的节点
         /// </summary>
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public class StaticNode : BaseNode
         {
-            public int UrlId { get; private set; }      //点对应的全局资源定位的ID
-            [BrowsableAttribute(false)]
-            public ModelBaseCore NodeObject { get; set; }
-            public int FrameId { get; set; }            //机箱号ID
-            public int SlotId { get; set; }             //槽位号ID
-            public int EndId { get; set; }              //端点号ID（端点在板内的ID号）
+            [Category("位置信息"), Description("节点全局资源ID"), ReadOnly(true)]
+            public int UrlId { get; private set; }     
 
+            [Category("位置信息"), Description("机箱号ID"), ReadOnly(true)]
+            public int FrameId { get; set; }           
+
+            [Category("位置信息"), Description("槽位号ID"), ReadOnly(true)]
+            public int SlotId { get; set; }           
+
+            [Category("位置信息"), Description("端点在板内的ID号"), ReadOnly(true)]
+            public int EndId { get; set; }              //端点号ID
+
+            [Category("节点属性"), Description("节点属性详细信息"), ReadOnly(true)]
+            public ModelBaseCore NodeObject { get; set; }
             public StaticNode(EndType type, string name, int urlId)
                 : base(type, name)
             {
@@ -844,13 +866,13 @@ namespace DRSysCtrlDisplay
     /// <summary>
     /// 画一个系统的动态topo图，包含计算颗粒(PPC,ZYNQ,FPGA)和连接关系(EtherNet,RapidIO,GTX,LVDS )
     /// </summary>
-    public class DynamicTopo : BaseDrawer, IDrawerChoosed
+    public class DynamicTopo : BaseDrawer, IDrawerChoosed, IDrawerNotify
     {
         private StaticTopo _sTopo = null;                                       //该动态Topo图对应的静态topo图
         public TopoNet<DynamicNode, DynamicLine> _topoNet { get; private set; } //计算颗粒包含的topo图
         private TopoNetView<DynamicNode, DynamicLine> _topoView;                //Topo图的画图类
         public BaseDrawer ChoosedBv { get; set; }
-        public Models.Component[] Components { get; set; }                             //该topo对应的应用集
+        public Models.Component[] Components { get; set; }                      //该topo对应的应用集
         List<List<DynamicNode>> _appMatchedTopoList;                            //应用匹配的节点集合topo的集合
         int _choosedMatchedListNum = -1;                                        //选择的匹配节点集合topo的序号
 
@@ -997,9 +1019,9 @@ namespace DRSysCtrlDisplay
                 var slotInfo = sysInfo._boardsInfo[slotSn];
                 return slotInfo._isOnline == 1;
             }
-            catch (Exception e)
+            catch (IndexOutOfRangeException e)
             {
-                MessageBox.Show("IsBoardOnLine:" + e.Message);
+                MainForm.SetOutPutText(e.Message + "\n" + e.StackTrace);
                 return false;
             }
         }
@@ -1131,7 +1153,15 @@ namespace DRSysCtrlDisplay
         {
             //处理鼠标事件放在TopoNetView中实现
             _topoView.MouseEventHandler(sender, e);
-            //Todo:切换相关属性的显示
+            if (_topoView.ChoosedBv != null)
+            {
+                var chooseNode = _topoView.ChoosedBv as DynamicNode;
+                PropertyForm.Show(chooseNode);
+            }
+            else
+            {
+                PropertyForm.Show(this.GetModelInstance());
+            }
             base.TriggerRedrawRequst();
         }
 
@@ -1139,6 +1169,7 @@ namespace DRSysCtrlDisplay
         {
             throw new NotImplementedException();
         }
+
         #endregion 实现接口
 
 
@@ -1152,6 +1183,11 @@ namespace DRSysCtrlDisplay
         {
             //计算颗粒的个数每5个计算颗粒对应800宽度
             return new Size(this._sTopo.ComputeNodeNum * 800 / 5, 400);
+        }
+
+        public override object GetModelInstance()
+        {
+            return this._topoNet;
         }
         #endregion 重载虚函数
 
@@ -1317,11 +1353,22 @@ namespace DRSysCtrlDisplay
         /// </summary>
         public class DynamicNode : BaseNode
         {
+            [Category("静态属性"), Description("节点对应的静态节点属性"), ReadOnly(true)]
             public StaticNode SNode { get; private set; }       //对应的静态节点
+
+            [Category("构件属性"), Description("节点对应的构件节点属性"), ReadOnly(true)]
             public ComponentNode CNode { get; set; }            //对应的构件组件
+
+            [Category("其他信息"), Description("节点所在应用名称"), ReadOnly(true)]
             public string ComName { get; set; }                 //该节点对应的应用名
+
+            [Category("其他信息"), Description("节点状态"), ReadOnly(true)]
             public NodeStatus Status { get; set; }              //节点对应的状态
+
+            [Category("其他信息"), Description("节点是否有对应下载文件"), ReadOnly(true)]
             public bool IsAssigned { get; set; }                //是否被分配了文件
+
+            [Category("其他信息"), Description("节点是对应下载文件名"), ReadOnly(true)]
             public string FileName { get; set; }                //对应的下载文件
 
             public DynamicNode(StaticNode sNode)

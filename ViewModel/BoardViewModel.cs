@@ -58,6 +58,11 @@ namespace DRSysCtrlDisplay
         {
             return new Size(800, 400);
         }
+
+        public override object GetModelInstance()
+        {
+            return _board;
+        }
         #endregion 重载虚函数
 
         #region 实现接口
@@ -66,11 +71,11 @@ namespace DRSysCtrlDisplay
             ChoosedBv = GetChoosedBaseView(e);
             if (ChoosedBv != null)
             {
-                PropertyForm.Show(ChoosedBv);
+                PropertyForm.Show(ChoosedBv.GetModelInstance());
             }
             else
             {
-                PropertyForm.Show(this);
+                PropertyForm.Show(this.GetModelInstance());
             }
             base.TriggerRedrawRequst();
         }

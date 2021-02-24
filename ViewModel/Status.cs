@@ -24,7 +24,7 @@ namespace DRSysCtrlDisplay
         public string _status;          //状态
     };
 
-    public class Status : BaseDrawer
+    public class Status : BaseDrawer, IDrawerNotify
     {
         [Category("槽位信息"), Description("槽位号")]
         public string SlotChan { get; set; }

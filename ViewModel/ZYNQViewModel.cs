@@ -53,5 +53,10 @@ namespace DRSysCtrlDisplay
             DrawView(g);
             g.DrawRectangle(Pens.Red, marginRect);
         }
+
+        public override object GetModelInstance()
+        {
+            return _zynq;
+        }
     }
 }

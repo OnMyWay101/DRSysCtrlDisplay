@@ -507,7 +507,7 @@ namespace DRSysCtrlDisplay
             else
             {
                 _nodeTypeCB.Enabled = false;
-                _nodeTypeCB.Text = node._nodeType.ToString();
+                _nodeTypeCB.Text = node.NodeType.ToString();
                 _addNodeBtn.Enabled = false;
                 _delNodeBtn.Enabled = true;
             }
@@ -547,33 +547,33 @@ namespace DRSysCtrlDisplay
 
         private void ShowNodeInitialForm(CmpNode node)
         {
-            switch (node._nodeType)
+            switch (node.NodeType)
             {
                 case EndType.PPC:
-                    PPC ppc = node._object as PPC;
+                    PPC ppc = node.Obj as PPC;
                     Component_PPCInitForm ppcForm = new Component_PPCInitForm(ppc);
                     ppcForm.ShowDialog();
                     if (ppcForm.DialogResult == DialogResult.Yes)
                     {
-                        node._object = ppcForm._ppc;
+                        node.Obj = ppcForm._ppc;
                     }
                     break;
                 case EndType.FPGA:
-                    FPGA fpga = node._object as FPGA;
+                    FPGA fpga = node.Obj as FPGA;
                     Component_FPGAInitForm fpgaForm = new Component_FPGAInitForm(fpga);
                     fpgaForm.ShowDialog();
                     if (fpgaForm.DialogResult == DialogResult.Yes)
                     {
-                        node._object = fpgaForm._fpga;
+                        node.Obj = fpgaForm._fpga;
                     }
                     break;
                 default://ComputeNodeType.ZYNQ
-                    ZYNQ zynq = node._object as ZYNQ;
+                    ZYNQ zynq = node.Obj as ZYNQ;
                     Component_ZYNQInitForm zynqForm = new Component_ZYNQInitForm(zynq);
                     zynqForm.ShowDialog();
                     if (zynqForm.DialogResult == DialogResult.Yes)
                     {
-                        node._object = zynqForm._zynq;
+                        node.Obj = zynqForm._zynq;
                     }
                     break;
             }

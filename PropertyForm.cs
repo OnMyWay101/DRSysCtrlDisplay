@@ -57,9 +57,9 @@ namespace DRSysCtrlDisplay
             return uniqueInstance.propertyGrid1;
         }
 
-        public static void Show(object o)
+        public static void Show(object obj)
         {
-            PropertyForm.GetInstance().GetGrid().SelectedObject = o;
+            PropertyForm.GetInstance().GetGrid().SelectedObject = obj;
         }
     }
 }

@@ -7,9 +7,13 @@ using System.Windows.Forms;
 
 namespace DRSysCtrlDisplay.ViewModel.Others
 {
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public abstract class BaseNode
     {
+        [Category("\t基本信息"), Description("节点类型"), ReadOnly(true)]
         public EndType NodeType { get; private set; }
+
+        [Category("\t基本信息"), Description("节点名称"), ReadOnly(true)]
         public string Name { get; private set; }
 
         public BaseNode(EndType type, string name)
@@ -42,6 +46,7 @@ namespace DRSysCtrlDisplay.ViewModel.Others
         }
     }
 
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public abstract class BaseLine
     {
         [Description("连接类型")]
@@ -68,15 +73,61 @@ namespace DRSysCtrlDisplay.ViewModel.Others
         public abstract void DrawLine(Graphics graph, List<Point> line);
     }
 
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class TopoNet<TNode, TLine>
         where TNode : BaseNode
         where TLine : BaseLine
     {
+        [Category("节点集合"), Description("节点集合"), ReadOnly(true)]
         public TNode[] NodeArray { get; set; }
+
+        [Category("连接集合"), Description("以太网连接"), ReadOnly(true)]
         public TLine[] EthLinks { get; set; }    //节点是否接入局域网(以太网)
+
+        [Category("连接集合"), Description("RapidIO连接"), ReadOnly(true)]
         public TLine[] RioLinks { get; set; }    //节点是否接入topo网(RapidIO网络)
-        public TLine[,] GTXLinks { get; set; }      //某两个节点之间是否有GTX连接
+
+        [Category("连接集合"), Description("GTX连接"), ReadOnly(true)]
+        public TLine[] GTXLinkArray 
+        { 
+            get
+            {
+                int nodeNum = NodeArray.Length;
+                TLine[] retArray = new TLine[nodeNum * nodeNum];
+                for (int i = 0; i < nodeNum; i++)
+                {
+                    for (int j = 0; j < nodeNum; j++)
+                    {
+                        retArray[i * nodeNum + j] = GTXLinks[i, j];
+                    }
+                }
+                return retArray;
+            }
+        }   
+
+        [Category("连接集合"), Description("LVDS连接"), ReadOnly(true)]
+        public TLine[] LVDSLinkArray 
+        {
+            get
+            {
+                int nodeNum = NodeArray.Length;
+                TLine[] retArray = new TLine[nodeNum * nodeNum];
+                for (int i = 0; i < nodeNum; i++)
+                {
+                    for (int j = 0; j < nodeNum; j++)
+                    {
+                        retArray[i * nodeNum + j] = LVDSLinks[i, j];
+                    }
+                }
+                return retArray;
+            }
+        }  
+
+        [Browsable(false)]
         public TLine[,] LVDSLinks { get; set; }      //某两个节点之间是否有LVDS连接
+
+        [Browsable(false)]
+        public TLine[,] GTXLinks { get; set; }      //某两个节点之间是否有GTX连接
 
         public TopoNet(int nodeNum)
         {

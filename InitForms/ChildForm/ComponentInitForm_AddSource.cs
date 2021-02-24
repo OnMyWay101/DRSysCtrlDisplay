@@ -11,6 +11,7 @@ using System.Diagnostics;
 namespace DRSysCtrlDisplay
 {
     //存放Eth资源的结构体
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public struct EthSource
     {
         public int _sn;                 //序号      
@@ -19,6 +20,7 @@ namespace DRSysCtrlDisplay
     }
 
     //存放Rio资源结构体
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public struct RioSource
     {
         public int _sn;                 //序号

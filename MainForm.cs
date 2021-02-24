@@ -22,6 +22,8 @@ namespace DRSysCtrlDisplay
     {
         private delegate void ThreadAddText(string text);//其他线程使用该委托来更新UI控件
         private static MainForm _uniqueInstance;
+        public event Action<TreeNode> AddSource;
+        public event Action<TreeNode> ClearSource;
 
         private MainForm()
         {
@@ -57,6 +59,42 @@ namespace DRSysCtrlDisplay
             this._connectTSBtn.Image = ((System.Drawing.Image)(Resources.ConnectImage));
             //初始化所有的XML相关操作的文件夹
             XMLManager.PathManager.CreateXmlDictorys();
+        }
+
+        private void SetStatusTextInner(string text)
+        {
+            if (this.statusStrip1.InvokeRequired)
+            {
+                var threadWork = new ThreadAddText(SetStatusTextInner);
+                this.Invoke(threadWork, text);
+            }
+            else
+            {
+                this.toolStripStatusLabel1.Text = text;
+            }
+        }
+
+        public static void SetStatusText(string text)
+        {
+            MainForm.GetInstance().SetStatusTextInner(text);
+        }
+
+        private void SetOutPutTextInner(string text)
+        {
+            if (OutPutForm.GetInstacne().InvokeRequired)
+            {
+                var threadWork = new ThreadAddText(OutPutForm.Log);
+                this.Invoke(threadWork, text);
+            }
+            else
+            {
+                OutPutForm.Log(text);
+            }
+        }
+
+        public static void SetOutPutText(string text)
+        {
+            MainForm.GetInstance().SetOutPutTextInner(text);
         }
 
         #region 事件处理函数
@@ -174,47 +212,27 @@ namespace DRSysCtrlDisplay
 
         #endregion 事件处理函数
 
-        private void SetStatusTextInner(string text)
-        {
-            if (this.statusStrip1.InvokeRequired)
-            {
-                var threadWork = new ThreadAddText(SetStatusTextInner);
-                this.Invoke(threadWork, text);
-            }
-            else
-            {
-                this.toolStripStatusLabel1.Text = text;
-            }
-        }
-
-        public static void SetStatusText(string text)
-        {
-            MainForm.GetInstance().SetStatusTextInner(text);
-        }
-
-        private void SetOutPutTextInner(string text)
-        {
-            if (OutPutForm.GetInstacne().InvokeRequired)
-            {
-                var threadWork = new ThreadAddText(OutPutForm.Log);
-                this.Invoke(threadWork, text);
-            }
-            else
-            {
-                OutPutForm.Log(text);
-            }
-        }
-
-        public static void SetOutPutText(string text)
-        {
-            MainForm.GetInstance().SetOutPutTextInner(text);
-        }
-
         private void 关于ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var aboutForm = new AboutForm();
             aboutForm.ShowDialog();
             aboutForm.Dispose();
+        }
+
+        private void _addSrcTSBtn_Click(object sender, EventArgs e)
+        {
+            if (AddSource != null)
+            {
+                AddSource(null);
+            }
+        }
+
+        private void _delSrcTSBtn_Click(object sender, EventArgs e)
+        {
+            if (ClearSource != null)
+            {
+                ClearSource(null);
+            }
         }
     }
 }

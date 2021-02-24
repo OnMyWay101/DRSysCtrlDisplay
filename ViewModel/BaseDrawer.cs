@@ -57,6 +57,22 @@ namespace DRSysCtrlDisplay
             return new Rectangle(pointX, pointY, width, height);
         }
 
+        /// <summary>
+        /// 获取某位置对应的该图像的子图
+        /// </summary>
+        /// <param name="p">位置</param>
+        /// <returns></returns>
+        //public virtual BaseDrawer GetChoosedBaseView(Point p)
+        //{
+        //    if (_rect.Contains(p)) return this;
+        //    return null;
+        //}
+
+        public virtual object GetModelInstance()
+        {
+            return null;
+        }
+
         //往一个矩形区域添加字符字段
         public static void AddDirctionSentence(Graphics g, Rectangle rect, string Sentence, bool IsHorizontal)
         {

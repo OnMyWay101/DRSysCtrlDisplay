@@ -73,6 +73,11 @@ namespace DRSysCtrlDisplay
         {
             return new Size(800, 400);
         }
+
+        public override object GetModelInstance()
+        {
+            return _bp;
+        }
         #endregion 重载虚函数
 
         #region 实现接口
@@ -81,11 +86,11 @@ namespace DRSysCtrlDisplay
             ChoosedBv = GetChoosedBaseView(e);
             if (ChoosedBv != null)
             {
-                PropertyForm.Show(ChoosedBv);
+                PropertyForm.Show(ChoosedBv.GetModelInstance());
             }
             else
             {
-                PropertyForm.Show(this);
+                PropertyForm.Show(this.GetModelInstance());
             }
             base.TriggerRedrawRequst();
         }
@@ -115,11 +120,11 @@ namespace DRSysCtrlDisplay
                 }
                 else if (i == _bp.VirtualSlotsNum - 2)//第n-2个为外连口区
                 {
-                    PlaneVpxArray[i] = new BackPlaneVpx(SlotRects[i], "外连口区");
+                    PlaneVpxArray[i] = new BackPlaneVpx(SlotRects[i], "外连口区", _bp.LinksArray[i]);
                 }
                 else
                 {
-                    PlaneVpxArray[i] = new BackPlaneVpx(SlotRects[i], "槽位" + (i + 1));
+                    PlaneVpxArray[i] = new BackPlaneVpx(SlotRects[i], "槽位" + (i + 1), _bp.LinksArray[i]);
                 }
             }
         }

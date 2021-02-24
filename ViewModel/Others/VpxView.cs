@@ -8,6 +8,8 @@ using System.Drawing;
 using System.ComponentModel;
 using DRSysCtrlDisplay.Princeple;
 using System.Windows.Forms;
+using DRSysCtrlDisplay.ViewModel.Others;
+using DRSysCtrlDisplay.Models;
 
 namespace DRSysCtrlDisplay.OtherView
 {
@@ -87,16 +89,16 @@ namespace DRSysCtrlDisplay.OtherView
         [Category("\t基本信息"), Description("类型")]
         public VpxCategory Type { get; private set; }               //该vpx的种类
 
-        [Category("以太网信息"), Description("以太网区域信息")]
+        [BrowsableAttribute(false)]
         public VpxEndAreaView EthArea { get; protected set; }
 
-        [Category("RapidIO信息"), Description("RapidIO区域信息")]
+        [BrowsableAttribute(false)]
         public VpxEndAreaView RioArea { get; protected set; }
 
-        [Category("GTX信息"), Description("GTX区域信息")]
+        [BrowsableAttribute(false)]
         public VpxEndAreaView GtxArea { get; protected set; }
 
-        [Category("LVDS信息"), Description("LVDS区域信息")]
+        [BrowsableAttribute(false)]
         public VpxEndAreaView LvdsArea { get; protected set; }
 
         protected VpxEndView(Rectangle rect, string name, VpxCategory type)
@@ -108,6 +110,11 @@ namespace DRSysCtrlDisplay.OtherView
 
         //画出该View的图像
         public override void DrawView(Graphics g) { }
+
+        public override object GetModelInstance()
+        {
+            return this;
+        }
 
         //获取该view对应的信息区域的矩形
         protected virtual Rectangle GetWholeInfoAreaRect() { return new Rectangle(0, 0, 0, 0); }
@@ -129,11 +136,14 @@ namespace DRSysCtrlDisplay.OtherView
     }
 
     //面板(机箱，背板)上的Vpx区域
-    public class PlaneVpx : VpxEndView
+    public class PlaneVpx : VpxEndView , IDrawerChoosed
     {
         public Rectangle _planeAreaRect;
         public Rectangle _nameAreaRect;
         public Rectangle[] _infoAreaRects;
+
+        [Browsable(false)]
+        public BaseDrawer ChoosedBv { get; set; }
 
         public PlaneVpx(Rectangle rect, string name, VpxCategory type)
             : base(rect, name, type) 
@@ -205,6 +215,20 @@ namespace DRSysCtrlDisplay.OtherView
             int height = _infoAreaRects[0].Height + _infoAreaRects[1].Height + _infoAreaRects[2].Height + _infoAreaRects[3].Height;
             return new Rectangle(p.X, p.Y, width, height);
         }
+
+        public void MouseEventHandler(object sender, MouseEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BaseDrawer GetChoosedBaseView(MouseEventArgs e)
+        {
+            if(GetWholeInfoAreaRect().Contains(e.Location))
+            {
+                return this;
+            }
+            return null;
+        }
     }
 
     /// <summary>
@@ -212,9 +236,26 @@ namespace DRSysCtrlDisplay.OtherView
     /// </summary>
     public class BackPlaneVpx : PlaneVpx
     {
-        public BackPlaneVpx(Rectangle rect, string name)
+        [Category("连接信息"), Description("以太网连接集合")]
+        public BackPlaneLink[] EthLinks { get; private set; }
+
+        [Category("连接信息"), Description("RapidIO连接集合")]
+        public BackPlaneLink[] RioLinks { get; private set; }
+
+        [Category("连接信息"), Description("GTX连接集合")]
+        public BackPlaneLink[] GtxLinks { get; private set; }
+
+        [Category("连接信息"), Description("LVDS连接集合")]
+        public BackPlaneLink[] LvdsLinks { get; private set; }
+
+        public BackPlaneVpx(Rectangle rect, string name, List<BackPlaneLink> links)
             : base(rect, name, VpxCategory.BackPlane)
-        { }
+        {
+            EthLinks = links.Where(link => link.LinkType == LinkType.EtherNet).ToArray();
+            RioLinks = links.Where(link => link.LinkType == LinkType.RapidIO).ToArray();
+            GtxLinks = links.Where(link => link.LinkType == LinkType.GTX).ToArray();
+            LvdsLinks = links.Where(link => link.LinkType == LinkType.LVDS).ToArray();
+        }
     }
 
     /// <summary>
@@ -241,6 +282,12 @@ namespace DRSysCtrlDisplay.OtherView
             g.DrawRectangle(base.DefaultPen, _nameAreaRect);
             g.FillRectangle(base.DefaultBrush, _nameAreaRect);
         }
+
+        public override void ChoosedDrawView(Graphics g)
+        {
+            DrawView(g);
+            g.DrawRectangle(Pens.Red, base.GetWholeInfoAreaRect());
+        }
     }
 
     /// <summary>
@@ -256,6 +303,11 @@ namespace DRSysCtrlDisplay.OtherView
         {
             DrawView(g);
             g.DrawRectangle(Pens.Red, base.GetWholeInfoAreaRect());
+        }
+
+        public override object GetModelInstance()
+        {
+            return ModelFactory<Board>.CreateByName(base.Name);
         }
     }
 

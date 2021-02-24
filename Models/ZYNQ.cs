@@ -10,44 +10,45 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
+    [TypeConverter(typeof(ModelTypeConverter))]
     public class ZYNQ : ModelBaseCore
     {
         #region ZYNQ的属性
 
-        [Category("PS"), Description("PS类型")]
+        [Category("PS"), Description("PS类型"), ReadOnly(true)]
         public String PSType { get; set; }
 
-        [Category("PS"), Description("核心数量")]
+        [Category("PS"), Description("核心数量"), ReadOnly(true)]
         public int CoreNum { get; set; }
 
-        [Category("PS"), Description("主频")]
+        [Category("PS"), Description("主频"), ReadOnly(true)]
         public String MainClock { get; set; }
 
-        [Category("PS"), Description("芯片内存")]
+        [Category("PS"), Description("芯片内存"), ReadOnly(true)]
         public String Memory { get; set; }
 
-        [Category("PS"), Description("扩展内存")]
+        [Category("PS"), Description("扩展内存"), ReadOnly(true)]
         public String ExpandMemory { get; set; }
 
-        [Category("PL"), Description("PL类型")]
+        [Category("PL"), Description("PL类型"), ReadOnly(true)]
         public String PLType { get; set; }
 
-        [Category("PL"), Description("逻辑单元数")]
+        [Category("PL"), Description("逻辑单元数"), ReadOnly(true)]
         public int LogicNum { get; set; }
 
-        [Category("PL"), Description("查找表")]
+        [Category("PL"), Description("查找表"), ReadOnly(true)]
         public int LUT { get; set; }
 
-        [Category("PL"), Description("触发器")]
+        [Category("PL"), Description("触发器"), ReadOnly(true)]
         public int Flip_Flops { get; set; }
 
-        [Category("PL"), Description("Block ARM")]
+        [Category("PL"), Description("Block ARM"), ReadOnly(true)]
         public int Block_ARM { get; set; }
 
-        [Category("PL"), Description("DSP Slice")]
+        [Category("PL"), Description("DSP Slice"), ReadOnly(true)]
         public String DSP_Slice { get; set; }
 
-        [Category("PL"), Description("有无AD")]
+        [Category("PL"), Description("有无AD"), ReadOnly(true)]
         public String AD { get; set; }
 
         #endregion ZYNQ的属性

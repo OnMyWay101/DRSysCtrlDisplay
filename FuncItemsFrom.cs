@@ -48,6 +48,8 @@ namespace DRSysCtrlDisplay
             this._editCMSDeleteItem.Click += new System.EventHandler(this.ContextMSDelete_Click);
             this._editCMSModifyItem.Click += new System.EventHandler(this.ContextMSModify_Click);
             this._srcCMS_AddInfo.Click += new EventHandler(_srcCMS_AddInfo_Click);
+            MainForm.GetInstance().AddSource += new Action<TreeNode>(AddSource);
+            MainForm.GetInstance().ClearSource += new Action<TreeNode>(ClearSource);
 
 
             this.Load += new System.EventHandler(this.FuncItems_Load);
@@ -254,38 +256,12 @@ namespace DRSysCtrlDisplay
 
         void _srcCMS_AddInfo_Click(object sender, EventArgs e)
         {
-            var initForm = new NodeInfoAddForm();
-            initForm.StartPosition = FormStartPosition.CenterParent;
-            initForm.ShowDialog();
-            if (initForm.DialogResult == DialogResult.Yes)
-            {
-                var node = _srTreeView.SelectedNode;    //当前被选中的节点
-                var nodeCntName = node.Nodes[0].Text;   //机箱的名字
-                var cntFrontName = nodeCntName.Substring(0, nodeCntName.IndexOf(':') + 1);
-                node.Nodes[0].Text = string.Format("{0}{1}", cntFrontName, initForm.GetContainerName());
-
-                //逐个添加选中的构件
-                foreach (var cmpName in initForm.GetComponentNames())
-                {
-                    NodeInfo.AddChildrenNode(node.Nodes[1], cmpName, Princeple.FormType.TOPO);
-                }
-            }
-            initForm.Dispose();
+            AddSource(_srTreeView.SelectedNode);
         }
 
         private void SrcCMS_ClearInfo_Click(object sender, EventArgs e)
         {
-            var node = _srTreeView.SelectedNode;    //当前被选中的节点
-            var nodeSysName = node.Nodes[0].Text;   //系统的名字
-            var cntFrontName = nodeSysName.Substring(0, nodeSysName.IndexOf(':') + 1);
-            //清除系统名,应用名
-            node.Nodes[0].Text = cntFrontName;
-            node.Nodes[1].Nodes.Clear();
-
-            //清除对应目标机的相关信息
-            TargetNode target = GetTargetNode(node);
-            target.StatusForm = null;
-            target.DynamicTopoForm = null;
+            ClearSource(_srTreeView.SelectedNode);
         }
 
         private void _srcCMS_MatchApp_Click(object sender, EventArgs e)
@@ -631,7 +607,7 @@ namespace DRSysCtrlDisplay
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("ChildrenNodeInfoChange:" + e.Message);
+                    MainForm.SetOutPutText(e.Message + "\n" + e.StackTrace);
                 }
             }
         }
@@ -677,7 +653,7 @@ namespace DRSysCtrlDisplay
                 viewForm.Show(panel);
 
                 //2.通过view来初始化propertyGrid
-                PropertyForm.Show(viewForm.showViewPanel1.ShowView);
+                PropertyForm.Show(viewForm.showViewPanel1.ShowView.GetModelInstance());
 
                 //3.配置树节点的NodeInfo
                 info._form = viewForm;
@@ -912,6 +888,62 @@ namespace DRSysCtrlDisplay
             }
             //无论有无文件内容更改都把TreeView的内容读入对应xml文件内
             XMLManager.HandleTreeView.ReadTreeViewToXML(_cpTreeView, XMLManager.PathManager.GetCmpLibFilePath());
+        }
+
+        private void AddSource(TreeNode node)
+        {
+            //找到指定的node
+            if (node == null)
+            {
+                if (_srTreeView.Nodes.Count == 0)
+                {
+                    MessageBox.Show("没有指定的目标机！");
+                    return;
+                }
+                node = _srTreeView.Nodes[0];
+            }
+
+            var initForm = new NodeInfoAddForm();
+            initForm.StartPosition = FormStartPosition.CenterParent;
+            initForm.ShowDialog();
+            if (initForm.DialogResult == DialogResult.Yes)
+            {
+                //先清除信息，再设置信息
+                ClearSource(node);
+                var nodeCntName = node.Nodes[0].Text;   //机箱的名字
+                var cntFrontName = nodeCntName.Substring(0, nodeCntName.IndexOf(':') + 1);
+                node.Nodes[0].Text = string.Format("{0}{1}", cntFrontName, initForm.GetContainerName());
+
+                //逐个添加选中的构件
+                foreach (var cmpName in initForm.GetComponentNames())
+                {
+                    NodeInfo.AddChildrenNode(node.Nodes[1], cmpName, Princeple.FormType.TOPO);
+                }
+            }
+            initForm.Dispose();
+        }
+
+        private void ClearSource(TreeNode node)
+        {
+            if (node == null)
+            {
+                if (_srTreeView.Nodes.Count == 0)
+                {
+                    MessageBox.Show("没有指定的目标机！");
+                    return;
+                }
+                node = _srTreeView.Nodes[0];
+            }
+            var nodeSysName = node.Nodes[0].Text;   //系统的名字
+            var cntFrontName = nodeSysName.Substring(0, nodeSysName.IndexOf(':') + 1);
+            //清除系统名,应用名
+            node.Nodes[0].Text = cntFrontName;
+            node.Nodes[1].Nodes.Clear();
+
+            //清除对应目标机的相关信息
+            TargetNode target = GetTargetNode(node);
+            target.StatusForm = null;
+            target.DynamicTopoForm = null;
         }
 
         //获取相关类型节点的名称集合

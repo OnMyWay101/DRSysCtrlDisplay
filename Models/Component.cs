@@ -2,6 +2,7 @@
 using DRSysCtrlDisplay.ViewModel.Others;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,8 +16,10 @@ namespace DRSysCtrlDisplay.Models
     public class Component : ModelBase
     {
         #region Component的基本属性
+        [Category("\t基本信息"), Description("节点数量"), ReadOnly(true)]
         public int NodeNum { get; private set; }
 
+        [Category("拓扑信息"), Description("拓扑信息"), ReadOnly(true)]
         public TopoNet<ComponentNode, ComponentLine> CmpTopoNet { get; private set; }
         #endregion Component的基本属性
 
@@ -191,7 +194,7 @@ namespace DRSysCtrlDisplay.Models
             Type objType = TypeConvert.GetEndType(type);
             var core = Activator.CreateInstance(objType) as ModelBaseCore;
             var cmpNode = new CmpNode(type, core);
-            cmpNode._object = cmpNode.CreateObjectByPath(xmlPath);
+            cmpNode.Obj = cmpNode.CreateObjectByPath(xmlPath);
             return cmpNode;
         }
     }

@@ -16,10 +16,10 @@ namespace DRSysCtrlDisplay.Models
     {
         #region Board的基本属性
 
-        [Category("\t基本信息"), Description("板卡类型")]
+        [Category("\t基本信息"), Description("板卡类型"), ReadOnly(true)]
         public string Type { get; set; }
 
-        [Category("\t基本信息"), Description("版本号")]
+        [Category("\t基本信息"), Description("版本号"), ReadOnly(true)]
         public string Version { get; set; }
 
         [Category("芯片信息"), Description("PowerPC集合信息")]

@@ -75,6 +75,11 @@ namespace DRSysCtrlDisplay
         {
             return new Size(800, 400);
         }
+
+        public override object GetModelInstance()
+        {
+            return _container;
+        }
         #endregion 重载虚函数
 
         #region 实现接口
@@ -83,11 +88,11 @@ namespace DRSysCtrlDisplay
             ChoosedBv = GetChoosedBaseView(e);
             if (ChoosedBv != null)
             {
-                PropertyForm.Show(ChoosedBv);
+                PropertyForm.Show(ChoosedBv.GetModelInstance());
             }
             else
             {
-                PropertyForm.Show(this);
+                PropertyForm.Show(this.GetModelInstance());
             }
             base.TriggerRedrawRequst();
         }
@@ -97,9 +102,10 @@ namespace DRSysCtrlDisplay
             //先查鼠标位置是否在板卡里
             for (int i = 0; i < _boardViews.Length; i++)
             {
-                if (_boardRects[i].Contains(e.Location))
-                {
-                    return _boardViews[i];
+                var baseView = _boardViews[i].GetChoosedBaseView(e);
+                if (baseView != null)
+                    {
+                    return baseView;
                 }
             }
             //检查是否在背板上

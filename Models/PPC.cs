@@ -10,26 +10,27 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
+    [TypeConverter(typeof(ModelTypeConverter))]
     public class PPC : ModelBaseCore
     {
         #region PPC的属性
 
-        [Category("基本属性"), Description("类型")]
+        [Category("基本属性"), Description("类型"), ReadOnly(true)]
         public String Type { get; set; }
 
-        [Category("基本属性"), Description("主频:单位为MHZ")]
+        [Category("基本属性"), Description("主频:单位为MHZ"), ReadOnly(true)]
         public int Frequency { get; set; }
 
-        [Category("基本属性"), Description("核心数")]
+        [Category("基本属性"), Description("核心数"), ReadOnly(true)]
         public int CoreNum { get; set; }
 
-        [Category("基本属性"), Description("矢量引擎")]
+        [Category("基本属性"), Description("矢量引擎"), ReadOnly(true)]
         public bool VectorEngin { get; set; }
 
-        [Category("基本属性"), Description("内存:单位为MB")]
+        [Category("基本属性"), Description("内存:单位为MB"), ReadOnly(true)]
         public int Memory { get; set; }
 
-        [Category("基本属性"), Description("文件系统:单位为MB")]
+        [Category("基本属性"), Description("文件系统:单位为MB"), ReadOnly(true)]
         public int FileSystem { get; set; }
 
         #endregion PPC的属性

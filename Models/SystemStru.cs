@@ -2,6 +2,7 @@
 using DRSysCtrlDisplay.ViewModel.Others;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,24 @@ namespace DRSysCtrlDisplay.Models
     public class SystemStru : ModelBase
     {
         #region SystemStru的基本属性
+        [Category("\t基本信息"), Description("类型"), ReadOnly(true)]
         public string Type { get; set; }                                //系统的型号
+
+        [Category("\t基本信息"), Description("机箱数量"), ReadOnly(true)]
         public int CntsNum { get; set; }                                //系统包含机箱的个数
+
+        [Category("机箱集合"), Description("机箱名集合"), ReadOnly(true)]
         public string[] CntNames { get; set; }                          //机箱名称数组
+
+        [Category("连接信息"), Description("各机箱的连接信息")]
+        public LinksPresentArray<SystemStruLink>[] LinkArrays
+        {
+            get
+            {
+                return LinksArray.Select(links => new LinksPresentArray<SystemStruLink>(links)).ToArray();
+            }
+        }
+        [Browsable(false)]
         public List<SystemStruLink>[] LinksArray { get; set; }          //各机箱的连接信息
         #endregion SystemStru的基本属性
 

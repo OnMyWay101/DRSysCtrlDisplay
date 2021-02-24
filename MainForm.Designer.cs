@@ -214,6 +214,7 @@
             this._addSrcTSBtn.Name = "_addSrcTSBtn";
             this._addSrcTSBtn.Size = new System.Drawing.Size(34, 34);
             this._addSrcTSBtn.Text = "添加资源";
+            this._addSrcTSBtn.Click += new System.EventHandler(this._addSrcTSBtn_Click);
             // 
             // _delSrcTSBtn
             // 
@@ -223,6 +224,7 @@
             this._delSrcTSBtn.Name = "_delSrcTSBtn";
             this._delSrcTSBtn.Size = new System.Drawing.Size(34, 34);
             this._delSrcTSBtn.Text = "清除资源";
+            this._delSrcTSBtn.Click += new System.EventHandler(this._delSrcTSBtn_Click);
             // 
             // dockPanel1
             // 

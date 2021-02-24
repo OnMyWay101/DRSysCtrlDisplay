@@ -71,6 +71,10 @@ namespace DRSysCtrlDisplay
             return new Size(width, height);
         }
 
+        public override object GetModelInstance()
+        {
+            return _sys;
+        }
         #endregion 重载虚函数
 
         /// <summary>

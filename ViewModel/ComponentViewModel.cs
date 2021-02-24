@@ -12,6 +12,7 @@ namespace DRSysCtrlDisplay
         private TopoNetView<ComponentNode, ComponentLine> _topoView;
         public BaseDrawer ChoosedBv { get; set; }
 
+
         public ComponentViewModel(Models.Component cmp, Rectangle rect)
         {
             _component = cmp;
@@ -38,6 +39,11 @@ namespace DRSysCtrlDisplay
         {
             return new Size(800, 400);
         }
+
+        public override object GetModelInstance()
+        {
+            return _component;
+        }
         #endregion 重载虚函数
 
         #region 实现接口
@@ -50,7 +56,16 @@ namespace DRSysCtrlDisplay
         {
             //处理鼠标事件放在TopoNetView中实现
             _topoView.MouseEventHandler(sender, e);
-            //Todo:切换相关属性的显示
+            //切换属性框的显示
+            if (_topoView.ChoosedBv != null)
+            {
+                var chooseNode = _topoView.ChoosedBv as ComponentNode;
+                PropertyForm.Show(chooseNode.NodeObject);
+            }
+            else
+            {
+                PropertyForm.Show(this.GetModelInstance());
+            }
             base.TriggerRedrawRequst();
         }
         #endregion 实现接口

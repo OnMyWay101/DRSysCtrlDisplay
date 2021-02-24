@@ -7,6 +7,8 @@ using System.Text;
 namespace DRSysCtrlDisplay.ViewModel.Others
 {
     using Princeple;
+    using System.ComponentModel;
+
     public enum SwitchCategory
     {
         EtherNetSw,
@@ -16,9 +18,12 @@ namespace DRSysCtrlDisplay.ViewModel.Others
     /// <summary>
     /// 描述板卡上面交换机的类
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SwitchDevice : BaseDrawer
     {
+        [Category("基本属性"), Description("类型")]
         public SwitchCategory Category { get; set; }    //交换的种类，这里只包含EtherNet交换机和Rio交换机
+        [Category("基本属性"), Description("型号")]
         public string Type { get; set; }                //交换机的型号
 
         public SwitchDevice(SwitchCategory category, string type)
@@ -52,6 +57,11 @@ namespace DRSysCtrlDisplay.ViewModel.Others
             Rectangle marginRect = base.GetMarginRect();
             DrawView(g);
             g.DrawEllipse(Pens.Red, marginRect);
+        }
+
+        public override object GetModelInstance()
+        {
+            return this;
         }
     }
 }

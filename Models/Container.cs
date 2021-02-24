@@ -14,9 +14,27 @@ namespace DRSysCtrlDisplay.Models
     {
         #region Container的基本属性
 
-        [Category("\t基本信息"), Description("机箱类型")]
+        [Category("\t基本信息"), Description("机箱类型"), ReadOnly(true)]
         public string Type { get; set; }            //机箱的型号
+
+        [Category("\t基本信息"), Description("背板名称"), ReadOnly(true)]
         public string BackPlaneName { get; set; }   //背板的名字
+
+        [Category("板卡集信息"), Description("板卡集信息")]
+        public String[] BoardNames
+        {
+            get
+            {
+                var bp = ModelFactory<BackPlane>.CreateByName(BackPlaneName);
+                String[] ret = new string[bp.SlotsNum];
+                foreach(var namePair in BoardNameDir)
+                {
+                    ret[namePair.Key] = namePair.Value;
+                }
+                return ret;
+            }
+        }
+
         public Dictionary<int, string> BoardNameDir = new Dictionary<int, string>();   //key:槽位号；value:板卡名称
 
         #endregion Container的基本属性

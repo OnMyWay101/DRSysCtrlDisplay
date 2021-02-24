@@ -10,68 +10,69 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
+    [TypeConverter(typeof(ModelTypeConverter))]
     public class FPGA : ModelBaseCore
     {
         #region FPGA的属性
 
-        [Category("\t基本属性"), Description("类型")]
+        [Category("\t基本属性"), Description("类型"), ReadOnly(true)]
         public String Type { get; set; }
 
-        [Category("\t基本属性"), Description("是否支持AD")]
+        [Category("\t基本属性"), Description("是否支持AD"), ReadOnly(true)]
         public String AD { get; set; }
 
-        [Category("\t基本属性"), Description("时钟：单位MHz")]
+        [Category("\t基本属性"), Description("时钟：单位MHz"), ReadOnly(true)]
         public int Clock { get; set; }
 
-        [Category("逻辑资源"), Description("Slices")]
+        [Category("逻辑资源"), Description("Slices"), ReadOnly(true)]
         public int Slices { get; set; }
 
-        [Category("逻辑资源"), Description("GLB")]
+        [Category("逻辑资源"), Description("GLB"), ReadOnly(true)]
         public int GLB { get; set; }
 
-        [Category("逻辑资源"), Description("LogicCells")]
+        [Category("逻辑资源"), Description("LogicCells"), ReadOnly(true)]
         public int LogicCells { get; set; }
 
-        [Category("逻辑资源"), Description("查找表")]
+        [Category("逻辑资源"), Description("查找表"), ReadOnly(true)]
         public int LUT { get; set; }
 
-        [Category("IO信息"), Description("普通IO")]
+        [Category("IO信息"), Description("普通IO"), ReadOnly(true)]
         public int DifferentialIO { get; set; }
 
-        [Category("IO信息"), Description("信号IO")]
+        [Category("IO信息"), Description("信号IO"), ReadOnly(true)]
         public int SingalIO { get; set; }
 
-        [Category("内存资源"), Description("TotalBlock")]
+        [Category("内存资源"), Description("TotalBlock"), ReadOnly(true)]
         public int TotalBlock { get; set; }
 
-        [Category("内存资源"), Description("Block")]
+        [Category("内存资源"), Description("Block"), ReadOnly(true)]
         public int Block { get; set; }
 
-        [Category("内存资源"), Description("MaxDistributed")]
+        [Category("内存资源"), Description("MaxDistributed"), ReadOnly(true)]
         public int MaxDistributed { get; set; }
 
-        [Category("速度等级"), Description("IndustrialTemp")]
+        [Category("速度等级"), Description("IndustrialTemp"), ReadOnly(true)]
         public int IndustrialTemp { get; set; }
 
-        [Category("速度等级"), Description("ExtenedTemp")]
+        [Category("速度等级"), Description("ExtenedTemp"), ReadOnly(true)]
         public int ExtenedTemp { get; set; }
 
-        [Category("速度等级"), Description("Commercial")]
+        [Category("速度等级"), Description("Commercial"), ReadOnly(true)]
         public int Commercial { get; set; }
 
-        [Category("IPCore资源"), Description("GTP")]
+        [Category("IPCore资源"), Description("GTP"), ReadOnly(true)]
         public int GTP { get; set; }
 
-        [Category("IPCore资源"), Description("AES")]
+        [Category("IPCore资源"), Description("AES"), ReadOnly(true)]
         public int AES { get; set; }
 
-        [Category("IPCore资源"), Description("AMS")]
+        [Category("IPCore资源"), Description("AMS"), ReadOnly(true)]
         public int AMS { get; set; }
 
-        [Category("IPCore资源"), Description("PCIE")]
+        [Category("IPCore资源"), Description("PCIE"), ReadOnly(true)]
         public int PCIE { get; set; }
 
-        [Category("IPCore资源"), Description("DSP")]
+        [Category("IPCore资源"), Description("DSP"), ReadOnly(true)]
         public String DSP { get; set; }
 
         #endregion FPGA的属性

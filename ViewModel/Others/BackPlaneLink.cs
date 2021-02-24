@@ -1,6 +1,7 @@
 ﻿using DRSysCtrlDisplay.Princeple;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,15 @@ namespace DRSysCtrlDisplay.ViewModel.Others
     /// <summary>
     /// 描述背板的一条连接
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class BackPlaneLink : BaseLine
     {
         private const LinkLanes DefaultLanesNum = LinkLanes.X1;
+        [BrowsableAttribute(false)]
         public int EndRadius { get; set; }
+        [Description("端1位置")]
         public int FirstEndPostion { get; private set; }
+        [Description("端2位置")]
         public int SecondEndPostion { get; private set; }
 
         public BackPlaneLink(int end1Id, int end1Pos, int end2Id, int end2Pos, LinkType type)
