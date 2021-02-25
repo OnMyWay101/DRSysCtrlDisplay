@@ -17,8 +17,8 @@ namespace DRSysCtrlDisplay
     {
         private Hashtable _exeFileList = new Hashtable();   //可执行文件的列表
         List<DynamicNode> _matchNode = null;                  //应用匹配的构件集合
-        const int _LvFilePathNum = 8;                         //“文件路径”在listView中的列数
-        const int _LvFileTimeNum = 9;                         //“上传时间”在listView中的列数
+        const int _LvFilePathNum = 9;                         //“文件路径”在listView中的列数
+        const int _LvFileTimeNum = 10;                         //“上传时间”在listView中的列数
 
         public ExeFileForm(List<DynamicNode> matchNode)
         {
@@ -68,6 +68,7 @@ namespace DRSysCtrlDisplay
             ComponentLV.Columns.Add("计算颗粒编号", 90, HorizontalAlignment.Center);
             ComponentLV.Columns.Add("应用名", 70, HorizontalAlignment.Center);
             ComponentLV.Columns.Add("构件名", 70, HorizontalAlignment.Center);
+            ComponentLV.Columns.Add("全局资源ID", 100, HorizontalAlignment.Center);
             ComponentLV.Columns.Add("机箱号", 70, HorizontalAlignment.Center);
             ComponentLV.Columns.Add("槽位号", 70, HorizontalAlignment.Center);
             ComponentLV.Columns.Add("芯片号", 70, HorizontalAlignment.Center);
@@ -82,6 +83,7 @@ namespace DRSysCtrlDisplay
                 lvi.Text = i.ToString();
                 lvi.SubItems.Add(_matchNode[i].ComName);
                 lvi.SubItems.Add(_matchNode[i].CNode.Name);
+                lvi.SubItems.Add((_matchNode[i].SNode.UrlId).ToString());
                 lvi.SubItems.Add((_matchNode[i].SNode.FrameId).ToString());
                 lvi.SubItems.Add((_matchNode[i].SNode.SlotId).ToString());
                 lvi.SubItems.Add(_matchNode[i].SNode.EndId.ToString());

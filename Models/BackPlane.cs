@@ -25,6 +25,7 @@ namespace DRSysCtrlDisplay.Models
         public int SlotsNum { get; private set; }                       //可以插板卡的槽位数
 
         [Category("连接信息"), Description("各槽位的连接信息")]
+
         public LinksPresentArray<BackPlaneLink>[] LinkArrays
         {
             get

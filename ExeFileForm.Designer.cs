@@ -40,9 +40,10 @@
             // 
             // ComponentLV
             // 
+            this.ComponentLV.HideSelection = false;
             this.ComponentLV.Location = new System.Drawing.Point(0, 0);
             this.ComponentLV.Name = "ComponentLV";
-            this.ComponentLV.Size = new System.Drawing.Size(850, 263);
+            this.ComponentLV.Size = new System.Drawing.Size(1012, 263);
             this.ComponentLV.TabIndex = 0;
             this.ComponentLV.UseCompatibleStateImageBehavior = false;
             this.ComponentLV.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ComponentLV_MouseClick);
@@ -50,9 +51,10 @@
             // _UpdateCMS
             // 
             this._UpdateCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._UpdateItem, this._ClearItem});
+            this._UpdateItem,
+            this._ClearItem});
             this._UpdateCMS.Name = "_UpdateCMS";
-            this._UpdateCMS.Size = new System.Drawing.Size(101, 26);
+            this._UpdateCMS.Size = new System.Drawing.Size(101, 48);
             // 
             // _UpdateItem
             // 
@@ -68,20 +70,20 @@
             this._ClearItem.Text = "清空";
             this._ClearItem.Click += new System.EventHandler(this._ClearItem_Click);
             // 
-            // YesButton
+            // YesBtn
             // 
             this.YesBtn.Location = new System.Drawing.Point(100, 270);
-            this.YesBtn.Name = "YesButton";
+            this.YesBtn.Name = "YesBtn";
             this.YesBtn.Size = new System.Drawing.Size(75, 23);
             this.YesBtn.TabIndex = 1;
             this.YesBtn.Text = "部署文件";
             this.YesBtn.UseVisualStyleBackColor = true;
             this.YesBtn.Click += new System.EventHandler(this.YesButton_Click);
             // 
-            // CancelButton
+            // CancelBtn
             // 
-            this.CancelBtn.Location = new System.Drawing.Point(650, 270);
-            this.CancelBtn.Name = "CancelButton";
+            this.CancelBtn.Location = new System.Drawing.Point(776, 270);
+            this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 2;
             this.CancelBtn.Text = "取消";
@@ -92,7 +94,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(851, 305);
+            this.ClientSize = new System.Drawing.Size(1024, 305);
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.ComponentLV);
             this.Controls.Add(this.YesBtn);

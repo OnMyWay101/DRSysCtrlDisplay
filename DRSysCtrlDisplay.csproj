@@ -208,6 +208,9 @@
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ExeFileForm.resx">
+      <DependentUpon>ExeFileForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InitForms\ChildForm\BoardInitForm_AddConnect.resx">
       <DependentUpon>BoardInitForm_AddConnect.cs</DependentUpon>
     </EmbeddedResource>

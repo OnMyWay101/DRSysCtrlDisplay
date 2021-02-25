@@ -10,7 +10,6 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    [TypeConverter(typeof(ModelTypeConverter))]
     public class PPC : ModelBaseCore
     {
         #region PPC的属性

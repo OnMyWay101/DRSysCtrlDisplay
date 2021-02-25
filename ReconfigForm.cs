@@ -67,6 +67,7 @@ namespace DRSysCtrlDisplay
             _infoLv.Columns.Add("计算颗粒编号", 50, HorizontalAlignment.Center);
             _infoLv.Columns.Add("应用名", 70, HorizontalAlignment.Center);
             _infoLv.Columns.Add("构件名", 70, HorizontalAlignment.Center);
+            _infoLv.Columns.Add("全局资源ID", 100, HorizontalAlignment.Center);
             _infoLv.Columns.Add("机箱号", 70, HorizontalAlignment.Center);
             _infoLv.Columns.Add("槽位号", 70, HorizontalAlignment.Center);
             _infoLv.Columns.Add("芯片号", 70, HorizontalAlignment.Center);
@@ -107,8 +108,9 @@ namespace DRSysCtrlDisplay
                 lvi.Text = i.ToString();
                 lvi.SubItems.Add(strategy[i].ComName);
                 lvi.SubItems.Add(strategy[i].CNode.Name);
-                lvi.SubItems.Add((strategy[i].SNode.FrameId + 1).ToString());
-                lvi.SubItems.Add((strategy[i].SNode.SlotId + 1).ToString());
+                lvi.SubItems.Add((strategy[i].SNode.UrlId).ToString());
+                lvi.SubItems.Add((strategy[i].SNode.FrameId).ToString());
+                lvi.SubItems.Add((strategy[i].SNode.SlotId).ToString());
                 lvi.SubItems.Add(strategy[i].SNode.EndId.ToString());
                 lvi.SubItems.Add(strategy[i].SNode.NodeType.ToString());
                 lvi.SubItems.Add(strategy[i].SNode.Name.ToString());

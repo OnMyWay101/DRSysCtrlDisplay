@@ -768,6 +768,7 @@ namespace DRSysCtrlDisplay
             NodeInfo.AddChildrenNode(newNode, "资源:", Princeple.FormType.TOPO);
             NodeInfo.AddChildrenNode(newNode, "应用集合", Princeple.FormType.APP);
             NodeInfo.AddChildrenNode(newNode, "机箱状态", Princeple.FormType.STATUS);
+            _srTreeView.ExpandAll();
         }
 
         //重新更新TreeView的内容
@@ -784,6 +785,9 @@ namespace DRSysCtrlDisplay
 
             XMLManager.HandleTreeView.ReadXMLToTreeView(_eqTreeView, eqFilePath);
             XMLManager.HandleTreeView.ReadXMLToTreeView(_cpTreeView, cpFilePath);
+            _eqTreeView.ExpandAll();
+            _cpTreeView.ExpandAll();
+
         }
 
 

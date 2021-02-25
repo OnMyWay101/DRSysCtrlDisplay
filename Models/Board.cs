@@ -34,8 +34,6 @@ namespace DRSysCtrlDisplay.Models
         [Category("芯片信息"), Description("Switch集合信息")]
         public SwitchDevice[] SwitchDeviceArray { get { return SwitchList.ToArray(); } }
 
-        //@Todo:List的ToArray方法返回数组是新建的吗？
-        //（里面的对象肯定都是引用，就是这个数组是不是新建的，List的内部实现起始也是一个数组，看是不是用的这个）
         [Category("连接信息"), Description("Link集合信息")]
         public BoardLink[] LinkArray { get { return LinkList.ToArray(); } }
 

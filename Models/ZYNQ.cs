@@ -10,7 +10,6 @@ using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 
 namespace DRSysCtrlDisplay.Models
 {
-    [TypeConverter(typeof(ModelTypeConverter))]
     public class ZYNQ : ModelBaseCore
     {
         #region ZYNQ的属性
