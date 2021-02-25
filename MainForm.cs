@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Threading;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using System.Collections;
 using System.Net;
-using System.Net.Sockets;
 using DRSysCtrlDisplay.Properties;
 
 namespace DRSysCtrlDisplay
@@ -20,10 +12,13 @@ namespace DRSysCtrlDisplay
     /// </summary>
     public partial class MainForm : Form
     {
-        private delegate void ThreadAddText(string text);//其他线程使用该委托来更新UI控件
-        private static MainForm _uniqueInstance;
-        public event Action<TreeNode> AddSource;
-        public event Action<TreeNode> ClearSource;
+        private delegate void ThreadAddText(string text);   //其他线程使用该委托来更新UI控件
+        private static MainForm _uniqueInstance;            //主界面的实例   
+        public event Action<TreeNode> AddSourceEvent;       //添加资源的事件
+        public event Action<TreeNode> ClearSourceEvent;     //清除资源的事件
+        public event Action<TreeNode> MatchAppEvent;        //匹配应用的事件
+        public event Action<TreeNode> LoadFilesEvent;       //部署文件的事件
+        public event Action<TreeNode> RecfgEvent;           //重构应用的事件
 
         private MainForm()
         {
@@ -210,8 +205,6 @@ namespace DRSysCtrlDisplay
             base.OnClosing(e);
         }
 
-        #endregion 事件处理函数
-
         private void 关于ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var aboutForm = new AboutForm();
@@ -221,18 +214,85 @@ namespace DRSysCtrlDisplay
 
         private void _addSrcTSBtn_Click(object sender, EventArgs e)
         {
-            if (AddSource != null)
+            if (AddSourceEvent != null)
             {
-                AddSource(null);
+                AddSourceEvent(null);
             }
         }
 
         private void _delSrcTSBtn_Click(object sender, EventArgs e)
         {
-            if (ClearSource != null)
+            if (ClearSourceEvent != null)
             {
-                ClearSource(null);
+                ClearSourceEvent(null);
             }
         }
+
+        private void _matchAppTSBtn_Click(object sender, EventArgs e)
+        {
+            if (MatchAppEvent != null)
+            {
+                MatchAppEvent(null);
+            }
+        }
+
+        private void _loadFilesTSBtn_Click(object sender, EventArgs e)
+        {
+            if (LoadFilesEvent != null)
+            {
+                LoadFilesEvent(null);
+            }
+        }
+
+        private void _recfgTSBtn_Click(object sender, EventArgs e)
+        {
+            if (RecfgEvent != null)
+            {
+                RecfgEvent(null);
+            }
+        }
+
+        private void 添加资源ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AddSourceEvent != null)
+            {
+                AddSourceEvent(null);
+            }
+        }
+
+        private void 清除资源ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ClearSourceEvent != null)
+            {
+                ClearSourceEvent(null);
+            }
+        }
+
+        private void 匹配ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MatchAppEvent != null)
+            {
+                MatchAppEvent(null);
+            }
+        }
+
+        private void 部署文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (LoadFilesEvent != null)
+            {
+                LoadFilesEvent(null);
+            }
+        }
+
+        private void 重构ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (RecfgEvent != null)
+            {
+                RecfgEvent(null);
+            }
+        }
+
+        #endregion 事件处理函数
+
     }
 }

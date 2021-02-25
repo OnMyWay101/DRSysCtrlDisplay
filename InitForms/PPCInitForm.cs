@@ -51,7 +51,7 @@ namespace DRSysCtrlDisplay
             _mainFrequencyTB.Text = ppc.Frequency.ToString();
             _fileSystemTB.Text = ppc.FileSystem.ToString();
             _memoryTB.Text = ppc.Memory.ToString();
-            _vectorEnginCB.SelectedItem = ppc.VectorEngin;
+            _vectorEnginCB.SelectedItem = ppc.VectorEngin.ToString();
         }
 
         public PPCInitForm()

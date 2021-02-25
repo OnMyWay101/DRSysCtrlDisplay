@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using WeifenLuo.WinFormsUI.Docking;
-using System.Xml;
-using System.Diagnostics;
 using DynamicNode = DRSysCtrlDisplay.DynamicTopo.DynamicNode;
 using PathManager = DRSysCtrlDisplay.XMLManager.PathManager;
 using DRSysCtrlDisplay.Models;
@@ -20,12 +13,12 @@ namespace DRSysCtrlDisplay
 {
     public partial class FuncItemsForm : DockContent
     {
-        private delegate void ThreadReconfigProc(TreeNode tNode);//其他线程使用该委托来更新UI控件
+        private delegate void ThreadReconfigProc(TreeNode tNode);   //其他线程使用该委托来更新UI控件
         private static FuncItemsForm uniqueInstance;
         public List<DynamicNode> AppMatchTopoNode { get; private set; }
         public List<TargetNode> TargetNodes { get; private set; }
-        Timer _pTimer = new Timer();     //计时器用来更新过程
-        long _timeTicks;               //花费的等待停止应用的时间,单位：一百纳秒
+        Timer _pTimer = new Timer();                                //计时器用来更新过程
+        long _timeTicks;                                            //花费的等待停止应用的时间,单位：一百纳秒
 
         private FuncItemsForm()
         {
@@ -48,8 +41,11 @@ namespace DRSysCtrlDisplay
             this._editCMSDeleteItem.Click += new System.EventHandler(this.ContextMSDelete_Click);
             this._editCMSModifyItem.Click += new System.EventHandler(this.ContextMSModify_Click);
             this._srcCMS_AddInfo.Click += new EventHandler(_srcCMS_AddInfo_Click);
-            MainForm.GetInstance().AddSource += new Action<TreeNode>(AddSource);
-            MainForm.GetInstance().ClearSource += new Action<TreeNode>(ClearSource);
+            MainForm.GetInstance().AddSourceEvent += new Action<TreeNode>(OnAddSource);
+            MainForm.GetInstance().ClearSourceEvent += new Action<TreeNode>(OnClearSource);
+            MainForm.GetInstance().MatchAppEvent += new Action<TreeNode>(OnMatchApp);
+            MainForm.GetInstance().LoadFilesEvent += new Action<TreeNode>(OnLoadFiles);
+            MainForm.GetInstance().RecfgEvent += new Action<TreeNode>(OnRecfg);
 
 
             this.Load += new System.EventHandler(this.FuncItems_Load);
@@ -256,84 +252,29 @@ namespace DRSysCtrlDisplay
 
         void _srcCMS_AddInfo_Click(object sender, EventArgs e)
         {
-            AddSource(_srTreeView.SelectedNode);
+            OnAddSource(_srTreeView.SelectedNode);
         }
 
         private void SrcCMS_ClearInfo_Click(object sender, EventArgs e)
         {
-            ClearSource(_srTreeView.SelectedNode);
+            OnClearSource(_srTreeView.SelectedNode);
         }
 
         private void _srcCMS_MatchApp_Click(object sender, EventArgs e)
         {
-            var treeNode = _srTreeView.SelectedNode;
-            TargetNode targetNode = TargetNodes[treeNode.Parent.Index];//treeNode对应的目标节点
-            NodeInfo info = treeNode.Tag as NodeInfo;
-            try
-            {
-                var topo = (DynamicTopo)(info._form.showViewPanel1.ShowView);
-                Boolean autoReconfigFlag = targetNode.AutoReconfigFlag;
-                if (topo.ChooseStrategy(ref autoReconfigFlag))
-                {
-                    topo.TriggerRedrawRequst();
-                    AppMatchTopoNode = topo.GetMatchedNodes();
-                    targetNode.AutoReconfigFlag = autoReconfigFlag;
-                }
-            }
-            catch (NullReferenceException ne)
-            {
-                Console.WriteLine("_srcCMS_MatchApp_Click" + ne.Message);
-                MessageBox.Show("请添加/显示节点对应构件");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("_srcCMS_MatchApp_Click:" + ex.Message);
-            }
+            OnMatchApp(_srTreeView.SelectedNode);
+       
         }
 
         private void _srcCMS_Upload_Click(object sender, EventArgs e)
         {
-            var targetNode = _srTreeView.SelectedNode;//选中的treeNode
-            TargetNode tNode = TargetNodes[targetNode.Parent.Index];//treeNode对应的目标节点
-            if (AppMatchTopoNode != null)
-            {
-                //显示加载执行文件的窗体
-                var upLoadFileForm = new ExeFileForm(AppMatchTopoNode, tNode.ExeFile);
-                upLoadFileForm.ShowDialog();
-                if (upLoadFileForm.DialogResult == DialogResult.Yes)
-                {
-                    tNode.ExeFile = upLoadFileForm.GetFilesHt();
-                }
-                upLoadFileForm.Dispose();
-            }
-            else
-            {
-                MessageBox.Show("当前无匹配结果，不能上传文件");
-            }
+            OnLoadFiles(_srTreeView.SelectedNode);
         }
 
         //点击“重构”的相关处理
         private void _srcCMS_Recrt_Click(object sender, EventArgs e)
         {
-            var treeNode = _srTreeView.SelectedNode;
-            TargetNode targetNode = TargetNodes[treeNode.Parent.Index];//treeNode对应的目标节点
-            NodeInfo info = treeNode.Tag as NodeInfo;
-            try
-            {
-                var topo = (DynamicTopo)(info._form.showViewPanel1.ShowView);
-                Boolean autoReconfigFlag = targetNode.AutoReconfigFlag;
-                if (topo.ChooseStrategy(ref autoReconfigFlag))
-                {
-                    topo.TriggerRedrawRequst();
-                    AppMatchTopoNode = topo.GetMatchedNodes();
-                    targetNode.AutoReconfigFlag = autoReconfigFlag;
-                    ReconfigProcess(treeNode);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("_srcCMS_MatchApp_Click:" + ex.Message);
-            }
+            OnRecfg(_srTreeView.SelectedNode);
         }
 
         /// <summary>
@@ -894,7 +835,7 @@ namespace DRSysCtrlDisplay
             XMLManager.HandleTreeView.ReadTreeViewToXML(_cpTreeView, XMLManager.PathManager.GetCmpLibFilePath());
         }
 
-        private void AddSource(TreeNode node)
+        private void OnAddSource(TreeNode node)
         {
             //找到指定的node
             if (node == null)
@@ -913,7 +854,7 @@ namespace DRSysCtrlDisplay
             if (initForm.DialogResult == DialogResult.Yes)
             {
                 //先清除信息，再设置信息
-                ClearSource(node);
+                OnClearSource(node);
                 var nodeCntName = node.Nodes[0].Text;   //机箱的名字
                 var cntFrontName = nodeCntName.Substring(0, nodeCntName.IndexOf(':') + 1);
                 node.Nodes[0].Text = string.Format("{0}{1}", cntFrontName, initForm.GetContainerName());
@@ -927,7 +868,7 @@ namespace DRSysCtrlDisplay
             initForm.Dispose();
         }
 
-        private void ClearSource(TreeNode node)
+        private void OnClearSource(TreeNode node)
         {
             if (node == null)
             {
@@ -948,6 +889,107 @@ namespace DRSysCtrlDisplay
             TargetNode target = GetTargetNode(node);
             target.StatusForm = null;
             target.DynamicTopoForm = null;
+        }
+
+        private void OnMatchApp(TreeNode node)
+        {
+            if (node == null)
+            {
+                if (_srTreeView.Nodes.Count == 0)
+                {
+                    MessageBox.Show("没有指定的目标机！");
+                    return;
+                }
+                //指向“应用集合”节点
+                node = _srTreeView.Nodes[0].Nodes[1];
+            }
+            TargetNode targetNode = TargetNodes[node.Parent.Index];//treeNode对应的目标节点
+            NodeInfo info = node.Tag as NodeInfo;
+            try
+            {
+                var topo = (DynamicTopo)(info._form.showViewPanel1.ShowView);
+                Boolean autoReconfigFlag = targetNode.AutoReconfigFlag;
+                if (topo.ChooseStrategy(ref autoReconfigFlag))
+                {
+                    topo.TriggerRedrawRequst();
+                    AppMatchTopoNode = topo.GetMatchedNodes();
+                    targetNode.AutoReconfigFlag = autoReconfigFlag;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("请添加/显示对应应用");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("_srcCMS_MatchApp_Click:" + ex.Message);
+            }
+        }
+
+        private void OnLoadFiles(TreeNode node)
+        {
+            if (node == null)
+            {
+                if (_srTreeView.Nodes.Count == 0)
+                {
+                    MessageBox.Show("没有指定的目标机！");
+                    return;
+                }
+                //指向“应用集合”节点
+                node = _srTreeView.Nodes[0].Nodes[1];
+            }
+            TargetNode tNode = TargetNodes[node.Parent.Index];//treeNode对应的目标节点
+            if (AppMatchTopoNode != null)
+            {
+                //显示加载执行文件的窗体
+                var upLoadFileForm = new ExeFileForm(AppMatchTopoNode, tNode.ExeFile);
+                upLoadFileForm.ShowDialog();
+                if (upLoadFileForm.DialogResult == DialogResult.Yes)
+                {
+                    tNode.ExeFile = upLoadFileForm.GetFilesHt();
+                }
+                upLoadFileForm.Dispose();
+            }
+            else
+            {
+                MessageBox.Show("当前无匹配结果，不能上传文件");
+            }
+        }
+
+        private void OnRecfg(TreeNode node) 
+        {
+            if (node == null)
+            {
+                if (_srTreeView.Nodes.Count == 0)
+                {
+                    MessageBox.Show("没有指定的目标机！");
+                    return;
+                }
+                //指向“应用集合”节点
+                node = _srTreeView.Nodes[0].Nodes[1];
+            }
+            TargetNode targetNode = TargetNodes[node.Parent.Index];//treeNode对应的目标节点
+            NodeInfo info = node.Tag as NodeInfo;
+            try
+            {
+                var topo = (DynamicTopo)(info._form.showViewPanel1.ShowView);
+                Boolean autoReconfigFlag = targetNode.AutoReconfigFlag;
+                if (topo.ChooseStrategy(ref autoReconfigFlag))
+                {
+                    topo.TriggerRedrawRequst();
+                    AppMatchTopoNode = topo.GetMatchedNodes();
+                    targetNode.AutoReconfigFlag = autoReconfigFlag;
+                    ReconfigProcess(node);
+                }
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("请添加/显示/匹配对应应用");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("_srcCMS_MatchApp_Click:" + ex.Message);
+            }
         }
 
         //获取相关类型节点的名称集合

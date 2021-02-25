@@ -57,17 +57,6 @@ namespace DRSysCtrlDisplay
             return new Rectangle(pointX, pointY, width, height);
         }
 
-        /// <summary>
-        /// 获取某位置对应的该图像的子图
-        /// </summary>
-        /// <param name="p">位置</param>
-        /// <returns></returns>
-        //public virtual BaseDrawer GetChoosedBaseView(Point p)
-        //{
-        //    if (_rect.Contains(p)) return this;
-        //    return null;
-        //}
-
         public virtual object GetModelInstance()
         {
             return null;
@@ -128,7 +117,7 @@ namespace DRSysCtrlDisplay
         void OnNodeInfoChanged(TargetNode tNode);
     }
 
-    //画图类鼠标操作选中图元的接口
+    //画图类鼠标操作选中图元的接口;该接口还可以优化拆分;
     public interface IDrawerChoosed
     {
         BaseDrawer ChoosedBv { get; set; }

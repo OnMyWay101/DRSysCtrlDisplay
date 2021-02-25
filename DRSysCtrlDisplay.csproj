@@ -132,7 +132,7 @@
     <Compile Include="InitForms\ZYNQInitForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LocalTest.cs" />
+    <Compile Include="Test\LocalTest.cs" />
     <Compile Include="MHalCodeGen.cs" />
     <Compile Include="AboutForm.cs">
       <SubType>Form</SubType>
@@ -972,8 +972,15 @@
     <None Include="Resources\ConnectImage.bmp" />
     <None Include="Resources\DisconnectImage.bmp" />
     <None Include="Resources\zkhx.png" />
+    <Content Include="Resources\pipei.png" />
+    <Content Include="Resources\pipei_1.png" />
+    <Content Include="Resources\pipei_2.png" />
     <Content Include="Resources\tianjia.png" />
     <Content Include="Resources\qingchu.png" />
+    <Content Include="Resources\xiazai.png" />
+    <Content Include="Resources\xiazai_1.png" />
+    <Content Include="Resources\xiazai_2.png" />
+    <Content Include="Resources\zhihuiyunzhonggouku-6yijicaidan-goudianzhongxin.png" />
     <Content Include="resource\emhalTemp.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

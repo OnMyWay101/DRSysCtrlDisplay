@@ -35,7 +35,7 @@ namespace DRSysCtrlDisplay
         private Button _sourceBtn;
         private Button _delNodeBtn;
         private Button _showNodeBtn;
-        private Button _editNodeBtn;
+        private Button _showSourceBtn;
         private Button _addNodeBtn;
         private Label label2;
         private ComboBox _nodeTypeCB;
@@ -65,7 +65,7 @@ namespace DRSysCtrlDisplay
             this._sourceBtn = new System.Windows.Forms.Button();
             this._delNodeBtn = new System.Windows.Forms.Button();
             this._showNodeBtn = new System.Windows.Forms.Button();
-            this._editNodeBtn = new System.Windows.Forms.Button();
+            this._showSourceBtn = new System.Windows.Forms.Button();
             this._addNodeBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this._nodeTypeCB = new System.Windows.Forms.ComboBox();
@@ -73,6 +73,7 @@ namespace DRSysCtrlDisplay
             this._infoPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this._collectionPanel.SuspendLayout();
+            this._linkCollectionGb.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -112,13 +113,17 @@ namespace DRSysCtrlDisplay
             this._collectionPanel.Location = new System.Drawing.Point(0, 55);
             this._collectionPanel.Size = new System.Drawing.Size(713, 288);
             // 
+            // _linkCollectionGb
+            // 
+            this._linkCollectionGb.Size = new System.Drawing.Size(713, 288);
+            // 
             // tabControl1
             // 
-            this.tabControl1.Size = new System.Drawing.Size(632, 288);
+            this.tabControl1.Size = new System.Drawing.Size(626, 268);
             // 
             // tabPage1
             // 
-            this.tabPage1.Size = new System.Drawing.Size(624, 262);
+            this.tabPage1.Size = new System.Drawing.Size(618, 242);
             // 
             // label1
             // 
@@ -166,7 +171,7 @@ namespace DRSysCtrlDisplay
             this.groupBox2.Controls.Add(this._sourceBtn);
             this.groupBox2.Controls.Add(this._delNodeBtn);
             this.groupBox2.Controls.Add(this._showNodeBtn);
-            this.groupBox2.Controls.Add(this._editNodeBtn);
+            this.groupBox2.Controls.Add(this._showSourceBtn);
             this.groupBox2.Controls.Add(this._addNodeBtn);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this._nodeTypeCB);
@@ -180,25 +185,25 @@ namespace DRSysCtrlDisplay
             // 
             // _sourceBtn
             // 
-            this._sourceBtn.Location = new System.Drawing.Point(387, 19);
+            this._sourceBtn.Location = new System.Drawing.Point(468, 19);
             this._sourceBtn.Name = "_sourceBtn";
-            this._sourceBtn.Size = new System.Drawing.Size(75, 23);
+            this._sourceBtn.Size = new System.Drawing.Size(107, 23);
             this._sourceBtn.TabIndex = 7;
             this._sourceBtn.Text = "资源定义";
             this._sourceBtn.UseVisualStyleBackColor = true;
             // 
             // _delNodeBtn
             // 
-            this._delNodeBtn.Location = new System.Drawing.Point(247, 20);
+            this._delNodeBtn.Location = new System.Drawing.Point(228, 19);
             this._delNodeBtn.Name = "_delNodeBtn";
-            this._delNodeBtn.Size = new System.Drawing.Size(69, 23);
+            this._delNodeBtn.Size = new System.Drawing.Size(46, 23);
             this._delNodeBtn.TabIndex = 6;
             this._delNodeBtn.Text = "删除";
             this._delNodeBtn.UseVisualStyleBackColor = true;
             // 
             // _showNodeBtn
             // 
-            this._showNodeBtn.Location = new System.Drawing.Point(560, 19);
+            this._showNodeBtn.Location = new System.Drawing.Point(280, 19);
             this._showNodeBtn.Name = "_showNodeBtn";
             this._showNodeBtn.Size = new System.Drawing.Size(74, 23);
             this._showNodeBtn.TabIndex = 5;
@@ -207,16 +212,16 @@ namespace DRSysCtrlDisplay
             // 
             // _editNodeBtn
             // 
-            this._editNodeBtn.Location = new System.Drawing.Point(468, 19);
-            this._editNodeBtn.Name = "_editNodeBtn";
-            this._editNodeBtn.Size = new System.Drawing.Size(86, 23);
-            this._editNodeBtn.TabIndex = 3;
-            this._editNodeBtn.Text = "修改";
-            this._editNodeBtn.UseVisualStyleBackColor = true;
+            this._showSourceBtn.Location = new System.Drawing.Point(581, 19);
+            this._showSourceBtn.Name = "_editNodeBtn";
+            this._showSourceBtn.Size = new System.Drawing.Size(86, 23);
+            this._showSourceBtn.TabIndex = 3;
+            this._showSourceBtn.Text = "查看资源";
+            this._showSourceBtn.UseVisualStyleBackColor = true;
             // 
             // _addNodeBtn
             // 
-            this._addNodeBtn.Location = new System.Drawing.Point(172, 20);
+            this._addNodeBtn.Location = new System.Drawing.Point(153, 19);
             this._addNodeBtn.Name = "_addNodeBtn";
             this._addNodeBtn.Size = new System.Drawing.Size(69, 23);
             this._addNodeBtn.TabIndex = 2;
@@ -235,7 +240,7 @@ namespace DRSysCtrlDisplay
             // _nodeTypeCB
             // 
             this._nodeTypeCB.FormattingEnabled = true;
-            this._nodeTypeCB.Location = new System.Drawing.Point(73, 20);
+            this._nodeTypeCB.Location = new System.Drawing.Point(52, 20);
             this._nodeTypeCB.Name = "_nodeTypeCB";
             this._nodeTypeCB.Size = new System.Drawing.Size(90, 20);
             this._nodeTypeCB.TabIndex = 0;
@@ -250,7 +255,8 @@ namespace DRSysCtrlDisplay
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this._collectionPanel.ResumeLayout(false);
-            this._collectionPanel.PerformLayout();
+            this._linkCollectionGb.ResumeLayout(false);
+            this._linkCollectionGb.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -276,7 +282,7 @@ namespace DRSysCtrlDisplay
 
             //绑定事件处理函数
             _addNodeBtn.Click += new EventHandler(_addNodeBtn_Click);
-            _editNodeBtn.Click += new EventHandler(_editNodeBtn_Click);
+            _showSourceBtn.Click += new EventHandler(_showSourceBtn_Click);
             _showNodeBtn.Click += new EventHandler(_showNodeBtn_Click);
             _nodesNumBtn.Click += new EventHandler(_nodesNumBtn_Click);
             _sourceBtn.Click += new System.EventHandler(this._sourceBtn_Click);
@@ -319,10 +325,25 @@ namespace DRSysCtrlDisplay
 
         }
 
-        void _editNodeBtn_Click(object sender, EventArgs e)
+        void _showSourceBtn_Click(object sender, EventArgs e)
         {
-            //计算颗粒号,因为tabPage与node在各自的集合里面下标是一一对应的；
-            ShowNodeInitialForm(_nodeArray[tabControl1.SelectedIndex]);
+            int nodeNum = tabControl1.SelectedIndex;//计算颗粒号
+            var selectedNode = this._nodeArray[nodeNum];
+            if (selectedNode == null)
+            {
+                return;
+            }
+            //创建资源定义窗体
+            var sourceForm = new ComponentInitForm_AddSource(selectedNode.Name);
+            sourceForm._ethPbSources = selectedNode.EthPbSources;
+            sourceForm._ethSubSources = selectedNode.EthSubSources;
+            sourceForm._rioPbSources = selectedNode.RioPbSources;
+            sourceForm._rioSubSources = selectedNode.RioSubSources;
+
+            sourceForm.StartPosition = FormStartPosition.CenterParent;
+            sourceForm.ShowDialog();
+
+            sourceForm.Dispose();
         }
 
 
@@ -458,11 +479,11 @@ namespace DRSysCtrlDisplay
                         MHalCodeGen egen = new MHalCodeGen(string.Format("{0}_{1}_Emhal", cmpName, nodeName));
                         foreach (var eSource in node.EthPbSources)
                         {
-                            egen.AddEMHalPublishRes(eSource._sourceName);
+                            egen.AddEMHalPublishRes(eSource.SourceName);
                         }
                         foreach (var eSource in node.EthSubSources)
                         {
-                            egen.AddEMHalSubscribeRes(eSource._sourceName);
+                            egen.AddEMHalSubscribeRes(eSource.SourceName);
                         }
                         egen.GenEMHalCode();
                         MainForm.SetOutPutText(string.Format("生成资源文件：{0}_{1}_Emhal", cmpName, nodeName));
@@ -474,11 +495,11 @@ namespace DRSysCtrlDisplay
                         MHalCodeGen rgen = new MHalCodeGen(string.Format("{0}_{1}_Rmhal", cmpName, nodeName));
                         foreach (var rSource in node.RioPbSources)
                         {
-                            rgen.AddRMHalPublishRes(rSource._sourceName, (uint)rSource._packMaxLen, (uint)rSource._bufSize);
+                            rgen.AddRMHalPublishRes(rSource.SourceName, (uint)rSource.PackMaxLen, (uint)rSource.BufSize);
                         }
                         foreach (var rSource in node.RioSubSources)
                         {
-                            rgen.AddRMHalSubscribeRes(rSource._sourceName);
+                            rgen.AddRMHalSubscribeRes(rSource.SourceName);
                         }
                         rgen.GenRMHalPpcCode(false);
                         MainForm.SetOutPutText(string.Format("生成资源文件：{0}_{1}_Rmhal", cmpName, nodeName));

@@ -105,7 +105,7 @@ namespace DRSysCtrlDisplay.Models
             {
                 return IsContainBoard(BoardNameDir[slotNum]);
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return false;
             }

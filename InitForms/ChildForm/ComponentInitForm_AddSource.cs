@@ -14,20 +14,34 @@ namespace DRSysCtrlDisplay
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public struct EthSource
     {
-        public int _sn;                 //序号      
-        public string _nodeName;        //节点名称
-        public string _sourceName;      //资源名称
+        [Description("序号"), ReadOnly(true)]
+        public int Sn { get; set; }                 //序号   
+        
+        [Description("节点名称"), ReadOnly(true)]
+        public string NodeName { get; set; }       //节点名称
+
+        [Description("资源名称"), ReadOnly(true)]
+        public string SourceName { get; set; }     //资源名称
     }
 
     //存放Rio资源结构体
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public struct RioSource
     {
-        public int _sn;                 //序号
-        public string _nodeName;        //节点名称
-        public string _sourceName;      //资源名称
-        public int _packMaxLen;         //最大包长度
-        public int _bufSize;            //缓存区大小
+        [Description("序号"), ReadOnly(true)]
+        public int Sn { get; set; }                 //序号
+
+        [Description("节点名称"), ReadOnly(true)]
+        public string NodeName { get; set; }        //节点名称
+
+        [Description("资源名称"), ReadOnly(true)]
+        public string SourceName { get; set; }      //资源名称
+
+        [Description("最大包长度"), ReadOnly(true)]
+        public int PackMaxLen { get; set; }         //最大包长度
+
+        [Description("缓存区大小"), ReadOnly(true)]
+        public int BufSize { get; set; }            //缓存区大小
     }
 
     //构件初始化界面的添加资源的子界面
@@ -170,7 +184,54 @@ namespace DRSysCtrlDisplay
             Debug.WriteLine("_subRioDelBtn_Click");
         }
 
+        private void yesButton_Click(object sender, EventArgs e)
+        {
+            if (!SaveRioSource(_rioPbDgv, _rioPbSources)) return;
+            if (!SaveRioSource(_rioSubDgv, _rioSubSources)) return;
+            if (!SaveEthSource(_ethPbDgv, _ethPbSources)) return;
+            if (!SaveEthSource(_ethSubDgv, _ethSubSources)) return;
+            DialogResult = DialogResult.Yes;
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            InitEthDgvData(_ethPbDgv, _ethPbSources);
+            InitEthDgvData(_ethSubDgv, _ethSubSources);
+
+            InitRioDgvData(_rioPbDgv, _rioPbSources);
+            InitRioDgvData(_rioSubDgv, _rioSubSources);
+        }
+
         #endregion
+
+        private void InitEthDgvData(DataGridView dgv, List<EthSource> eSrcs)
+        {
+            foreach (var eSrc in eSrcs)
+            {
+                int index = dgv.Rows.Add();
+                dgv.Rows[index].Cells[0].Value = eSrc.Sn;
+                dgv.Rows[index].Cells[1].Value = eSrc.NodeName;
+                dgv.Rows[index].Cells[2].Value = eSrc.SourceName;
+            }
+        }
+
+        private void InitRioDgvData(DataGridView dgv, List<RioSource> rSrcs)
+        {
+            foreach (var rSrc in rSrcs)
+            {
+                int index = dgv.Rows.Add();
+                dgv.Rows[index].Cells[0].Value = rSrc.Sn;
+                dgv.Rows[index].Cells[1].Value = rSrc.NodeName;
+                dgv.Rows[index].Cells[2].Value = rSrc.SourceName;
+                dgv.Rows[index].Cells[3].Value = rSrc.PackMaxLen;
+                dgv.Rows[index].Cells[4].Value = rSrc.BufSize;
+            }
+        }
 
         private void BtnAddRow(Button btn)
         {
@@ -248,11 +309,11 @@ namespace DRSysCtrlDisplay
                 var source = new RioSource();
                 try
                 {
-                    source._sn = int.Parse(row.Cells[0].Value.ToString());
-                    source._nodeName = row.Cells[1].Value.ToString();
-                    source._sourceName = row.Cells[2].Value.ToString();
-                    source._packMaxLen = int.Parse(row.Cells[3].Value.ToString());
-                    source._bufSize = int.Parse(row.Cells[4].Value.ToString());
+                    source.Sn = int.Parse(row.Cells[0].Value.ToString());
+                    source.NodeName = row.Cells[1].Value.ToString();
+                    source.SourceName = row.Cells[2].Value.ToString();
+                    source.PackMaxLen = int.Parse(row.Cells[3].Value.ToString());
+                    source.BufSize = int.Parse(row.Cells[4].Value.ToString());
                     rioSourceList.Add(source);
                 }
                 catch(Exception e)
@@ -271,9 +332,9 @@ namespace DRSysCtrlDisplay
                 var source = new EthSource();
                 try
                 {
-                    source._sn = int.Parse(row.Cells[0].Value.ToString());
-                    source._nodeName = row.Cells[1].Value.ToString();
-                    source._sourceName = row.Cells[2].Value.ToString();
+                    source.Sn = int.Parse(row.Cells[0].Value.ToString());
+                    source.NodeName = row.Cells[1].Value.ToString();
+                    source.SourceName = row.Cells[2].Value.ToString();
                     //source._protocol = row.Cells[3].Value.ToString();
                     rioSourceList.Add(source);
                 }
@@ -284,20 +345,6 @@ namespace DRSysCtrlDisplay
                 }
             }
             return true;
-        }
-
-        private void yesButton_Click(object sender, EventArgs e)
-        {
-            if (!SaveRioSource(_rioPbDgv, _rioPbSources)) return;
-            if (!SaveRioSource(_rioSubDgv, _rioSubSources)) return;
-            if (!SaveEthSource(_ethPbDgv, _ethPbSources)) return;
-            if (!SaveEthSource(_ethSubDgv, _ethSubSources)) return;
-            DialogResult = DialogResult.Yes;
-        }
-
-        private void cancelBtn_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

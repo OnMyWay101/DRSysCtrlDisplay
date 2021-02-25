@@ -58,12 +58,24 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.匹配ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.部署文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.重构ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.添加资源ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清除资源ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._connectTSBtn = new System.Windows.Forms.ToolStripButton();
             this._disconnectTSBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this._addSrcTSBtn = new System.Windows.Forms.ToolStripButton();
             this._delSrcTSBtn = new System.Windows.Forms.ToolStripButton();
-            this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this._matchAppTSBtn = new System.Windows.Forms.ToolStripButton();
+            this._loadFilesTSBtn = new System.Windows.Forms.ToolStripButton();
+            this._recfgTSBtn = new System.Windows.Forms.ToolStripButton();
+            this.文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.查看生产文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -72,9 +84,11 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.文件ToolStripMenuItem,
+            this.文件ToolStripMenuItem1,
             this.视图ToolStripMenuItem,
             this.目标机ToolStripMenuItem,
+            this.配置ToolStripMenuItem,
+            this.文件ToolStripMenuItem,
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -84,9 +98,13 @@
             // 
             // 文件ToolStripMenuItem
             // 
+            this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.匹配ToolStripMenuItem,
+            this.部署文件ToolStripMenuItem,
+            this.重构ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
             this.文件ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.文件ToolStripMenuItem.Text = "文件";
+            this.文件ToolStripMenuItem.Text = "部署";
             // 
             // 视图ToolStripMenuItem
             // 
@@ -176,55 +194,21 @@
             this._disconnectTSBtn,
             this.toolStripSeparator2,
             this._addSrcTSBtn,
-            this._delSrcTSBtn});
+            this._delSrcTSBtn,
+            this.toolStripSeparator1,
+            this._matchAppTSBtn,
+            this._loadFilesTSBtn,
+            this._recfgTSBtn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(766, 37);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // _connectTSBtn
-            // 
-            this._connectTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._connectTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.ConnectImage;
-            this._connectTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._connectTSBtn.Name = "_connectTSBtn";
-            this._connectTSBtn.Size = new System.Drawing.Size(34, 34);
-            this._connectTSBtn.Text = "连接目标机";
-            // 
-            // _disconnectTSBtn
-            // 
-            this._disconnectTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._disconnectTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.DisconnectImage;
-            this._disconnectTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._disconnectTSBtn.Name = "_disconnectTSBtn";
-            this._disconnectTSBtn.Size = new System.Drawing.Size(34, 34);
-            this._disconnectTSBtn.Text = "取消连接";
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 37);
-            // 
-            // _addSrcTSBtn
-            // 
-            this._addSrcTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._addSrcTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.tianjia;
-            this._addSrcTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._addSrcTSBtn.Name = "_addSrcTSBtn";
-            this._addSrcTSBtn.Size = new System.Drawing.Size(34, 34);
-            this._addSrcTSBtn.Text = "添加资源";
-            this._addSrcTSBtn.Click += new System.EventHandler(this._addSrcTSBtn_Click);
-            // 
-            // _delSrcTSBtn
-            // 
-            this._delSrcTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._delSrcTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.qingchu;
-            this._delSrcTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._delSrcTSBtn.Name = "_delSrcTSBtn";
-            this._delSrcTSBtn.Size = new System.Drawing.Size(34, 34);
-            this._delSrcTSBtn.Text = "清除资源";
-            this._delSrcTSBtn.Click += new System.EventHandler(this._delSrcTSBtn_Click);
             // 
             // dockPanel1
             // 
@@ -281,6 +265,137 @@
             this.dockPanel1.Skin = dockPanelSkin1;
             this.dockPanel1.TabIndex = 4;
             // 
+            // 匹配ToolStripMenuItem
+            // 
+            this.匹配ToolStripMenuItem.Name = "匹配ToolStripMenuItem";
+            this.匹配ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.匹配ToolStripMenuItem.Text = "匹配";
+            this.匹配ToolStripMenuItem.Click += new System.EventHandler(this.匹配ToolStripMenuItem_Click);
+            // 
+            // 部署文件ToolStripMenuItem
+            // 
+            this.部署文件ToolStripMenuItem.Name = "部署文件ToolStripMenuItem";
+            this.部署文件ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.部署文件ToolStripMenuItem.Text = "部署文件";
+            this.部署文件ToolStripMenuItem.Click += new System.EventHandler(this.部署文件ToolStripMenuItem_Click);
+            // 
+            // 重构ToolStripMenuItem
+            // 
+            this.重构ToolStripMenuItem.Name = "重构ToolStripMenuItem";
+            this.重构ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.重构ToolStripMenuItem.Text = "重构";
+            this.重构ToolStripMenuItem.Click += new System.EventHandler(this.重构ToolStripMenuItem_Click);
+            // 
+            // 配置ToolStripMenuItem
+            // 
+            this.配置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.添加资源ToolStripMenuItem,
+            this.清除资源ToolStripMenuItem});
+            this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
+            this.配置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.配置ToolStripMenuItem.Text = "配置";
+            // 
+            // 添加资源ToolStripMenuItem
+            // 
+            this.添加资源ToolStripMenuItem.Name = "添加资源ToolStripMenuItem";
+            this.添加资源ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.添加资源ToolStripMenuItem.Text = "添加资源";
+            this.添加资源ToolStripMenuItem.Click += new System.EventHandler(this.添加资源ToolStripMenuItem_Click);
+            // 
+            // 清除资源ToolStripMenuItem
+            // 
+            this.清除资源ToolStripMenuItem.Name = "清除资源ToolStripMenuItem";
+            this.清除资源ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.清除资源ToolStripMenuItem.Text = "清除资源";
+            this.清除资源ToolStripMenuItem.Click += new System.EventHandler(this.清除资源ToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 37);
+            // 
+            // _connectTSBtn
+            // 
+            this._connectTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._connectTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.ConnectImage;
+            this._connectTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._connectTSBtn.Name = "_connectTSBtn";
+            this._connectTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._connectTSBtn.Text = "连接目标机";
+            // 
+            // _disconnectTSBtn
+            // 
+            this._disconnectTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._disconnectTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.DisconnectImage;
+            this._disconnectTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._disconnectTSBtn.Name = "_disconnectTSBtn";
+            this._disconnectTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._disconnectTSBtn.Text = "取消连接";
+            // 
+            // _addSrcTSBtn
+            // 
+            this._addSrcTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._addSrcTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.tianjia;
+            this._addSrcTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._addSrcTSBtn.Name = "_addSrcTSBtn";
+            this._addSrcTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._addSrcTSBtn.Text = "添加资源";
+            this._addSrcTSBtn.Click += new System.EventHandler(this._addSrcTSBtn_Click);
+            // 
+            // _delSrcTSBtn
+            // 
+            this._delSrcTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._delSrcTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.qingchu;
+            this._delSrcTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._delSrcTSBtn.Name = "_delSrcTSBtn";
+            this._delSrcTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._delSrcTSBtn.Text = "清除资源";
+            this._delSrcTSBtn.Click += new System.EventHandler(this._delSrcTSBtn_Click);
+            // 
+            // _matchAppTSBtn
+            // 
+            this._matchAppTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._matchAppTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.pipei_2;
+            this._matchAppTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._matchAppTSBtn.Name = "_matchAppTSBtn";
+            this._matchAppTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._matchAppTSBtn.Text = "匹配应用";
+            this._matchAppTSBtn.Click += new System.EventHandler(this._matchAppTSBtn_Click);
+            // 
+            // _loadFilesTSBtn
+            // 
+            this._loadFilesTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._loadFilesTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.xiazai;
+            this._loadFilesTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._loadFilesTSBtn.Name = "_loadFilesTSBtn";
+            this._loadFilesTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._loadFilesTSBtn.Text = "部署文件";
+            this._loadFilesTSBtn.Click += new System.EventHandler(this._loadFilesTSBtn_Click);
+            // 
+            // _recfgTSBtn
+            // 
+            this._recfgTSBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._recfgTSBtn.Image = global::DRSysCtrlDisplay.Properties.Resources.pipei_1;
+            this._recfgTSBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._recfgTSBtn.Name = "_recfgTSBtn";
+            this._recfgTSBtn.Size = new System.Drawing.Size(34, 34);
+            this._recfgTSBtn.Text = "重构";
+            this._recfgTSBtn.Click += new System.EventHandler(this._recfgTSBtn_Click);
+            // 
+            // 文件ToolStripMenuItem1
+            // 
+            this.文件ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.查看生产文件ToolStripMenuItem});
+            this.文件ToolStripMenuItem1.Name = "文件ToolStripMenuItem1";
+            this.文件ToolStripMenuItem1.Size = new System.Drawing.Size(44, 21);
+            this.文件ToolStripMenuItem1.Text = "文件";
+            // 
+            // 查看生产文件ToolStripMenuItem
+            // 
+            this.查看生产文件ToolStripMenuItem.Name = "查看生产文件ToolStripMenuItem";
+            this.查看生产文件ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.查看生产文件ToolStripMenuItem.Text = "查看生成源文件";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -328,6 +443,18 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton _addSrcTSBtn;
         private System.Windows.Forms.ToolStripButton _delSrcTSBtn;
+        private System.Windows.Forms.ToolStripMenuItem 配置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 添加资源ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 清除资源ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 匹配ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 部署文件ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 重构ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton _matchAppTSBtn;
+        private System.Windows.Forms.ToolStripButton _loadFilesTSBtn;
+        private System.Windows.Forms.ToolStripButton _recfgTSBtn;
+        private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 查看生产文件ToolStripMenuItem;
     }
 }
 

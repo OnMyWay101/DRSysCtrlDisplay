@@ -83,6 +83,36 @@ namespace DRSysCtrlDisplay.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap pipei {
+            get {
+                object obj = ResourceManager.GetObject("pipei", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap pipei_1 {
+            get {
+                object obj = ResourceManager.GetObject("pipei_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap pipei_2 {
+            get {
+                object obj = ResourceManager.GetObject("pipei_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap qingchu {
             get {
                 object obj = ResourceManager.GetObject("qingchu", resourceCulture);
@@ -96,6 +126,46 @@ namespace DRSysCtrlDisplay.Properties {
         internal static System.Drawing.Bitmap tianjia {
             get {
                 object obj = ResourceManager.GetObject("tianjia", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap xiazai {
+            get {
+                object obj = ResourceManager.GetObject("xiazai", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap xiazai_1 {
+            get {
+                object obj = ResourceManager.GetObject("xiazai_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap xiazai_2 {
+            get {
+                object obj = ResourceManager.GetObject("xiazai_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap zhihuiyunzhonggouku_6yijicaidan_goudianzhongxin {
+            get {
+                object obj = ResourceManager.GetObject("zhihuiyunzhonggouku_6yijicaidan_goudianzhongxin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
