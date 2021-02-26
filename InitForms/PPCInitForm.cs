@@ -45,13 +45,15 @@ namespace DRSysCtrlDisplay
         public PPCInitForm(PPC ppc)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterParent;
+
             _nameTB.Text = ppc.Name;
             _coreNumCB.SelectedItem = ppc.CoreNum.ToString();
             _typeCB.SelectedItem = ppc.Type;
             _mainFrequencyTB.Text = ppc.Frequency.ToString();
             _fileSystemTB.Text = ppc.FileSystem.ToString();
             _memoryTB.Text = ppc.Memory.ToString();
-            _vectorEnginCB.SelectedItem = ppc.VectorEngin.ToString();
+            _vectorEnginCB.Text = ppc.VectorEngin.ToString();
         }
 
         public PPCInitForm()

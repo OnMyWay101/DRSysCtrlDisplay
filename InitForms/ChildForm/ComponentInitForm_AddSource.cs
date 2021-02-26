@@ -65,6 +65,7 @@ namespace DRSysCtrlDisplay
         {
             this.NodeName = nodeName;
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterParent;
 
             //初始化各个DataGridView
             InitEthDgv(_ethPbDgv);
@@ -92,7 +93,7 @@ namespace DRSysCtrlDisplay
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.AllowUserToAddRows = false;
             dgv.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             for (int i = 0; i < 3; i++)
             {
@@ -117,7 +118,7 @@ namespace DRSysCtrlDisplay
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.AllowUserToAddRows = false;
             dgv.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             for (int i = 0; i < 5; i++)//添加五列
             {
@@ -304,6 +305,7 @@ namespace DRSysCtrlDisplay
         /// <returns>是否保存成功</returns>
         private bool SaveRioSource(DataGridView dgv, List<RioSource> rioSourceList)
         {
+            rioSourceList.Clear();
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 var source = new RioSource();
@@ -327,6 +329,7 @@ namespace DRSysCtrlDisplay
 
         private bool SaveEthSource(DataGridView dgv, List<EthSource> rioSourceList)
         {
+            rioSourceList.Clear();
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 var source = new EthSource();

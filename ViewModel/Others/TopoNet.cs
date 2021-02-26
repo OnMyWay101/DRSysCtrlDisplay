@@ -25,7 +25,7 @@ namespace DRSysCtrlDisplay.ViewModel.Others
         public abstract void DrawNode(Graphics graph, Rectangle rect);
         public abstract void DrawChoosedNode(Graphics graph, Rectangle rect);
 
-        //实现一个
+        //实现一个ModelBaseCore到BaseDrawerCore的转换方法
         protected BaseDrawerCore GetBaseDrawerCore(ModelBaseCore obj, Rectangle rect)
         {
             if (NodeType == EndType.PPC)

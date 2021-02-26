@@ -516,10 +516,10 @@ namespace DRSysCtrlDisplay
             [Category("其他信息"), Description("节点状态"), ReadOnly(true)]
             public NodeStatus Status { get; set; }              //节点对应的状态
 
-            [Category("其他信息"), Description("节点是否有对应下载文件"), ReadOnly(true)]
+            [Browsable(false)]
             public bool IsAssigned { get; set; }                //是否被分配了文件
 
-            [Category("其他信息"), Description("节点是对应下载文件名"), ReadOnly(true)]
+            [Browsable(false)]
             public string FileName { get; set; }                //对应的下载文件
 
             public DynamicNode(StaticNode sNode)
@@ -551,7 +551,7 @@ namespace DRSysCtrlDisplay
             }
             public override void DrawChoosedNode(Graphics graph, Rectangle rect)
             {
-                var coreView = base.GetBaseDrawerCore(SNode.NodeObject,rect);
+                var coreView = base.GetBaseDrawerCore(SNode.NodeObject, rect);
                 if (Status == NodeStatus.OnLine)
                 {
                     coreView.ChoosedDrawView(graph);
@@ -562,7 +562,7 @@ namespace DRSysCtrlDisplay
                 }
                 else
                 {
-                    coreView.DrawView(graph, Pens.Gray, Brushes.Gray);
+                    coreView.ChoosedDrawView(graph, Pens.Gray, Brushes.Gray);
                 }
             }
         }

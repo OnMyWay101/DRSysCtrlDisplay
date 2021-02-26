@@ -56,6 +56,7 @@ namespace DRSysCtrlDisplay
         public ZYNQInitForm(ZYNQ zynq)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterParent;
 
             _nameTB.Text = zynq.Name;
             //PS相关的参数

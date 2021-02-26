@@ -96,6 +96,11 @@ namespace DRSysCtrlDisplay
         public override void DrawView(Graphics g) { }
         public abstract void DrawView(Graphics g, string name);
         public abstract void ChoosedDrawView(Graphics g, string name);
+        public virtual void ChoosedDrawView(Graphics g, Pen pen, Brush brush)
+        {
+            ChoosedDrawView(g);
+            DrawView(g, pen, brush);
+        }
         public override Size GetViewSize()
         {
             return new Size(100, 100);

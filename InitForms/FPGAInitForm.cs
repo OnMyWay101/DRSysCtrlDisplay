@@ -78,6 +78,7 @@ namespace DRSysCtrlDisplay
         {
             SetFatherComponents();
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterParent;
 
             _nameTB.Text = fpga.Name;
             _typeCB.Text = fpga.Type;
